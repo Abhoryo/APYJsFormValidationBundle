@@ -45,7 +45,7 @@ Template of a simple form:
 
 ```
 
-See a complet example [here](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
+See a full simple example [here](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
 
 The following documents are available:
 

@@ -1,4 +1,4 @@
-A Complet Simple Example
+A Full Simple Example
 ========================
 
 ## Step 1 : Create a bundle
