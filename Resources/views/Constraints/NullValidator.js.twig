@@ -1,0 +1,8 @@
+function Null(value, params)
+{
+    if (typeof(value) == 'undefined' || value === null) {
+        return true;
+    }
+
+    return getComputeMessage(params.message);  
+}

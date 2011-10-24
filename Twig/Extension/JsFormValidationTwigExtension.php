@@ -1,0 +1,111 @@
+<?php
+
+/*
+ * This file is part of the JsFormValidationBundle.
+ *
+ * (c) Abhoryo <abhoryo@free.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace APY\JsFormValidationBundle\Twig\Extension;
+
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer;
+
+class JsFormValidationTwigExtension extends \Twig_Extension
+{
+    
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFunctions()
+    {
+        return array(
+            'JSFV' => new \Twig_Function_Method($this, 'JsFormValidationFunction', array('is_safe' => array('all'))),
+            'getCountries' => new \Twig_Function_Method($this, 'getCountries'),
+            'getLanguages' => new \Twig_Function_Method($this, 'getLanguages'),
+            'getLocales' => new \Twig_Function_Method($this, 'getLocales'),
+        );
+    }
+    
+    public function JsFormValidationFunction(FormView $view, $getScriptPath = false)
+    {        
+        $enabled = $this->container->getParameter('apy_js_form_validation.enabled');
+        
+        if ($enabled == true) {
+            // retrieve parameters from the form
+            $entityName = get_class($view->get('value'));
+            $formName = $view->get('name');
+            $validationGroups = $view->get('validation_groups', array('Default'));
+            $formFields = array_keys($view->getChildren());
+
+            // Generate the script
+            $jsfvCacheWarmer = new JsFormValidationCacheWarmer($this->container);
+            $scriptFile = $jsfvCacheWarmer->generateFormValidationScript($entityName, $formName, $formFields, $validationGroups);
+            
+            if ($getScriptPath) {
+                return $scriptFile;
+            }
+            else {
+                return '<script type="text/javascript" src="'.$scriptFile.'"></script>';
+            }
+        }
+        else {
+            // If the bundle is disabled and $getScriptPath is set to true an empty script is generated
+            if ($getScriptPath) {
+                $asseticPath =  $this->container->getParameter('assetic.write_to');
+                $scriptPath = $this->container->getParameter('apy_js_form_validation.script_directory');
+                $scriptFile = 'no_jsfv_script.js';
+                $scriptRealPath = $asseticPath.$scriptPath;
+
+                if ( ! is_dir($scriptRealPath) ) {
+                    mkdir($scriptRealPath, 0777, true);
+                }
+                
+                $filePath = $scriptRealPath.$scriptFile; 
+                if (false === file_exists($filePath)) {
+                    if (false === @file_put_contents($filePath, '// JsFormValidation bundle is disabled')) {
+                        throw new \RuntimeException('Unable to write file '.$filePath);
+                    }
+                }
+                return $scriptPath.$scriptFile;
+            }
+        }
+    }
+    
+    public function getCountries()
+    {
+        return json_encode(\Symfony\Component\Locale\Locale::getCountries());
+    }
+    
+    public function getLanguages()
+    {
+        return json_encode(\Symfony\Component\Locale\Locale::getLanguages());
+    }
+    
+    public function getLocales()
+    {
+        return json_encode(\Symfony\Component\Locale\Locale::getLocales());
+    }
+
+    /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
+    public function getName()
+    {
+        return 'JsFormValidation';
+    }
+}

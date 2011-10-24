@@ -1,0 +1,15 @@
+function Regex(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    value = String(value);
+
+    // xor with converted boolean values
+    if ( !params.match != !params.pattern.test(value) ) {
+        return getComputeMessage(params.message);
+    }
+
+    return true;
+}

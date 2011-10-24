@@ -1,0 +1,16 @@
+function Date(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    value = String(value);
+
+    var pattern = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+    if ( pattern.test(value) ) {
+        return true;
+    }
+
+    return getComputeMessage(params.message);
+}

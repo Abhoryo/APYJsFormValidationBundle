@@ -1,0 +1,12 @@
+function True(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    if (true === value || 1 === value || '1' === value) {
+        return true;
+    }
+
+    return getComputeMessage(params.message);   
+}

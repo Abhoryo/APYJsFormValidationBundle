@@ -1,0 +1,16 @@
+function Max(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    if (!((typeof(value) === 'number' || typeof(value) === 'string') && !isNaN(value))) {
+        return getComputeMessage(params.invalidMessage, { 'limit' : params.limit } );  
+    }
+
+    if (parseInt(value) > parseInt(params.limit)) {
+        return getComputeMessage(params.message, { 'limit' : params.limit } );   
+    }
+
+    return true;
+}

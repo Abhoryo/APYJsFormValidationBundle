@@ -1,0 +1,8 @@
+function NotBlank(value, params)
+{
+    if (isDefined(value)) {
+        return getComputeMessage(params.message);
+    }
+
+    return true;
+}

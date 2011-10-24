@@ -1,0 +1,12 @@
+function False(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    if (false === value || 0 === value || '0' === value) {
+        return true;
+    }
+
+    return getComputeMessage(params.message);   
+}

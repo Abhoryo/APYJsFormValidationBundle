@@ -1,0 +1,19 @@
+services:
+    twig.extension.jsformvalidation:
+        class: APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension
+        tags:
+            - { name: twig.extension }
+        arguments:
+            - @service_container
+            
+    kernel.cache_warmer.jsformvalidation:
+        class: APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer
+        tags:
+            - { name: kernel.cache_warmer }
+        arguments:
+            - @service_container
+
+    form.type_extension.validation_groups:
+        class: APY\JsFormValidationBundle\Form\Extension\FieldTypeExtension
+        tags:
+            - { name: form.type_extension, alias: field }

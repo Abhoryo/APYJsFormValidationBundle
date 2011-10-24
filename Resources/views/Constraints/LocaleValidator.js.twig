@@ -1,0 +1,18 @@
+function Locale(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    value = String(value);
+
+    var locales = {{ getLocales()|raw }};
+
+    for (key in locales) {
+        if (locales[key] == value) {
+            return true;
+        }
+    }
+    
+    return getComputeMessage(params.message);
+}

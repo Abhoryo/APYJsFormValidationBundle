@@ -1,0 +1,15 @@
+function MaxLength(value, params)
+{
+    if (isDefined(value)) {
+        return true;
+    }
+
+    value = String(value);
+
+    // Charset ?
+    if (value.length > parseInt(params.limit)) {
+        return getComputeMessage(params.message, { 'limit' : params.limit } );   
+    }
+
+    return true;
+}

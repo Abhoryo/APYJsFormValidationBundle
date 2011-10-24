@@ -1,0 +1,107 @@
+/*
+ * This file is part of the JsFormValidationBundle.
+ *
+ * (c) Abhoryo <abhoryo@free.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+var JsFormValidation = JsFormValidation || {};
+
+(function(JSFV, $) {
+    $.extend(JSFV, (function() {
+        function getComputeMessage(key, placeholders, number) { 
+            {% raw %}
+            ExposeTranslation.placeHolderPrefix = '{{ ';
+            ExposeTranslation.placeHolderSuffix = ' }}';
+            {% endraw %}
+            // Default translations
+            if (!ExposeTranslation.has('validators:'+key)) {
+                ExposeTranslation.add('validators:'+key, key);
+            }
+
+            return ExposeTranslation.get('validators:'+key, placeholders, number);
+        }
+
+        function isDefined(value) {
+            return (typeof(value) == 'undefined' || null === value || '' === value);
+        }
+        function checkError(field, checkFunction, parameters) {
+            // Remove old errors on the field
+            field.parent().find('.error_list').remove();
+
+            errorMessage = checkFunction(field.val(), parameters);
+            if (errorMessage != true) {
+                addError(field, errorMessage);
+
+                return false;
+            }
+
+            return true;
+        }
+        function addError(field, errorMessage) {
+            // Add errors block
+            if (field.prev('ul').length==0)  {
+                field.before("<ul class='error_list'></ul>");
+            }
+
+            // Add error
+            field.prev('ul').append("<li>"+errorMessage+"</li>");
+        }
+{% for librairyCall in librairyCalls %}
+{% include librairyCall %}
+
+{% endfor %}
+
+        return {
+{% for fieldName, constraints in fieldConstraints %}
+            check_{{ fieldName }}: function() {
+{% if constraints|length == 1 %}
+{% for constraint in constraints %}
+                return checkError($('#{{ fieldName }}'), {{ constraint.name }}, {{ constraint.parameters|raw }} );
+{% endfor %}
+{% else %}
+                result = true;
+{% for constraint in constraints %}
+                result = result && checkError($('#{{ fieldName }}'), {{ constraint.name }}, {{ constraint.parameters|raw }} );
+{% endfor %}
+                return result;
+{% endif %}
+            },
+{% endfor %}
+        };
+    })());
+})(JsFormValidation, jQuery);
+
+
+$(function() {
+
+{% if check_modes.submit %}
+    // On submit checks
+    var form_div = $('div#{{ formName }}');
+
+    if (form_div.length==1) {
+        var form = form_div.parent();
+
+        form.submit(function() {
+            var submitForm = true;
+
+{% for fieldName, constraints in fieldConstraints %}
+            submitForm = submitForm && JsFormValidation.check_{{ fieldName }}();
+{% endfor %}
+            return submitForm;
+        });
+    }
+{% endif %}
+
+{% if check_modes.blur %}
+    // On blur checks
+{% for fieldName, constraints in fieldConstraints %}
+    $('#{{ fieldName }}').blur(function() {
+        JsFormValidation.check_{{ fieldName }}();
+    });
+
+{% endfor %}
+{% endif %}
+});
