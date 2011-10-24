@@ -16,12 +16,11 @@ apy_js_form_validation:
         - { entity_class: Acme\StoreBundle\Entity\Product, form_name: my_form }
 ```
 
-script_directory is optional, default value is `/bundle/jsformvalidation/js/`
-
-entity_class argument is required.
-form_name argument is optional, default value is `form`
-validation_groups is optional, default value is `Default`. It can be a string (one group) or an array of groups.
-form_fields is optional, default value is `ALL`. It can be a string (one field) or an array of fields. Set this array as your list of fields in your form.
+*`script_directory` is optional, default value is `/bundle/jsformvalidation/js/`
+*`entity_class` is required.
+*`form_name` is optional, default value is `form`
+*`validation_groups` is optional, default value is `Default`. It can be a string (one group) or an array of groups.
+*`form_fields` is optional, default value is `ALL`. It can be a string (one field) or an array of fields. Set this array as your list of fields in your form.
 
 In controller: `$this->createFormBuilder($product)->add('name', 'text')->add('price', 'money', array('currency' => 'USD'))`
 
@@ -35,20 +34,20 @@ Here is the pattern of a generated file:
 
 With these parameters:
 
-script_directory: /bundle/jsformvalidation/js/
-entityClass: MyProject\MyBundle\Entity\Product
-formName: my_form
-validationGroups: group1, group2
+*script_directory: /bundle/jsformvalidation/js/
+*entityClass: MyProject\MyBundle\Entity\Product
+*formName: my_form
+*validationGroups: group1, group2
 
 will turn into:
 
-`/bundle/jsformvalidation/js/MyProjectMyBundleEntityProduct_my_form_group1+group2.js`
+`/bundle/jsformvalidation/js/myprojectmybundleentityproduct_my_form_group1+group2.js`
 
 If there aren't validation groups defined, the `Default` group is used.
 
 It will turn into:
 
-`/bundle/jsformvalidation/js/MyProjectMyBundleEntityProduct_my_form_Default.js`
+`/bundle/jsformvalidation/js/myprojectmybundleentityproduct_my_form_default.js`
 
 When scripts are generated, you can use them is your templates.
 
@@ -60,7 +59,7 @@ When scripts are generated, you can use them is your templates.
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
 <script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
-<script type="text/javascript" src="/bundle/jsformvalidation/js/MyProjectMyBundleEntityProduct_my_form_Default.js"></script>
+<script type="text/javascript" src="/bundle/jsformvalidation/js/myprojectmybundleentityproduct_my_form_default.js"></script>
 
 <!-- Display the form -->
 <form action="{{ path('storeform') }}" method="post" {{ form_enctype(form) }}>

@@ -27,8 +27,8 @@ Set to `both` enable both validations of a form.
 You can override the default implementation of the validation script in your bundle.
 
 Here is the default template of the script for validation. 
-APYJsFormValidationBundle::JsFormValidation.js.twig`
+`APYJsFormValidationBundle::JsFormValidation.js.twig`
 
-* `script_directory` is optional (Default: `/bundle/jsformvalidation/js/`). Define where the script will be generated.
+* `script_directory` is optional (Default: `/bundle/jsformvalidation/js/`). Define where scripts will be generated.
 
 * `assets_warmer` is optional (Default: `~`). See [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
