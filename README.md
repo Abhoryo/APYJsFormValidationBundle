@@ -12,7 +12,7 @@ This bundle is `g11n` compatible.(i18n + L10n)
 ## Prerequisite
 
 * The JavaScript framework [jQuery](http://jquery.com/) is recommended.
-* BazingaExposeTranslationBundle is mandatory. This bundle compute and translate messages in javascript.
+* [BazingaExposeTranslationBundle](https://github.com/Bazinga/BazingaExposeTranslationBundle/blob/master/README.markdown) is mandatory. This bundle compute and translate messages in javascript.
 
 ## Installation
 
