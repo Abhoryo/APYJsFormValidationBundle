@@ -21,5 +21,5 @@ Validation script is defined in a template file so you can also overriding it li
 The contraints are pure javascript but you can overriding them.
 Constraints script are defined in template files so you can overriding them like a normal template.
 
-*`app/Resources/JsFormValidationBundle/views/Constraints/MinValidator.js.twig`
-*`app/Resources/JsFormValidationBundle/views/Constraints/NotBlankValidator.js.twig`
+* `app/Resources/JsFormValidationBundle/views/Constraints/MinValidator.js.twig`
+* `app/Resources/JsFormValidationBundle/views/Constraints/NotBlankValidator.js.twig`

@@ -16,11 +16,11 @@ apy_js_form_validation:
         - { entity_class: Acme\StoreBundle\Entity\Product, form_name: my_form }
 ```
 
-*`script_directory` is optional, default value is `/bundle/jsformvalidation/js/`
-*`entity_class` is required.
-*`form_name` is optional, default value is `form`
-*`validation_groups` is optional, default value is `Default`. It can be a string (one group) or an array of groups.
-*`form_fields` is optional, default value is `ALL`. It can be a string (one field) or an array of fields. Set this array as your list of fields in your form.
+* `script_directory` is optional, default value is `/bundle/jsformvalidation/js/`
+* `entity_class` is required.
+* `form_name` is optional, default value is `form`
+* `validation_groups` is optional, default value is `Default`. It can be a string (one group) or an array of groups.
+* `form_fields` is optional, default value is `ALL`. It can be a string (one field) or an array of fields. Set this array as your list of fields in your form.
 
 In controller: `$this->createFormBuilder($product)->add('name', 'text')->add('price', 'money', array('currency' => 'USD'))`
 
@@ -34,10 +34,10 @@ Here is the pattern of a generated file:
 
 With these parameters:
 
-*script_directory: /bundle/jsformvalidation/js/
-*entityClass: MyProject\MyBundle\Entity\Product
-*formName: my_form
-*validationGroups: group1, group2
+* script_directory: /bundle/jsformvalidation/js/
+* entityClass: MyProject\MyBundle\Entity\Product
+* formName: my_form
+* validationGroups: group1, group2
 
 will turn into:
 
