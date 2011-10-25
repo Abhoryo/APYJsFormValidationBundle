@@ -26,24 +26,23 @@ This bundle is really easy to use. All you need is to call a twig function in yo
 
 Template of a simple form:
 
-```xml
-<!-- MyProjectMyBundle:Default:index.html.twig -->
 
-<!-- Include prerequisite librairies and bundles -->
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
-<script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
+    <!-- MyProjectMyBundle:Default:index.html.twig -->
 
-<!-- Call JsFormValidationBundle -->
-{{ JSFV(form) }}
+	<!-- Include prerequisite librairies and bundles -->
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
+	<script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
 
-<!-- Display the form -->
-<form action="{{ path('myform') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <input type="submit" />
-</form>
+	<!-- Call JsFormValidationBundle -->
+	{{ JSFV(form) }}
 
-```
+	<!-- Display the form -->
+	<form action="{{ path('myform') }}" method="post" {{ form_enctype(form) }}>
+		{{ form_widget(form) }}
+		<input type="submit" />
+	</form>
+
 
 See a full simple example [here](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
 
