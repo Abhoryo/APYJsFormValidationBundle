@@ -11,11 +11,11 @@ will turn into:
 
 The script isn't regenerate if the script already exists.
 
-**Note: If the bundle is disabled, this Twig function returns nothing.
+**Note:** If the bundle is disabled, this Twig function returns nothing.
 
 ---------
 
-JSFV function accepts a boolean argument. Sets to true, the Twig function displays only the path of the script.
+JSFV function accepts a boolean argument. Sets to true, the Twig function returns only the path of the script.
 
 `{{ JSFV(form, true) }}`
 
@@ -27,4 +27,4 @@ So you can use this too:
 
 `<script type="text/javascript" src="{{ asset( JSFV(form, true) ) }}"></script>`
 
-**Note: If the bundle is disabled, this Twig function returns `/bundle/jsformvalidation/js/no_jsfv_script.js`.
+**Note:** If the bundle is disabled, this Twig function returns `/bundle/jsformvalidation/js/no_jsfv_script.js`.
