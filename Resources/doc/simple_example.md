@@ -107,7 +107,7 @@ class DefaultController extends Controller
     public function formAction()
     {      
         $product = new Product();
-	$form = $this->createFormBuilder($product)
+        $form = $this->createFormBuilder($product)
             ->add('name', 'text')
             ->add('price', 'money', array('currency' => 'USD'))
             ->getForm(); 
