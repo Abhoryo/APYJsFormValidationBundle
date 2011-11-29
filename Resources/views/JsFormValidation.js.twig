@@ -82,7 +82,7 @@ $(function() {
     var form_div = $('div#{{ formName }}');
 
     if (form_div.length==1) {
-        var form = form_div.parent();
+        var form = form_div.parents('form');
 
         form.submit(function() {
             var submitForm = true;
