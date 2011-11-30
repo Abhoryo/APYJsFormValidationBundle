@@ -70,7 +70,7 @@ class Product
 
 ## Step 4: Create a template
 
-```xml
+```jinja
 <!-- src/MyProject/MyBundle/Resources/views/Default/index.html.twig -->
 <!-- MyProjectMyBundle:Default:index.html.twig -->
 
