@@ -51,7 +51,7 @@ It will turn into:
 
 When scripts are generated, you can use them is your templates.
 
-```xml
+```jinja
 <!-- src/MyProject/MyBundle/Resources/views/Default/index.html.twig -->
 <!-- MyProjectMyBundle:Default:index.html.twig -->
 
