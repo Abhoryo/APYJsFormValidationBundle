@@ -96,7 +96,7 @@ class JsFormValidationCacheWarmer implements CacheWarmerInterface
             $javascriptCalls = array();
             $constraints = array();
       
-             // we look through each field of the form
+            // we look through each field of the form
             foreach ($formFields as $fieldName) {
                 // we look for constraints for the field
                 if (in_array($fieldName, array_keys($metadata->properties))) {
@@ -125,7 +125,7 @@ class JsFormValidationCacheWarmer implements CacheWarmerInterface
                                     }
                                     else {
                                         // regex
-                                        if (stristr('pattern', $variable) === FALSE) {
+                                        if (stristr('pattern', $variable) === false) {
                                             $value = "'".$value."'";
                                         }
                                     }
