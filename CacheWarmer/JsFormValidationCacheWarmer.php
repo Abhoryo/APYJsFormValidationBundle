@@ -95,14 +95,14 @@ class JsFormValidationCacheWarmer implements CacheWarmerInterface
             $librairyCalls = array();
             $javascriptCalls = array();
             $constraints = array();
-
-            foreach ($metadata->properties as $propertyName => $property) {
-                // Property presents in the form ?
-                if (in_array($propertyName, $formFields)) {
-                    /* @var $property \PropertyMetadata */
-                    foreach ($property->getConstraints() as $contraint) {
-                        /* @var $contraint \ElementMetadata */
-
+      
+             // we look through each field of the form
+            foreach ($formFields as $fieldName) {
+                // we look for constraints for the field
+                if (in_array($fieldName, array_keys($metadata->properties))) {
+                    // we look through each field constraint
+                    foreach ($metadata->properties[$fieldName]->getConstraints() as $contraint) {
+            
                         $contraintName = end((explode(chr(92), get_class($contraint))));
                         $contraintParameters = get_object_vars($contraint);
 
@@ -135,7 +135,7 @@ class JsFormValidationCacheWarmer implements CacheWarmerInterface
 
                                 $javascriptConstraintParameters = '{'.join(', ',$javascriptConstraintParameters).'}';
 
-                                $constraints[$formName."_".$propertyName][] = array(
+                                $constraints[$formName."_".$fieldName][] = array(
                                     'name' => $contraintName,
                                     'parameters' => $javascriptConstraintParameters
                                 );
