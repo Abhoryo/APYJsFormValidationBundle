@@ -68,7 +68,11 @@ var JsFormValidation = JsFormValidation || {};
 {% endfor %}
                 return result;
 {% endif %}
+{% if loop.last %}
+            }
+{% else %}
             },
+{% endif %}
 {% endfor %}
         };
     })());
