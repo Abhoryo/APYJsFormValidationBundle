@@ -10,8 +10,7 @@ apy_js_form_validation:
     check_mode: both
     validation_bundle: APYJsFormValidationBundle
     script_directory: /bundle/jsformvalidation/js/
-    assets_warmer:
-        - { entity_class: MyProject\MyBundle\Entity\Product, validation_groups: {group1, group2}, form_name: my_form, form_fields: ['my_field1', 'my_field2'] }
+    warmer_routes: [route1,route2]
 ```
 
 * `enabled` is optional (Default: `true`). Set to `false` disable all javascript form validations if you use the Twig function.
@@ -31,4 +30,4 @@ Here is the default template of the script for validation.
 
 * `script_directory` is optional (Default: `/bundle/jsformvalidation/js/`). Define where scripts will be generated.
 
-* `assets_warmer` is optional (Default: `~`). See [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
+* `warmer_routes` is optional (Default: `~`). See [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)

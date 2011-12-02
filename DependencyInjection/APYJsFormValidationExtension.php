@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-         
+
 namespace APY\JsFormValidationBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,12 +30,12 @@ class APYJsFormValidationExtension extends Extension
         $container->setParameter('apy_js_form_validation.check_mode', $config['check_mode']);
         $container->setParameter('apy_js_form_validation.script_directory', $config['script_directory']);
         $container->setParameter('apy_js_form_validation.validation_bundle', $config['validation_bundle']);
-        $container->setParameter('apy_js_form_validation.assets_warmer', $config['assets_warmer']);
+        $container->setParameter('apy_js_form_validation.warmer_routes', $config['warmer_routes']);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
-    
+
     private function getConfigTree()
     {
         $tb = new TreeBuilder();
@@ -53,30 +53,9 @@ class APYJsFormValidationExtension extends Extension
                     ->end()
                     ->scalarNode('validation_bundle')->defaultValue('APYJsFormValidationBundle')->end()
                     ->scalarNode('script_directory')->defaultValue('/bundles/jsformvalidation/js/')->end()
-                    ->arrayNode('assets_warmer')
+                    ->arrayNode('warmer_routes')
                         ->canBeUnset()
-                        ->prototype('array')
-                            ->children()
-                                ->scalarNode('entity_class')->isRequired()->end()
-                                ->scalarNode('form_name')->defaultValue('form')->end()
-                                ->arrayNode('form_fields')
-                                    ->defaultValue(array('ALL'))
-                                    ->beforeNormalization()
-                                        ->ifTrue(function($v){ return !is_array($v); })
-                                        ->then(function($v){ return array($v); })
-                                    ->end()
-                                    ->prototype('scalar')->end()
-                                ->end()
-                                ->arrayNode('validation_groups')
-                                    ->defaultValue(array('Default'))
-                                    ->beforeNormalization()
-                                        ->ifTrue(function($v){ return !is_array($v); })
-                                        ->then(function($v){ return array($v); })
-                                    ->end()
-                                    ->prototype('scalar')->end()
-                                ->end()
-                            ->end()
-                        ->end()
+                        ->prototype('scalar')->end()
                     ->end()
                 ->end()
             ->end()

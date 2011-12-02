@@ -1,6 +1,6 @@
 function True(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return true;
     }
 
@@ -8,5 +8,5 @@ function True(value, params)
         return true;
     }
 
-    return getComputeMessage(params.message);   
+    return getComputeMessage(params.message);
 }

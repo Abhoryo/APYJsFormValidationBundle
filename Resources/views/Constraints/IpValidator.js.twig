@@ -1,6 +1,6 @@
 function Ip(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return true;
     }
 
@@ -16,9 +16,9 @@ function Ip(value, params)
 
     var isIPv4_no_priv = function (value) {
         var ip = value.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
-        if ( (ip[0] == 10) 
+        if ( (ip[0] == 10)
           || (ip[0] == 172 && (ip[1] >= 16 && ip[1] <= 31))
-          || (ip[0] == 192 && ip[1] == 168) ) 
+          || (ip[0] == 192 && ip[1] == 168) )
         {
             return false;
         }
@@ -29,7 +29,7 @@ function Ip(value, params)
 
     var isIPv4_no_res = function (value) {
         var ip = value.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
-        if ( (ip[0] == 0) 
+        if ( (ip[0] == 0)
           || (ip[0] == 128 && ip[1] == 0)
           || (ip[0] == 191 && ip[1] == 255)
           || (ip[0] == 169 && ip[1] == 254)
@@ -104,7 +104,7 @@ function Ip(value, params)
 
     var result = false;
     switch (params.version) {
-        case '4': 
+        case '4':
             result = isIPv4(value);
             break;
         case '6':
@@ -120,7 +120,7 @@ function Ip(value, params)
             result = isIPv6(value) && isIPv6_no_priv(value);
             break;
         case 'all_no_priv':
-            result = ( (isIPv4(value) && isIPv4_no_priv(value)) 
+            result = ( (isIPv4(value) && isIPv4_no_priv(value))
                     || (isIPv6(value) && isIPv6_no_priv(value)) );
             break;
         case '4_no_res':
@@ -130,7 +130,7 @@ function Ip(value, params)
             result = isIPv6(value) && isIPv6_no_res(value);
             break;
         case 'all_no_res':
-            result = ( (isIPv4(value) && isIPv4_no_res(value)) 
+            result = ( (isIPv4(value) && isIPv4_no_res(value))
                     || (isIPv6(value) && isIPv6_no_res(value)) );
             break;
         case '4_public':
@@ -140,13 +140,13 @@ function Ip(value, params)
             result = isIPv6(value) && isIPv6_no_priv(value) && isIPv6_no_res(value);
             break;
         case 'all_public':
-            result = ( (isIPv4(value) && isIPv4_no_priv(value) && isIPv4_no_res(value)) 
+            result = ( (isIPv4(value) && isIPv4_no_priv(value) && isIPv4_no_res(value))
                     || (isIPv6(value) && isIPv6_no_priv(value) && isIPv6_no_res(value)) );
             break;
         default:
             result = false
             break;
-    }  
+    }
 
     return result ? result : getComputeMessage(params.message);
 }

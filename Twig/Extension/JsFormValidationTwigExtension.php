@@ -14,11 +14,10 @@ namespace APY\JsFormValidationBundle\Twig\Extension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer;
+use APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator;
 
 class JsFormValidationTwigExtension extends \Twig_Extension
 {
-    
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -38,22 +37,16 @@ class JsFormValidationTwigExtension extends \Twig_Extension
             'getLocales' => new \Twig_Function_Method($this, 'getLocales'),
         );
     }
-    
-    public function JsFormValidationFunction(FormView $view, $getScriptPath = false)
-    {        
-        $enabled = $this->container->getParameter('apy_js_form_validation.enabled');
-        
-        if ($enabled == true) {
-            // retrieve parameters from the form
-            $entityName = get_class($view->get('value'));
-            $formName = $view->get('name');
-            $validationGroups = $view->get('validation_groups', array('Default'));
-            $formFields = array_keys($view->getChildren());
 
+    public function JsFormValidationFunction(FormView $formView, $getScriptPath = false)
+    {
+        $enabled = $this->container->getParameter('apy_js_form_validation.enabled');
+
+        if ($enabled == true) {
             // Generate the script
-            $jsfvCacheWarmer = new JsFormValidationCacheWarmer($this->container);
-            $scriptFile = $jsfvCacheWarmer->generateFormValidationScript($entityName, $formName, $formFields, $validationGroups);
-            
+            $jsfvGenerator = new FormValidationScriptGenerator($this->container);
+            $scriptFile = $jsfvGenerator->generate($formView);
+
             if ($getScriptPath) {
                 return $scriptFile;
             }
@@ -72,28 +65,29 @@ class JsFormValidationTwigExtension extends \Twig_Extension
                 if ( ! is_dir($scriptRealPath) ) {
                     mkdir($scriptRealPath, 0777, true);
                 }
-                
+
                 $filePath = $scriptRealPath.$scriptFile; 
                 if (false === file_exists($filePath)) {
                     if (false === @file_put_contents($filePath, '// JsFormValidation bundle is disabled')) {
                         throw new \RuntimeException('Unable to write file '.$filePath);
                     }
                 }
+
                 return $scriptPath.$scriptFile;
             }
         }
     }
-    
+
     public function getCountries()
     {
         return json_encode(\Symfony\Component\Locale\Locale::getCountries());
     }
-    
+
     public function getLanguages()
     {
         return json_encode(\Symfony\Component\Locale\Locale::getLanguages());
     }
-    
+
     public function getLocales()
     {
         return json_encode(\Symfony\Component\Locale\Locale::getLocales());

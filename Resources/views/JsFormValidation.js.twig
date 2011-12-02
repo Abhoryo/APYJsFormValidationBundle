@@ -24,9 +24,10 @@ var JsFormValidation = JsFormValidation || {};
             return ExposeTranslation.get('validators:'+key, placeholders, number);
         }
 
-        function isDefined(value) {
+        function isNotDefined(value) {
             return (typeof(value) == 'undefined' || null === value || '' === value);
         }
+
         function checkError(field, checkFunction, parameters) {
             // Remove old errors on the field
             field.parent().find('.error_list').remove();
@@ -40,6 +41,7 @@ var JsFormValidation = JsFormValidation || {};
 
             return true;
         }
+
         function addError(field, errorMessage) {
             // Add errors block
             if (field.prev('ul').length==0)  {
@@ -50,6 +52,7 @@ var JsFormValidation = JsFormValidation || {};
             field.prev('ul').append("<li>"+errorMessage+"</li>");
         }
 {% for librairyCall in librairyCalls %}
+
 {% include librairyCall %}
 
 {% endfor %}

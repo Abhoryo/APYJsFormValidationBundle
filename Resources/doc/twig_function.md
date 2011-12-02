@@ -10,7 +10,7 @@ The twig function JSFV generate the script and returns the path of the script in
 will turn into:
 
 ```xml
-<script type="text/javascript" src="/bundle/jsformvalidation/js/MyProjectMyBundleEntityProduct_my_form_Default.js"></script>
+<script type="text/javascript" src="/bundle/jsformvalidation/js/my_route.js"></script>
 ```
 
 The script isn't regenerate if the script already exists.
@@ -27,7 +27,7 @@ JSFV function accepts a boolean argument. Sets to true, the Twig function return
 
 will turn into:
 
-`/bundle/jsformvalidation/js/MyProjectMyBundleEntityProduct_my_form_Default.js`
+`/bundle/jsformvalidation/js/my_route.js`
 
 So you can use this too:
 

@@ -1,6 +1,6 @@
 function NotBlank(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return getComputeMessage(params.message);
     }
 

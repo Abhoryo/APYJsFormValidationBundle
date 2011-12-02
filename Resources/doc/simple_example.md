@@ -50,7 +50,7 @@ class Product
     {
         $this->name = $name;
     }
-	
+
     public function getName()
     {
         return $this->name;
@@ -60,7 +60,7 @@ class Product
     {
         $this->price = $price;
     }
-	
+
     public function getPrice()
     {
         return $this->price;
@@ -105,12 +105,12 @@ use MyProject\MyBundle\Entity\Product;
 class DefaultController extends Controller
 {
     public function formAction()
-    {      
+    {
         $product = new Product();
         $form = $this->createFormBuilder($product)
             ->add('name', 'text')
             ->add('price', 'money', array('currency' => 'USD'))
-            ->getForm(); 
+            ->getForm();
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
@@ -123,7 +123,7 @@ class DefaultController extends Controller
 
         return $this->render('MyProjectMyBundle:Default:index.html.twig', array( 'form' => $form->createView() ));
     }
-    
+
     public function successAction()
     {
         return new Response('Product posted');

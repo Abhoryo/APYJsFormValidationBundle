@@ -1,6 +1,6 @@
 function Country(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return true;
     }
 
@@ -8,11 +8,11 @@ function Country(value, params)
 
     var countries = {{ getCountries()|raw }};
 
-    for (key in countries) {            
+    for (key in countries) {
         if (countries[key] == value) {
             return true;
         }
     }
-    
+
     return getComputeMessage(params.message);
 }

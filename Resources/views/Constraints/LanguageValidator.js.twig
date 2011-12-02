@@ -1,6 +1,6 @@
 function Language(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return true;
     }
 
@@ -8,11 +8,11 @@ function Language(value, params)
 
     var languages = {{ getLanguages()|raw }};
 
-    for (key in languages) {            
+    for (key in languages) {
         if (languages[key] == value) {
             return true;
         }
     }
-    
+
     return getComputeMessage(params.message);
 }

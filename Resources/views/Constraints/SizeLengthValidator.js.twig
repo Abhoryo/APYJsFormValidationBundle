@@ -1,6 +1,6 @@
 function SizeLength(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return true;
     }
 
@@ -8,15 +8,15 @@ function SizeLength(value, params)
 
     // Charset ?
     if (parseInt(params.min) == parseInt(params.max) && value.length != parseInt(params.max)) {
-        return getComputeMessage(params.exactMessage, { 'limit' : params.max } );   
+        return getComputeMessage(params.exactMessage, { 'limit' : params.max } );
     }
 
     if (value.length > parseInt(params.max)) {
-        return getComputeMessage(params.maxMessage, { 'limit' : params.max } );   
+        return getComputeMessage(params.maxMessage, { 'limit' : params.max } );
     }
 
     if (value.length < parseInt(params.min)) {
-        return getComputeMessage(params.minMessage, { 'limit' : params.min } );   
+        return getComputeMessage(params.minMessage, { 'limit' : params.min } );
     }
 
     return true;

@@ -1,6 +1,6 @@
 function MinLength(value, params)
 {
-    if (isDefined(value)) {
+    if (isNotDefined(value)) {
         return true;
     }
 
@@ -8,7 +8,7 @@ function MinLength(value, params)
 
     // Charset ?
     if (value.length < parseInt(params.limit)) {
-        return getComputeMessage(params.message, { 'limit' : params.limit } );   
+        return getComputeMessage(params.message, { 'limit' : params.limit } );
     }
 
     return true;
