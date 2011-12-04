@@ -1,0 +1,11 @@
+function Repeated(value, params)
+{
+    first = document.getElementById(params.first_name).value;
+    second = document.getElementById(params.second_name).value;
+
+    if (first !== second) {
+        return getComputeMessage(params.invalid_message, params.invalid_message_parameters);
+    }
+
+    return true;
+}

@@ -15,18 +15,16 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class FieldTypeExtension extends AbstractTypeExtension
+class RepeatedTypeExtension extends AbstractTypeExtension
 {
     public function getExtendedType()
     {
-        return 'field';
+        return 'repeated';
     }
 
     public function buildView(FormView $view, FormInterface $form)
-    {
-        // Add validation groups to the view
-        if ($form->hasAttribute('validation_groups')) {
-            $view->set('validation_groups' , $form->getAttribute('validation_groups'));
-        }
+    {   
+        $view->set('invalid_message', $form->getAttribute('invalid_message'));
+        $view->set('invalid_message_parameters', $form->getAttribute('invalid_message_parameters'));
     }
 }
