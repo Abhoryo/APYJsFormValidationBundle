@@ -3,7 +3,7 @@ Installation
 
 ## Step 1: Install BazingaExposeTranslationBundle
 
-Please follow the steps given [here](https://github.com/Bazinga/BazingaExposeTranslationBundle/blob/master/README.markdown) to install this bundle.
+Please follow the steps given [here](https://github.com/willdurand/BazingaExposeTranslationBundle/blob/master/README.markdown) to install this bundle.
 
 ## Step 2: Download JsFormValidationBundle
 
