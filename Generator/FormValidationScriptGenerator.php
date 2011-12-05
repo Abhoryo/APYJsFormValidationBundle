@@ -150,9 +150,7 @@ class FormValidationScriptGenerator {
                 $yui->filterDump($asset);
             }
 
-            if ( ! is_dir($scriptRealPath) ) {
-                mkdir($scriptRealPath, 0777, true);
-            }
+            $this->container->get('filesystem')->mkdir($scriptRealPath);
 
             if (false === @file_put_contents($asset->getTargetPath(), $asset->getContent())) {
                 throw new \RuntimeException('Unable to write file '.$asset->getTargetPath());
