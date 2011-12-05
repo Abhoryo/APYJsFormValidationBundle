@@ -32,7 +32,9 @@ will turn into:
 So you can use this too:
 
 ```jinja
-<script type="text/javascript" src="{{ asset( JSFV(form, true) ) }}"></script>
+<script type="text/javascript" src="{{ JSFV(form, true) }}"></script>
 ```
+
+**Note:** The bundle use the asset helper function.
 
 **Note:** If the bundle is disabled, this Twig function returns `/bundle/jsformvalidation/js/no_jsfv_script.js`.

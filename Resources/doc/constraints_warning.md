@@ -5,7 +5,7 @@ checkMX is not perfomed
 JsFormValidation constraint checks for real IPv4
 
 # File + Image
-Javascript can't manipulate remote file directly
+Javascript can't manipulate remote file directly in all browsers
 
 # Callback
 Not implemented yet

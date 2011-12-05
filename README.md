@@ -53,12 +53,13 @@ The following documents are available:
 3. [Twig Function](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/twig_function.md)
 4. [Configuration](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/configuration.md)
 5. [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
-6. [Overriding the bundle](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
-7. [Constraints warning](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
+6. [Events](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/events.md)
+7. [Overriding the bundle](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
+8. [Constraints warning](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
 
 ## TODO
 
 * Script all possible constraints
 * Manage php, yml and xml defined constraints
 * Minify script with other compressor ?
-* Implement validation script with other javascript framework ?
+* Implement validation script with other javascript framework ? (Not possible because BazingaExposeTranslationBundle use only jquery)

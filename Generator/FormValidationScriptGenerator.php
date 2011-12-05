@@ -39,7 +39,7 @@ class FormValidationScriptGenerator {
     {  
         // Prepare output file
         $scriptPath = $this->container->getParameter('apy_js_form_validation.script_directory');
-        $scriptRealPath = $this->container->getParameter('assetic.write_to') . "/{$scriptPath}";
+        $scriptRealPath = $this->container->getParameter('assetic.write_to').'/'.$scriptPath;
         $scriptFile = strtolower($this->container->get('request')->get('_route')).".js";
 
         if ( $overwrite || false === file_exists($scriptRealPath.$scriptFile) ) {
