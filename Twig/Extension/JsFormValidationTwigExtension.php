@@ -51,7 +51,7 @@ class JsFormValidationTwigExtension extends \Twig_Extension
                 return $scriptFile;
             }
             else {
-                return '<script type="text/javascript" src="'.$scriptFile.'"></script>';
+                return sprintf('<script type="text/javascript" src="%s"></script>', $scriptFile);
             }
         }
         else {
@@ -60,11 +60,9 @@ class JsFormValidationTwigExtension extends \Twig_Extension
                 $asseticPath =  $this->container->getParameter('assetic.write_to');
                 $scriptPath = $this->container->getParameter('apy_js_form_validation.script_directory');
                 $scriptFile = 'no_jsfv_script.js';
-                $scriptRealPath = $asseticPath.$scriptPath;
+                $scriptRealPath = $asseticPath.'/'.$scriptPath;
 
-                if ( ! is_dir($scriptRealPath) ) {
-                    mkdir($scriptRealPath, 0777, true);
-                }
+                $this->container->get('filesystem')->mkdir($scriptRealPath);
 
                 $filePath = $scriptRealPath.$scriptFile; 
                 if (false === file_exists($filePath)) {
@@ -73,7 +71,7 @@ class JsFormValidationTwigExtension extends \Twig_Extension
                     }
                 }
 
-                return $scriptPath.$scriptFile;
+                return $this->container->get('templating.helper.assets')->getUrl($scriptPath.$scriptFile);
             }
         }
     }
