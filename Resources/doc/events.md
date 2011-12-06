@@ -1,7 +1,7 @@
 Events
 ======
 
-The Bundle dispatch two events, one before the processing of constraints of a form and the other after this processing.
+The Bundle dispatches two events, one before the processing of constraints of a form and the other after this processing.
 
 ## Pre processing event
 
