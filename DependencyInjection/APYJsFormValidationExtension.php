@@ -12,7 +12,7 @@
 namespace APY\JsFormValidationBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -32,8 +32,8 @@ class APYJsFormValidationExtension extends Extension
         $container->setParameter('apy_js_form_validation.validation_bundle', $config['validation_bundle']);
         $container->setParameter('apy_js_form_validation.warmer_routes', $config['warmer_routes']);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
     }
 
     private function getConfigTree()

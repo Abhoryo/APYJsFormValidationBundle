@@ -1,0 +1,51 @@
+
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jsfv.generator.class">APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator</parameter>
+        <parameter key="twig.extension.jsformvalidation.class">APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension</parameter>
+        <parameter key="kernel.cache_warmer.jsformvalidation.class">APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer</parameter>
+        <parameter key="form.type_extension.validation_groups.class">APY\JsFormValidationBundle\Form\Extension\FormTypeExtension</parameter>
+        <parameter key="form.type_extension.repeated_field_parameters.class">APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension</parameter>
+        <parameter key="jsfv.validation_groups_listener.class">APY\JsFormValidationBundle\Listener\ValidationGroupsListener</parameter>
+        <parameter key="jsfv.repeated_field_listener.class">APY\JsFormValidationBundle\Listener\RepeatedFieldListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="jsfv.generator" class="%jsfv.generator.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="jsfv" alias="jsfv.generator" />
+
+        <service id="twig.extension.jsformvalidation" class="%twig.extension.jsformvalidation.class%">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="kernel.cache_warmer.jsformvalidation" class="%kernel.cache_warmer.jsformvalidation.class%">
+            <tag name="kernel.cache_warmer" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="form.type_extension.validation_groups" class="%form.type_extension.validation_groups.class%">
+            <tag name="form.type_extension" alias="form" />
+        </service>
+
+        <service id="form.type_extension.repeated_field_parameters" class="%form.type_extension.repeated_field_parameters.class%">
+            <tag name="form.type_extension" alias="repeated" />
+        </service>
+
+        <service id="jsfv.validation_groups_listener" class="%jsfv.validation_groups_listener.class%">
+            <tag name="kernel.event_listener" event="jsfv.pre_process" method="onJsfvPreProcess" />
+        </service>
+
+        <service id="jsfv.repeated_field_listener" class="%jsfv.repeated_field_listener.class%">
+            <tag name="kernel.event_listener" event="jsfv.post_process" method="onJsfvPostProcess" />
+        </service>
+    </services>
+
+</container>

@@ -44,7 +44,7 @@ class JsFormValidationTwigExtension extends \Twig_Extension
 
         if ($enabled == true) {
             // Generate the script
-            $jsfvGenerator = new FormValidationScriptGenerator($this->container);
+            $jsfvGenerator = $this->container->get('jsfv');
             $scriptFile = $jsfvGenerator->generate($formView);
 
             if ($getScriptPath) {
