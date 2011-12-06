@@ -12,8 +12,6 @@
 namespace APY\JsFormValidationBundle\Listener;
 
 use APY\JsFormValidationBundle\Generator\PreProcessEvent;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class ValidationGroupsListener
 {
