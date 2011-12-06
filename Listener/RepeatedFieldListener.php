@@ -12,7 +12,6 @@
 namespace APY\JsFormValidationBundle\Listener;
 
 use APY\JsFormValidationBundle\Generator\PostProcessEvent;
-use Symfony\Component\Form\FormView;
 
 class RepeatedFieldListener
 {
