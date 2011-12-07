@@ -9,7 +9,7 @@ apy_js_form_validation:
     yui_js: false
     check_mode: both
     validation_bundle: APYJsFormValidationBundle
-    script_directory: bundle/jsformvalidation/js/
+    script_directory: bundles/jsformvalidation/js/
     warmer_routes: [route1,route2]
 ```
 
@@ -28,6 +28,6 @@ You can override the default implementation of the validation script in your bun
 Here is the default template of the script for validation. 
 `APYJsFormValidationBundle::JsFormValidation.js.twig`
 
-* `script_directory` is optional (Default: `bundle/jsformvalidation/js/`). Define where scripts will be generated.
+* `script_directory` is optional (Default: `bundles/jsformvalidation/js/`). Define where scripts will be generated.
 
 * `warmer_routes` is optional (Default: `~`). See [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
