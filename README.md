@@ -16,7 +16,7 @@ This bundle is `g11n` compatible.(i18n + L10n)
 
 ## Installation
 
-Please follow the steps given [here](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md) to install this bundle.
+Please follow the steps given [here](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md) to install this bundle.
 
 ## Usage
 
@@ -44,22 +44,22 @@ Template of a simple form:
 	</form>
 
 
-See a full simple example [here](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
+See a full simple example [here](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
 
 The following documents are available:
 
-1. [Installation](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md)
-2. [Simple Example](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md)
-3. [Twig Function](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/twig_function.md)
-4. [Configuration](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/configuration.md)
-5. [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
-6. [Events](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/events.md)
-7. [Overriding the bundle](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
-8. [Constraints warning](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
+1. [Installation](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md)
+2. [Simple Example](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md)
+3. [Twig Function](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/twig_function.md)
+4. [Configuration](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/configuration.md)
+5. [Assets warmer](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
+6. [Events](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/events.md)
+7. [Overriding the bundle](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
+8. [Constraints warning](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
 
 ## TODO
 
 * Script all possible constraints
 * Manage php, yml and xml defined constraints
 * Minify script with other compressor ?
-* Implement validation script with other javascript framework ? (Not possible because BazingaExposeTranslationBundle use only jquery)
+* Implement validation script with other javascript framework ? (Soon, because I make BazingaExposeTranslationBundle free framework)
