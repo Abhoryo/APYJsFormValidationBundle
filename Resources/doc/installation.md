@@ -68,12 +68,3 @@ public function registerBundles()
     );
 }
 ```
-
-## Next Steps
-
-Now that you have completed the basic installation, you are ready to learn about more advanced features and usages
-of the bundle.
-
-The following documents are available:
-
-[Simple Example](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md)
