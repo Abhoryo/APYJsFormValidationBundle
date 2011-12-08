@@ -30,4 +30,4 @@ Here is the default template of the script for validation.
 
 * `script_directory` is optional (Default: `bundles/jsformvalidation/js/`). Define where scripts will be generated.
 
-* `warmer_routes` is optional (Default: `~`). See [Assets warmer](https://github.com/APY/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
+* `warmer_routes` is optional (Default: `~`). See [Assets warmer](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
