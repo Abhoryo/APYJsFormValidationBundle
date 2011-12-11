@@ -1,3 +1,6 @@
+# Repeated field
+On blur mode, validation isn't perfomed when you change the first repeated field after the second.
+
 # Email
 checkMX is not perfomed
 

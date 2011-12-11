@@ -3,7 +3,7 @@ Getting Started With JsFormValidationBundle
 
 This bundle generate automatically a script to perform validations of a form in javascript.
 
-It use the same constraints defined with annotations for your entity or your document.
+It use the same constraints defined with annotations in your entity or your document.
 
 This bundle is `g11n` compatible.(i18n + L10n) 
 
@@ -11,8 +11,9 @@ This bundle is `g11n` compatible.(i18n + L10n)
 
 ## Prerequisite
 
-* The JavaScript framework [jQuery](http://jquery.com/) is recommended.
 * [BazingaExposeTranslationBundle](https://github.com/willdurand/BazingaExposeTranslationBundle) is mandatory. This bundle compute and translate messages in javascript.
+* A JavaScript framework is recommended. [jQuery](http://jquery.com/), [Mootools](http://mootools.net), [Prototype](http://prototypejs.org), [Yui](http://yuilibrary.com/), [Dojo](http://dojotoolkit.org) and [ExtJs](http://sencha.com/products/extjs/) are already supported.
+(Create an issue if you want other)
 
 ## Installation
 
@@ -30,7 +31,7 @@ Template of a simple form:
     <!-- MyProjectMyBundle:Default:index.html.twig -->
 
 	<!-- Include prerequisite librairies and bundles -->
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script type="text/javascript" src="<<[[YOUR_FRAMEWORK_URL]]>>"></script>
 	<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
 	<script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
 
@@ -62,4 +63,3 @@ The following documents are available:
 * Script all possible constraints
 * Manage php, yml and xml defined constraints
 * Minify script with other compressor ?
-* Implement validation script with other javascript framework ? (Soon, because I make BazingaExposeTranslationBundle free framework)
