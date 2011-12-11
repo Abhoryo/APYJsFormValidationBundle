@@ -25,6 +25,11 @@ class JsFormValidationCacheWarmer implements CacheWarmerInterface
 
     public function warmUp($cacheDir)
     {
+        // Delete all files
+        $scriptPath = $this->container->getParameter('apy_js_form_validation.script_directory');
+        $scriptRealPath = $this->container->getParameter('assetic.write_to').'/'.$scriptPath;
+        $this->container->get('filesystem')->remove($scriptRealPath);
+
         $enabled = $this->container->getParameter('apy_js_form_validation.enabled');
         if ($enabled == true) {
             $warmer_routes = $this->container->getParameter('apy_js_form_validation.warmer_routes');
