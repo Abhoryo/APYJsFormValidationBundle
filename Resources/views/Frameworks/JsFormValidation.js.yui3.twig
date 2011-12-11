@@ -1,0 +1,38 @@
+{% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
+
+{% block before %}
+YUI().use('node', function (Y) {
+{% endblock %}
+
+{% block removeErrors %}
+var errosField = Y.one(field).ancestor().one('.error_list');
+if (errosField != null) {
+    errosField.remove();
+}
+{% endblock %}
+
+{% block addError %}
+// Add errors block
+field = Y.one(field);
+if (field.previous('ul')==null) {
+    field.insert('<ul class="error_list"></ul>', 'before');
+}
+
+// Add error
+field.previous('ul').append('<li>'+errorMessage+'</li>');
+{% endblock %}
+
+
+{% block getVal %}Y.one(field).get('value'){% endblock %}
+
+{% block onEvent %}
+Y.one(field).on(eventType, handler);
+{% endblock %}
+
+{% block onReady %}
+Y.on('domready',jsfv.onReady);
+{% endblock %}
+
+{% block after %}
+});
+{% endblock %}

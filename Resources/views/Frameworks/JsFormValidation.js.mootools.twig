@@ -1,0 +1,28 @@
+{% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
+
+{% block removeErrors %}
+$(field).getParent().getChildren('.error_list').destroy();
+{% endblock %}
+
+{% block addError %}
+// Add errors block
+field = $(field);
+if (field.getPrevious('ul') == null)  {
+        var ulErrors  = new Element('ul', { class : 'error_list' });
+        ulErrors.inject(field, 'before');
+}
+
+// Add error
+field.getPrevious('ul').adopt(new Element('li', { html : errorMessage }));
+{% endblock %}
+
+
+{% block getVal %}(field.nodeName.toLowerCase() == 'select') ? $(field).getSelected()[0].value : $(field).get('value'){% endblock %}
+
+{% block onEvent %}
+$(field).addEvent(eventType, handler);
+{% endblock %}
+
+{% block onReady %}
+window.addEvent('domready', jsfv.onReady);
+{% endblock %}

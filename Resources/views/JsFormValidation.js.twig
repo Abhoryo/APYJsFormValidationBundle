@@ -7,108 +7,115 @@
  * file that was distributed with this source code.
  */
 
-var JsFormValidation = JsFormValidation || {};
+{% block before %}{% endblock %}
 
-(function(JSFV, $) {
-    $.extend(JSFV, (function() {
-        function getComputeMessage(key, placeholders, number) { 
-            {% raw %}
-            ExposeTranslation.placeHolderPrefix = '{{ ';
-            ExposeTranslation.placeHolderSuffix = ' }}';
-            {% endraw %}
-            // Default translations
-            if (!ExposeTranslation.has('validators:'+key)) {
-                ExposeTranslation.add('validators:'+key, key);
-            }
-
-            return ExposeTranslation.get('validators:'+key, placeholders, number);
+var jsfv = new function () {
+    function getComputeMessage(key, placeholders, number) { 
+        ExposeTranslation.placeHolderPrefix = '{{ '{{' }} ';
+        ExposeTranslation.placeHolderSuffix = ' {{ '}}' }}';
+        // Default translations
+        if (!ExposeTranslation.has('validators:'+key)) {
+            ExposeTranslation.add('validators:'+key, key);
         }
 
-        function isNotDefined(value) {
-            return (typeof(value) == 'undefined' || null === value || '' === value);
-        }
+        return ExposeTranslation.get('validators:'+key, placeholders, number);
+    }
 
-        function checkError(field, checkFunction, parameters) {
-            // Remove old errors on the field
-            field.parent().find('.error_list').remove();
+    function isNotDefined(value) {
+        return (typeof(value) == 'undefined' || null === value || '' === value);
+    }
 
-            errorMessage = checkFunction(field.val(), parameters);
-            if (errorMessage != true) {
-                addError(field, errorMessage);
+    function checkError(field, checkFunction, parameters) {
+        field = jsfv.id(field);
+        // Remove old errors of the field
+        {% block removeErrors %}$(field).parent().find('.error_list').remove();{% endblock %}
 
-                return false;
-            }
-
-            return true;
-        }
-
-        function addError(field, errorMessage) {
+        // Check the value
+        errorMessage = checkFunction({% block getVal %}$(field).val(){% endblock %}, parameters);
+        if (errorMessage != true) {
+{% block addError %}
             // Add errors block
-            if (field.prev('ul').length==0)  {
-                field.before("<ul class='error_list'></ul>");
+            field = $(field);
+            if (field.prev('ul').length == 0)  {
+                field.before('<ul class="error_list"></ul>');
             }
 
             // Add error
-            field.prev('ul').append("<li>"+errorMessage+"</li>");
+            field.prev('ul').append('<li>'+errorMessage+'</li>');
+{% endblock %}
+
+            return false;
         }
+
+        return true;
+    }
 {% for librairyCall in librairyCalls %}
 
 {% include librairyCall %}
 
 {% endfor %}
 
-        return {
+    return {
+        id: function (id) {
+            return document.getElementById(id);
+        },
+        onEvent: function (field, eventType, handler) {
+            if (typeof(field) == 'string') {
+                field = jsfv.id(field);
+            }
+{% block onEvent %}
+            $(field).bind(eventType, handler);
+{% endblock %}
+        },
 {% for fieldName, constraints in fieldConstraints %}
-            check_{{ fieldName }}: function() {
+        check_{{ fieldName }}: function() {
 {% if constraints|length == 1 %}
 {% for constraint in constraints %}
-                return checkError($('#{{ fieldName }}'), {{ constraint.name }}, {{ constraint.parameters|raw }} );
+            return checkError('{{ fieldName }}', {{ constraint.name }}, {{ constraint.parameters|raw }} );
 {% endfor %}
 {% else %}
-                result = true;
+            result = true;
 {% for constraint in constraints %}
-                result = result && checkError($('#{{ fieldName }}'), {{ constraint.name }}, {{ constraint.parameters|raw }} );
+            result = result && checkError('{{ fieldName }}', {{ constraint.name }}, {{ constraint.parameters|raw }} );
 {% endfor %}
-                return result;
+            return result;
 {% endif %}
-{% if loop.last %}
-            }
-{% else %}
-            },
-{% endif %}
-{% endfor %}
-        };
-    })());
-})(JsFormValidation, jQuery);
-
-
-$(function() {
-
+        },
+        onReady: function() {
 {% if check_modes.submit %}
-    // On submit checks
-    var form_div = $('div#{{ formName }}');
+            // On submit checks
+            var form = jsfv.id('{{ formName }}');
 
-    if (form_div.length==1) {
-        var form = form_div.parents('form');
+            // Form exists ?
+            if (form) {
+                // Get the form
+                if ( form.nodeName.toLowerCase() != 'form') {
+                    form = jsfv.id('ma_form__token').form;
+                }
 
-        form.submit(function() {
-            var submitForm = true;
-
+                jsfv.onEvent(form, 'submit', function() {
+                    var submitForm = true;
 {% for fieldName, constraints in fieldConstraints %}
-            submitForm = submitForm && JsFormValidation.check_{{ fieldName }}();
+                    submitForm = jsfv.check_{{ fieldName }}() && submitForm;
 {% endfor %}
-            return submitForm;
-        });
-    }
+                    return submitForm;
+                });
+            }
 {% endif %}
 
 {% if check_modes.blur %}
-    // On blur checks
+            // On blur checks
 {% for fieldName, constraints in fieldConstraints %}
-    $('#{{ fieldName }}').blur(function() {
-        JsFormValidation.check_{{ fieldName }}();
-    });
-
+            jsfv.onEvent('{{ fieldName }}', 'blur', jsfv.check_{{ fieldName }});
 {% endfor %}
 {% endif %}
-});
+        }
+{% endfor %}
+    };
+}
+
+{% block onReady %}
+$(jsfv.onReady);
+{% endblock %}
+
+{% block after %}{% endblock %}

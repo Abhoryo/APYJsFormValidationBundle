@@ -1,0 +1,30 @@
+{% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
+
+{% block removeErrors %}
+var errorsField = $(field).up().down('.error_list');
+if (typeof(errorsField) != 'undefined') {
+    errorsField.remove();
+}
+{% endblock %}
+
+{% block addError %}
+// Add errors block
+field = $(field);
+if (typeof(field.previous('ul')) == 'undefined') {
+    field.insert({ before: '<ul class="error_list"></ul>' });
+}
+
+// Add error
+field.previous('ul').insert('<li>'+errorMessage+'</li>');
+{% endblock %}
+
+
+{% block getVal %}$(field).getValue(){% endblock %}
+
+{% block onEvent %}
+$(field).observe(eventType, handler);
+{% endblock %}
+
+{% block onReady %}
+document.observe("dom:loaded", jsfv.onReady);
+{% endblock %}

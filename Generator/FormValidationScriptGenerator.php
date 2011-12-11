@@ -130,7 +130,8 @@ class FormValidationScriptGenerator {
 
             // Render the validation script
             $validation_bundle = $this->container->getParameter('apy_js_form_validation.validation_bundle');
-            $template = $this->container->get('templating')->render($validation_bundle.'::JsFormValidation.js.twig',
+            $javascript_framework = strtolower($this->container->getParameter('apy_js_form_validation.javascript_framework'));
+            $template = $this->container->get('templating')->render("{$validation_bundle}:Frameworks:JsFormValidation.js.{$javascript_framework}.twig",
                 array(
                     'formName'=>$formView->get('name'),
                     'fieldConstraints'=>$fieldsConstraints->getFieldsConstraints(),

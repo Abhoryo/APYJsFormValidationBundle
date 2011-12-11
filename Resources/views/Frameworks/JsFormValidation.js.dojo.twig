@@ -1,0 +1,35 @@
+{% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
+
+{% block before %}
+dojo.require("dojo.NodeList-traverse");
+dojo.require("dojo.NodeList-manipulate");
+{% endblock %}
+
+{% block removeErrors %}
+var errorsField = dojo.query(field).parent().children('.error_list');
+if (errorsField.length != 0) {
+    errorsField.remove();
+}
+{% endblock %}
+
+{% block addError %}
+// Add errors block
+field = dojo.query(field);
+if (field.prev('ul').length == 0) {
+    field.before('<ul class="error_list"></ul>');
+}
+
+// Add error
+field.prev('ul').append('<li>'+errorMessage+'</li>');
+{% endblock %}
+
+
+{% block getVal %}dojo.query(field).val(){% endblock %}
+
+{% block onEvent %}
+dojo.connect(field, "on"+eventType, handler);
+{% endblock %}
+
+{% block onReady %}
+dojo.ready(jsfv.onReady);
+{% endblock %}
