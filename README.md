@@ -31,7 +31,7 @@ Template of a simple form:
     <!-- MyProjectMyBundle:Default:index.html.twig -->
 
 	<!-- Include prerequisite librairies and bundles -->
-	<script type="text/javascript" src="<<[[YOUR_FRAMEWORK_URL]]>>"></script>
+	<script type="text/javascript" src="__YOUR_FRAMEWORK_URL__"></script>
 	<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
 	<script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
 
