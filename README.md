@@ -49,14 +49,14 @@ Template of a simple form:
 
  The following documents are available:
 
--1. [Installation](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md)
--2. [Simple Example](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md)
--3. [Twig Function](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/twig_function.md)
--4. [Configuration](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/configuration.md)
--5. [Assets warmer](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
--6. [Events](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/events.md)
--7. [Overriding the bundle](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
--8. [Constraints warning](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
+* [Installation](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md)
+* [Simple Example](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md)
+* [Twig Function](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/twig_function.md)
+* [Configuration](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/configuration.md)
+* [Assets warmer](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
+* [Events](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/events.md)
+* [Overriding the bundle](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
+* [Constraints warning](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
 
 
 
