@@ -5,16 +5,13 @@ YUI().use('node', function (Y) {
 {% endblock %}
 
 {% block removeErrors %}
-var errosField = Y.one(field).ancestor().one('.error_list');
-if (errosField != null) {
-    errosField.remove();
-}
+var errosField = Y.one(field).ancestor().all('.error_list').remove();
 {% endblock %}
 
 {% block addError %}
 // Add errors block
 field = Y.one(field);
-if (field.previous('ul')==null) {
+if (field.ancestor().all('.error_list').size() == 0) {
     field.insert('<ul class="error_list"></ul>', 'before');
 }
 

@@ -1,16 +1,13 @@
 {% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
 
 {% block removeErrors %}
-var errorsField = Ext.get(field).parent().child('.error_list');
-if (errorsField != null) {
-    errorsField.remove();
-}
+Ext.each(Ext.get(field).parent().query('.error_list'), function(el) { Ext.get(el).remove(); });
 {% endblock %}
 
 {% block addError %}
 // Add errors block
 field = Ext.get(field);
-if (field.prev('ul') == null) {
+if (field.parent().query('.error_list').length == 0) {
     Ext.DomHelper.insertBefore(field, '<ul class="error_list"></ul>');
 }
 

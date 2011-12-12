@@ -1,0 +1,9 @@
+{% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
+
+{% block onEvent %}
+if(typeof($.Event)=="function") {
+    {{ parent() }}
+} else {
+    field.addEventListener(eventType, handler, false);
+}
+{% endblock %}

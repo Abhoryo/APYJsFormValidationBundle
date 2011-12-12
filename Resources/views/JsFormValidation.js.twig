@@ -28,7 +28,7 @@ var jsfv = new function () {
     function checkError(field, checkFunction, parameters) {
         field = jsfv.id(field);
         // Remove old errors of the field
-        {% block removeErrors %}$(field).parent().find('.error_list').remove();{% endblock %}
+        {% block removeErrors %}$(field).siblings('ul.error_list').remove();{% endblock %}
 
         // Check the value
         errorMessage = checkFunction({% block getVal %}$(field).val(){% endblock %}, parameters);
@@ -36,12 +36,12 @@ var jsfv = new function () {
 {% block addError %}
             // Add errors block
             field = $(field);
-            if (field.prev('ul').length == 0)  {
+            if (field.siblings('ul.error_list').length == 0)  {
                 field.before('<ul class="error_list"></ul>');
             }
 
             // Add error
-            field.prev('ul').append('<li>'+errorMessage+'</li>');
+            field.prev().filter('ul').append('<li>'+errorMessage+'</li>');
 {% endblock %}
 
             return false;

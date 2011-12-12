@@ -24,7 +24,7 @@ Set to `blur` enable a validation of a field of a form when the field lost the f
 Set to `both` enable both validations of a form.
 
 * `javascript_framework` is recommended (Default: `jquery`). Javascript framework used by the validation script.
-Choices: `jquery`, `mootools`, `prototype`, `yui`, `dojo` or `extjs`
+Choices: `jquery`, `mootools`, `prototype`, `yui3`, `dojo`, `zepto` or `extjs`
 
 * `validation_bundle` is optional (Default: `APYJsFormValidationBundle`).
 You can override the default implementation of the validation script and its framework variants in your bundle.

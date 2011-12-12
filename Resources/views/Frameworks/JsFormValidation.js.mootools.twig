@@ -1,13 +1,14 @@
 {% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
 
 {% block removeErrors %}
-$(field).getParent().getChildren('.error_list').destroy();
+//u.error_list doesn't work
+$(field).getSiblings('.error_list').each(function(el) { el.destroy(); });
 {% endblock %}
 
 {% block addError %}
 // Add errors block
 field = $(field);
-if (field.getPrevious('ul') == null)  {
+if (field.getSiblings('.error_list').length == 0)  {
         var ulErrors  = new Element('ul', { class : 'error_list' });
         ulErrors.inject(field, 'before');
 }

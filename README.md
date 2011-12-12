@@ -12,7 +12,7 @@ This bundle is `g11n` compatible.(i18n + L10n)
 ## Prerequisite
 
 * [BazingaExposeTranslationBundle](https://github.com/willdurand/BazingaExposeTranslationBundle) is mandatory. This bundle compute and translate messages in javascript.
-* A JavaScript framework is recommended. [jQuery](http://jquery.com/), [Mootools](http://mootools.net), [Prototype](http://prototypejs.org), [Yui](http://yuilibrary.com/), [Dojo](http://dojotoolkit.org) and [ExtJs](http://sencha.com/products/extjs/) are already supported.
+* A JavaScript framework is recommended. [jQuery](http://jquery.com/), [Mootools](http://mootools.net), [Prototype](http://prototypejs.org), [Yui](http://yuilibrary.com/), [Dojo](http://dojotoolkit.org), [Zepto](http://zeptojs.com) and [ExtJs](http://sencha.com/products/extjs/) are already supported.
 (Create an issue if you want other)
 
 ## Installation

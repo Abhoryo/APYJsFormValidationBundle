@@ -1,16 +1,13 @@
 {% extends 'APYJsFormValidationBundle::JsFormValidation.js.twig' %}
 
 {% block removeErrors %}
-var errorsField = $(field).up().down('.error_list');
-if (typeof(errorsField) != 'undefined') {
-    errorsField.remove();
-}
+$(field).adjacent('.error_list').each(function(el) { el.remove(); });
 {% endblock %}
 
 {% block addError %}
 // Add errors block
 field = $(field);
-if (typeof(field.previous('ul')) == 'undefined') {
+if (field.adjacent('ul.error_list').length == 0) {
     field.insert({ before: '<ul class="error_list"></ul>' });
 }
 

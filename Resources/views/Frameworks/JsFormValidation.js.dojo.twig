@@ -6,16 +6,13 @@ dojo.require("dojo.NodeList-manipulate");
 {% endblock %}
 
 {% block removeErrors %}
-var errorsField = dojo.query(field).parent().children('.error_list');
-if (errorsField.length != 0) {
-    errorsField.remove();
-}
+var errorsField = dojo.query(field).siblings('ul.error_list').remove();
 {% endblock %}
 
 {% block addError %}
 // Add errors block
 field = dojo.query(field);
-if (field.prev('ul').length == 0) {
+if (field.siblings('ul.error_list').length == 0) {
     field.before('<ul class="error_list"></ul>');
 }
 
