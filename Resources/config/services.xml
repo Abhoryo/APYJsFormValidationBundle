@@ -9,8 +9,8 @@
         <parameter key="kernel.cache_warmer.jsformvalidation.class">APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer</parameter>
         <parameter key="form.type_extension.validation_groups.class">APY\JsFormValidationBundle\Form\Extension\FormTypeExtension</parameter>
         <parameter key="form.type_extension.repeated_field_parameters.class">APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension</parameter>
-        <parameter key="jsfv.validation_groups_listener.class">APY\JsFormValidationBundle\Listener\ValidationGroupsListener</parameter>
-        <parameter key="jsfv.repeated_field_listener.class">APY\JsFormValidationBundle\Listener\RepeatedFieldListener</parameter>
+        <parameter key="jsfv.validation_groups_listener.class">APY\JsFormValidationBundle\EventListener\ValidationGroupsListener</parameter>
+        <parameter key="jsfv.repeated_field_listener.class">APY\JsFormValidationBundle\EventListener\RepeatedFieldListener</parameter>
     </parameters>
 
     <services>
