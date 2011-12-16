@@ -19,7 +19,7 @@ Add the following lines in your `deps` file:
 
 ```
 [JsFormValidationBundle]
-    git=git://github.com/APY/APYJsFormValidationBundle.git
+    git=git://github.com/Abhoryo/APYJsFormValidationBundle.git
     target=bundles/APY/JsFormValidationBundle
 ```
 
@@ -34,7 +34,7 @@ $ php bin/vendors install
 If you prefer instead to use git submodules, the run the following:
 
 ```bash
-$ git submodule add git://github.com/APY/APYJsFormValidationBundle.git vendor/bundles/APY/JsFormValidationBundle
+$ git submodule add git://github.com/Abhoryo/APYJsFormValidationBundle.git vendor/bundles/APY/JsFormValidationBundle
 $ git submodule update --init
 ```
 
