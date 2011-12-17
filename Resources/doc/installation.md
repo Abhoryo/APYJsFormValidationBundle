@@ -38,7 +38,7 @@ $ git submodule add git://github.com/Abhoryo/APYJsFormValidationBundle.git vendo
 $ git submodule update --init
 ```
 
-## Step 2: Configure the Autoloader
+## Step 3: Configure the Autoloader
 
 Add the `APY` namespace to your autoloader:
 
@@ -52,7 +52,7 @@ $loader->registerNamespaces(array(
 ));
 ```
 
-## Step 3: Enable the bundles
+## Step 4: Enable the bundles
 
 Finally, enable the bundles in the kernel:
 
