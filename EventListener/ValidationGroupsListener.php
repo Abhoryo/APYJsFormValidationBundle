@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace APY\JsFormValidationBundle\Listener;
+namespace APY\JsFormValidationBundle\EventListener;
 
 use APY\JsFormValidationBundle\Generator\PreProcessEvent;
 
