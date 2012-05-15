@@ -1,7 +1,7 @@
 Twig function
 ==========================
 
-The twig function JSFV generate the script and returns the path of the script inside a script balise.
+The twig function JSFV generates the script and returns the path of the script inside a script tag.
 
 ```jinja
 {{ JSFV(form) }}
@@ -13,7 +13,7 @@ will turn into:
 <script type="text/javascript" src="/bundle/jsformvalidation/js/my_route.js"></script>
 ```
 
-The script isn't regenerate if the script already exists.
+The script isn't regenerated if the script already exists.
 
 **Note:** If the bundle is disabled, this Twig function returns nothing.
 
@@ -35,6 +35,6 @@ So you can use this too:
 <script type="text/javascript" src="{{ JSFV(form, true) }}"></script>
 ```
 
-**Note:** The bundle use the asset helper function.
+**Note:** The bundle uses the asset helper function.
 
 **Note:** If the bundle is disabled, this Twig function returns `/bundle/jsformvalidation/js/no_jsfv_script.js`.
