@@ -29,14 +29,14 @@ use Assetic\FilterManager;
 use Assetic\Asset\AssetCollection;
 
 class FormValidationScriptGenerator {
-    
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
     public function generate(FormView $formView, $overwrite = false)
-    {  
+    {
         // Prepare output file
         $scriptPath = $this->container->getParameter('apy_js_form_validation.script_directory');
         $scriptRealPath = $this->container->getParameter('assetic.write_to').'/'.$scriptPath;
@@ -45,7 +45,7 @@ class FormValidationScriptGenerator {
         if ( $overwrite || false === file_exists($scriptRealPath.$scriptFile) ) {
             // Retrieve entityName from the form
             $entityName = get_class($formView->get('value'));
-            
+
             // Load metadata
             $metadata = new ClassMetadata($entityName);
 
@@ -94,7 +94,7 @@ class FormValidationScriptGenerator {
                             else {
                                 // regex
                                 if (stristr('pattern', $variable) === false) {
-                                    $value = "'".$value."'";
+                                    $value = json_encode($value);
                                 }
                             }
 
