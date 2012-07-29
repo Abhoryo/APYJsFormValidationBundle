@@ -17,7 +17,7 @@ class RepeatedFieldListener
 {
     public function onJsfvPostProcess(PostProcessEvent $event)
     {
-        $formFields = $event->getFormView()->getChildren();
+        $formFields = $event->getFormView()->children;
         $fieldsConstraints = $event->getFieldsConstraints();
 
         foreach ($formFields as $formField) {

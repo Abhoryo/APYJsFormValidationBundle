@@ -38,5 +38,6 @@ class FormTypeExtension extends AbstractTypeExtension
         if ($form->getConfig()->hasAttribute('validation_groups')) {
             $view->set('validation_groups', $form->getConfig()->getAttribute('validation_groups'));
         }
+        $view->set('error_mapping', $form->getConfig()->getOption('error_mapping'));
     }
 }
