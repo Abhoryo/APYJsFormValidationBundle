@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of the JsFormValidationBundle.
  *
  * (c) Abhoryo <abhoryo@free.fr>
@@ -10,7 +10,7 @@
 {% block before %}{% endblock %}
 
 var jsfv = new function () {
-    function getComputeMessage(key, placeholders, number) { 
+    function getComputeMessage(key, placeholders, number) {
         ExposeTranslation.placeHolderPrefix = '{{ '{{' }} ';
         ExposeTranslation.placeHolderSuffix = ' {{ '}}' }}';
         // Default translations
@@ -25,15 +25,49 @@ var jsfv = new function () {
         return (typeof(value) == 'undefined' || null === value || '' === value);
     }
 
-    function checkError(field, checkFunction, parameters) {
+    function checkError(field, checkFunction, parameters, value) {
+        var match = checkFunction.toString().substr(9).indexOf('UniqueEntity') === 0;
         field = jsfv.id(field);
         // Remove old errors of the field
-        {% block removeErrors %}$(field).siblings('ul.error_list').remove();{% endblock %}
+        {% block removeErrors %}{% spaceless %}jsfv.removeErrors(field);{% endspaceless %}{% endblock %}
 
         // Check the value
-        errorMessage = checkFunction({% block getVal %}$(field).val(){% endblock %}, parameters);
+        errorMessage = checkFunction({% block getVal %}(match ? $(field) : (value === undefined ? $(field).val() : value) ){% endblock %}, parameters);
         if (errorMessage != true) {
 {% block addError %}
+        {% spaceless %}jsfv.addError(field, errorMessage);{% endspaceless %}
+{% endblock %}
+
+            return false;
+        }
+
+        return true;
+    }
+
+
+{% for librairyCall in librairyCalls %}
+
+{% include librairyCall %}
+
+{% endfor %}
+
+{% for handler in getterHandlers %}
+
+{{ handler|raw }}
+
+{% endfor %}
+
+    return {
+        id: function (id) {
+            return document.getElementById(id);
+        },
+{% block removeErrors_method %}
+        removeErrors: function (field) {
+            $(field).siblings('ul.error_list').remove();
+        },
+{% endblock %}
+{% block addError_method %}
+        addError: function (field, errorMessage) {
             // Add errors block
             field = $(field);
             if (field.siblings('ul.error_list').length == 0)  {
@@ -42,23 +76,8 @@ var jsfv = new function () {
 
             // Add error
             field.prev().filter('ul').append('<li>'+errorMessage+'</li>');
-{% endblock %}
-
-            return false;
-        }
-
-        return true;
-    }
-{% for librairyCall in librairyCalls %}
-
-{% include librairyCall %}
-
-{% endfor %}
-
-    return {
-        id: function (id) {
-            return document.getElementById(id);
         },
+{% endblock %}
         onEvent: function (field, eventType, handler) {
             if (typeof(field) == 'string') {
                 field = jsfv.id(field);
@@ -69,17 +88,25 @@ var jsfv = new function () {
         },
 {% for fieldName, constraints in fieldConstraints %}
         check_{{ fieldName }}: function() {
-{% if constraints|length == 1 %}
-{% for constraint in constraints %}
-            return checkError('{{ fieldName }}', {{ constraint.name }}, {{ constraint.parameters|raw }} );
-{% endfor %}
-{% else %}
+            var gv;
             result = true;
 {% for constraint in constraints %}
             result = result && checkError('{{ fieldName }}', {{ constraint.name }}, {{ constraint.parameters|raw }} );
 {% endfor %}
-            return result;
+{% set resultvar = 'result' %}
+{% block getters_constraints_field %}
+{% if gettersConstraints[fieldName] is defined %}
+{% for getterHandler, getterConstraints  in gettersConstraints[fieldName] %}
+            if ({{ resultvar }}) {
+                gv = {{ getterHandler|raw ~ '()' }};
+{% for constraint in getterConstraints %}
+                {{ resultvar }} = checkError({% if fieldName == '.' %}form.id{% else %}'{{ fieldName }}'{% endif %}, {{ constraint.name }}, {{ constraint.parameters|raw }}, gv);
+{% endfor %}
+            }
+{% endfor %}
 {% endif %}
+{% endblock %}
+            return result;
         },
 {% endfor %}
         onReady: function() {
@@ -95,10 +122,12 @@ var jsfv = new function () {
                 }
 
                 jsfv.onEvent(form, 'submit', function() {
-                    var submitForm = true;
+                    var gv, submitForm = true;
 {% for fieldName, constraints in fieldConstraints %}
                     submitForm = jsfv.check_{{ fieldName }}() && submitForm;
 {% endfor %}
+{% set resultvar = 'submitForm' %}{% set fieldName = '.' %}
+{% block getters_constraints_submit %}{{ block('getters_constraints_field') }}{% endblock %}
                     return submitForm;
                 });
             }

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the JsFormValidationBundle.
  *
  * (c) Abhoryo <abhoryo@free.fr>
@@ -9,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace APY\JsFormValidationBundle\Generator;
+namespace Keen\MainBundle\Generator;
 
+use APY\JsFormValidationBundle\Generator\GettersLibraries;
+use APY\JsFormValidationBundle\Generator\PreProcessEvent;
+use APY\JsFormValidationBundle\Generator\FieldsConstraints;
+use APY\JsFormValidationBundle\Generator\PostProcessEvent;
 use APY\JsFormValidationBundle\JsfvEvents;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormView;
-
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader;
-
 use Assetic\AssetWriter;
 use Assetic\AssetManager;
 use Assetic\Factory\AssetFactory;
@@ -28,7 +29,8 @@ use Assetic\Filter\Yui\JsCompressorFilter;
 use Assetic\FilterManager;
 use Assetic\Asset\AssetCollection;
 
-class FormValidationScriptGenerator {
+class FormValidationScriptGenerator
+{
 
     public function __construct(ContainerInterface $container)
     {
@@ -61,6 +63,8 @@ class FormValidationScriptGenerator {
 
             // from xml
 
+            $formValidationGroups = $formView->get('validation_groups', array('Default'));
+
             // Dispatch JsfvEvents::preProcess event
             $dispatcher = $this->container->get('event_dispatcher');
             $preProcessEvent = new PreProcessEvent($formView, $metadata);
@@ -68,30 +72,112 @@ class FormValidationScriptGenerator {
 
             $fieldsConstraints = new FieldsConstraints();
 
+            $aConstraints = array();
+            if (!empty($metadata->constraints)) {
+                foreach ($metadata->constraints as $constraint) {
+                    $constraintName = end((explode(chr(92), get_class($constraint))));
+                    if ($constraintName == 'UniqueEntity') {
+                        if (is_array($constraint->fields)) {
+                            //It has not been implemented yet
+                        } else if (is_string($constraint->fields)) {
+                            if (!isset($aConstraints[$constraint->fields])) {
+                                $aConstraints[$constraint->fields] = array();
+                            }
+                            $aConstraints[$constraint->fields][] = $constraint;
+                        }
+                    }
+                }
+            }
+
+            $gettersLibraries = new GettersLibraries($this->container, $formView);
+            $errorMapping = $formView->get('error_mapping');
+            $aGetters = array();
+            if (!empty($metadata->getters)) {
+                foreach ($metadata->getters as $getterMetadata) {
+                    /* @var \Symfony\Component\Validator\Mapping\GetterMetadata $getterMetadata */
+                    if (!empty($getterMetadata->constraints)) {
+                        if ($gettersLibraries->findLibrary($getterMetadata) === null) {
+                            // You have to provide getter templates in the following location
+                            // {EntityBundle}/Resources/views/Getters/{EntityName}.{GetterMethod}.js.twig
+                            // or all templates in one place:
+                            // app/Resources/APYJsFormValidationBundle/views/Getters/{EntityName}.{GetterMethod}.js.twig
+                            continue;
+                        }
+                        foreach ($getterMetadata->constraints as $constraint) {
+                            /* @var \Symfony\Component\Validator $constraint */
+                            $getterName = $getterMetadata->getName();
+                            $jsHandlerCallback = $gettersLibraries->getKey($getterMetadata, '_');
+                            $constraintName = end((explode(chr(92), get_class($constraint))));
+                            $constraintProperties = get_object_vars($constraint);
+                            $exist = array_intersect($formValidationGroups, $constraintProperties['groups']);
+                            if (!empty($exist)) {
+                                if (!$gettersLibraries->has($getterMetadata)) {
+                                    $gettersLibraries->add($getterMetadata);
+                                }
+                                if (!$fieldsConstraints->hasLibrary($constraintName)) {
+                                    $librairy = "APYJsFormValidationBundle:Constraints:{$constraintName}Validator.js.twig";
+                                    $fieldsConstraints->addLibrary($constraintName, $librairy);
+                                }
+                                if (!empty($errorMapping[$getterName]) && is_string($errorMapping[$getterName])) {
+                                    $fieldName = $errorMapping[$getterName];
+                                    //'type' property is set in RepeatedTypeExtension class
+                                    if (!empty($formView->children[$fieldName]) &&
+                                        $formView->children[$fieldName]->get('type') == 'repeated') {
+                                        $repeatedNames = array_keys($formView->children[$fieldName]->get('value'));
+                                        //Listen first repeated element
+                                        $fieldId = $formView->children[$fieldName]->get('id') . "_" . $repeatedNames[0];
+                                    } else {
+                                        $fieldId = $formView->children[$fieldName]->get('id');
+                                    }
+                                } else {
+                                    $fieldId = '.';
+                                }
+                                if (!isset($aGetters[$fieldId][$jsHandlerCallback])) {
+                                    $aGetters[$fieldId][$jsHandlerCallback] = array();
+                                }
+
+                                unset($constraintProperties['groups']);
+
+                                $aGetters[$fieldId][$jsHandlerCallback][] = array(
+                                    'name'       => $constraintName,
+                                    'parameters' => json_encode($constraintProperties),
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+
             // we look through each field of the form
-            foreach ($formView->getChildren() as $formField) {
+            foreach ($formView->children as $formField) {
                 // we look for constraints for the field
                 if (isset($metadata->properties[$formField->get('name')])) {
                     // we look through each field constraint
-                    foreach ($metadata->properties[$formField->get('name')]->getConstraints() as $contraint) {
+                    $constraintList = $metadata->properties[$formField->get('name')]->getConstraints();
 
-                        $contraintName = end((explode(chr(92), get_class($contraint))));
-                        $contraintProperties = get_object_vars($contraint);
+                    //Adds entity level constraints that have been provided for this field
+                    if (!empty($aConstraints[$formField->get('name')])) {
+                        $constraintList = array_merge($constraintList, $aConstraints[$formField->get('name')]);
+                    }
+
+                    foreach ($constraintList as $constraint) {
+                        $constraintName = end((explode(chr(92), get_class($constraint))));
+                        $constraintProperties = get_object_vars($constraint);
 
                         // Groups are no longer needed
-                        unset($contraintProperties['groups']);
+                        unset($constraintProperties['groups']);
+                        if (isset($constraintProperties['em'])) unset($constraintProperties['em']);
 
-                        if (!$fieldsConstraints->hasLibrary($contraintName)) {
-                            $librairy = "APYJsFormValidationBundle:Constraints:{$contraintName}Validator.js.twig";
-                            $fieldsConstraints->addLibrary($contraintName, $librairy);
+                        if (!$fieldsConstraints->hasLibrary($constraintName)) {
+                            $librairy = "APYJsFormValidationBundle:Constraints:{$constraintName}Validator.js.twig";
+                            $fieldsConstraints->addLibrary($constraintName, $librairy);
                         }
 
                         $constraintParameters = array();
-                        foreach ($contraintProperties as $variable => $value) {
+                        foreach ($constraintProperties as $variable => $value) {
                             if (is_array($value)) {
                                 $value = json_encode($value);
-                            }
-                            else {
+                            } else {
                                 // regex
                                 if (stristr('pattern', $variable) === false) {
                                     $value = json_encode($value);
@@ -102,8 +188,8 @@ class FormValidationScriptGenerator {
                         }
 
                         $fieldsConstraints->addFieldConstraint($formField->get('id'), array(
-                            'name' => $contraintName,
-                            'parameters' => '{'.join(', ',$constraintParameters).'}'
+                            'name'       => $constraintName,
+                            'parameters' => '{' . join(', ', $constraintParameters) . '}'
                         ));
                     }
                 }
@@ -115,7 +201,7 @@ class FormValidationScriptGenerator {
 
             // Retrieve validation mode from configuration
             $check_modes = array('submit' => false, 'blur' => false);
-            switch($this->container->getParameter('apy_js_form_validation.check_mode')) {
+            switch ($this->container->getParameter('apy_js_form_validation.check_mode')) {
                 default:
                 case 'submit':
                     $check_modes['submit'] = true;
@@ -131,14 +217,16 @@ class FormValidationScriptGenerator {
             // Render the validation script
             $validation_bundle = $this->container->getParameter('apy_js_form_validation.validation_bundle');
             $javascript_framework = strtolower($this->container->getParameter('apy_js_form_validation.javascript_framework'));
-            $template = $this->container->get('templating')->render("{$validation_bundle}:Frameworks:JsFormValidation.js.{$javascript_framework}.twig",
+            $template = $this->container->get('templating')->render(
+                "{$validation_bundle}:Frameworks:JsFormValidation.js.{$javascript_framework}.twig",
                 array(
-                    'formName'=>$formView->get('name'),
-                    'fieldConstraints'=>$fieldsConstraints->getFieldsConstraints(),
-                    'librairyCalls'=>$fieldsConstraints->getLibraries(),
-                    'check_modes'=>$check_modes
-                    )
-            );
+                    'formName'           => $formView->get('name'),
+                    'fieldConstraints'   => $fieldsConstraints->getFieldsConstraints(),
+                    'librairyCalls'      => $fieldsConstraints->getLibraries(),
+                    'check_modes'        => $check_modes,
+                    'getterHandlers'     => $gettersLibraries->all(),
+                    'gettersConstraints' => $aGetters,
+            ));
 
             // Create asset and compress it
             $asset = new AssetCollection();

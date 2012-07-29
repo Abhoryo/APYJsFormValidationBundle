@@ -1,4 +1,38 @@
-function UniqueEntity(value, params)
+function UniqueEntity(field, params)
 {
+    var value = field.val(), cache, url, cacheindex = 'm' + value + '';
+    if (params && params.fields) {
+        cache = field.data('_uniqueEntityCache');
+        if (!cache) cache = {};
+        if (cache[cacheindex] != undefined) {
+            if (cache[cacheindex] === false) {
+                return getComputeMessage(params.message);
+            } else return true;
+        }
+        {% block check_uniquity_async_request %}
+        {# FIXME controller with specific route should be implemented
+        $.ajax({
+            type: 'POST',
+            url: '{{ path('apy_js_form_validation_unique_entity', {'_format': 'json'}) }}',
+            data: {
+            'target': params.fields,
+            'value': value
+          },
+          success: function(data, textStatus) {
+              {% block check_uniquity_handler %}
+              if (data.status && data.status == 'ok') {
+                  cache[cacheindex] = data.engaged ? false : true;
+                  field.data('_uniqueEntityCache', cache);
+                  if (!cache[cacheindex]) {
+                      checkError(field.attr('id'), UniqueEntity, params);
+                  }
+              }
+              {% endblock %}
+          },
+          dataType: 'json'
+       });
+       #}
+       {% endblock %}
+    }
     return true;
 }
