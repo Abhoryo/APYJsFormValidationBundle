@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Keen\MainBundle\Generator;
+namespace APY\JsFormValidationBundle\Generator;
 
 use APY\JsFormValidationBundle\Generator\GettersLibraries;
 use APY\JsFormValidationBundle\Generator\PreProcessEvent;
