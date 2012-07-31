@@ -98,7 +98,7 @@ var jsfv = new function () {
 {% if gettersConstraints[fieldName] is defined %}
 {% for getterHandler, getterConstraints  in gettersConstraints[fieldName] %}
             if ({{ resultvar }}) {
-                gv = {{ getterHandler|raw ~ '()' }};
+                gv = {{ getterHandler|raw }}();
 {% for constraint in getterConstraints %}
                 {{ resultvar }} = checkError({% if fieldName == '.' %}form.id{% else %}'{{ fieldName }}'{% endif %}, {{ constraint.name }}, {{ constraint.parameters|raw }}, gv);
 {% endfor %}

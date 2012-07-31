@@ -11,6 +11,7 @@
 
 namespace APY\JsFormValidationBundle\Generator;
 
+use Doctrine\ORM\EntityManager;
 use APY\JsFormValidationBundle\Generator\GettersLibraries;
 use APY\JsFormValidationBundle\Generator\PreProcessEvent;
 use APY\JsFormValidationBundle\Generator\FieldsConstraints;
@@ -32,11 +33,80 @@ use Assetic\Asset\AssetCollection;
 class FormValidationScriptGenerator
 {
 
+    /**
+     * @var ClassMetadata
+     */
+    protected $metadata;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $container->get('doctrine')->getEntityManager();
     }
 
+    /**
+     * Retrieves validation bundle name.
+     *
+     * Validation Bundle can be overridden in app/config/config.yml
+     * apy_js_form_validation:
+     *     validation_bundle: YourValidationBundle
+     *
+     * @return string Returns validation bundle name from config
+     * @author Vitaliy Demidov   <zend@i.ua>
+     * @since  31 July 2012
+     */
+    public function getValidationBundle()
+    {
+        return $this->container->getParameter('apy_js_form_validation.validation_bundle');
+    }
+
+    /**
+     * Gets ClassMetadata of desired entity with annotations info
+     *
+     * @param   string $entityName
+     * @return  ClassMetadata Returns ClassMetadata object of desired entity with annotations info
+     */
+    public function getClassMetadata ($entityName)
+    {
+        // Load metadata
+        $metadata = new ClassMetadata($entityName);
+
+        // from annotations
+        $annotationloader = new AnnotationLoader(new AnnotationReader());
+        $annotationloader->loadClassMetadata($metadata);
+
+        // from php
+        // $entity = new $entityName();
+        // $entity->loadValidatorMetadata($metadata);
+
+        // from yml
+
+        // from xml
+
+        return $metadata;
+    }
+
+    /**
+     * Generates
+     * @param FormView $formView
+     * @param unknown_type $overwrite
+     * @throws \RuntimeException
+     */
     public function generate(FormView $formView, $overwrite = false)
     {
         // Prepare output file
@@ -48,20 +118,7 @@ class FormValidationScriptGenerator
             // Retrieve entityName from the form
             $entityName = get_class($formView->get('value'));
 
-            // Load metadata
-            $metadata = new ClassMetadata($entityName);
-
-            // from annotations
-            $annotationloader = new AnnotationLoader(new AnnotationReader());
-            $annotationloader->loadClassMetadata($metadata);
-
-            // from php
-            // $entity = new $entityName();
-            // $entity->loadValidatorMetadata($metadata);
-
-            // from yml
-
-            // from xml
+            $metadata = $this->getClassMetadata($entityName);
 
             $formValidationGroups = $formView->get('validation_groups', array('Default'));
 
@@ -166,7 +223,6 @@ class FormValidationScriptGenerator
 
                         // Groups are no longer needed
                         unset($constraintProperties['groups']);
-                        if (isset($constraintProperties['em'])) unset($constraintProperties['em']);
 
                         if (!$fieldsConstraints->hasLibrary($constraintName)) {
                             $librairy = "APYJsFormValidationBundle:Constraints:{$constraintName}Validator.js.twig";
@@ -174,6 +230,32 @@ class FormValidationScriptGenerator
                         }
 
                         $constraintParameters = array();
+                        //We need to know entity class for the field which is applied by UniqueEntity constraint
+                        if ($constraintName == 'UniqueEntity' && !empty($formField->parent)) {
+                            $entity = $formField->parent->get('value');
+                            $entityMetadata = $this->em->getClassMetadata(get_class($entity));
+                            $identifier = $entityMetadata->getIdentifier();
+                            //When entity is updated UniqueEntity constraint should ignore
+                            //entity with the same primary key id
+                            $ignore = array();
+                            if (!empty($identifier)) {
+                                foreach ($identifier as $prop) {
+                                    $propGetter = 'get' . ucfirst($prop);
+                                    if (method_exists($entity, $propGetter)) {
+                                        $ignore[] = $entity->$propGetter();
+                                    } elseif (isset($entity->$prop)) {
+                                        $ignore[] = $entity->$prop;
+                                    } else {
+                                        throw new \RuntimeException('Could not access value for the field: ' . $prop);
+                                    }
+                                }
+                            }
+                            if (empty($ignore)) $ignore = null;
+                            $constraintParameters += array(
+                                'entity:' . json_encode(get_class($entity)),
+                                'ignore:' . json_encode($ignore),
+                            );
+                        }
                         foreach ($constraintProperties as $variable => $value) {
                             if (is_array($value)) {
                                 $value = json_encode($value);
@@ -215,7 +297,7 @@ class FormValidationScriptGenerator
             }
 
             // Render the validation script
-            $validation_bundle = $this->container->getParameter('apy_js_form_validation.validation_bundle');
+            $validation_bundle = $this->getValidationBundle();
             $javascript_framework = strtolower($this->container->getParameter('apy_js_form_validation.javascript_framework'));
             $template = $this->container->get('templating')->render(
                 "{$validation_bundle}:Frameworks:JsFormValidation.js.{$javascript_framework}.twig",

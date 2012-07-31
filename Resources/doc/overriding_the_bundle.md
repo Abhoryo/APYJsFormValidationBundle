@@ -16,10 +16,28 @@ Validation script is defined in a template file so you can also overriding it li
 
 `app/Resources/JsFormValidationBundle/views/JsFormValidation.js.twig`
 
-## Constraints
+## Field Constraints
 
 The contraints are pure javascript but you can overriding them.
 Constraints script are defined in template files so you can overriding them like a normal template.
 
 * `app/Resources/JsFormValidationBundle/views/Constraints/MinValidator.js.twig`
 * `app/Resources/JsFormValidationBundle/views/Constraints/NotBlankValidator.js.twig`
+
+## Getters which is used with constraints
+
+Default location of the javascript handlers based on getters is
+
+* `src/Foo/BundleName/Resources/views/Getters/EntityName.MethodName.js.twig`
+
+It can be overriden by
+
+* `app/Resources/JsFormValidationBundle/views/Getters/EntityName.MethodName.js.twig`
+
+See [How to use your custom constraints based on entity method](add_your_constraints.md)
+
+## Controller
+
+You can override [controller](./../../../Controller/Controller.php) that is used for UniqueEntity constraint.
+In this case you should implement an action in your own controller with the specific route and ignore
+[step 5](installation.md) of the current installation guide.

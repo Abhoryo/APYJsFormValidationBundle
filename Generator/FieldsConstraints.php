@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the JsFormValidationBundle.
  *
  * (c) Abhoryo <abhoryo@free.fr>
@@ -26,12 +26,6 @@ class FieldsConstraints
     public $libraries;
 
     /**
-     * Getters
-     * @var array
-     */
-    public $getters;
-
-    /**
      * Gets all constraints
      *
      * @return array Returns all constraints
@@ -49,7 +43,7 @@ class FieldsConstraints
      */
     public function hasFieldConstraints($fieldName)
     {
-        return isset($this->constraints[$fieldName]) && !empty($this->constraints[$fieldName]);
+        return !empty($this->constraints[$fieldName]);
     }
 
     /**
@@ -122,6 +116,6 @@ class FieldsConstraints
      */
     public function hasLibrary($contraintName)
     {
-        return isset($this->libraries[$contraintName]) && !empty($this->libraries[$contraintName]);
+        return !empty($this->libraries[$contraintName]);
     }
 }

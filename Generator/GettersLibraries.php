@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Mapping\GetterMetadata;
 
 class GettersLibraries
 {
-    const BUNDLE = 'APYJsFormValidationBundle';
 
     /**
      * Constraint libararies
@@ -35,7 +34,6 @@ class GettersLibraries
      * @var FormView
      */
     protected $formView;
-
 
     /**
      * Constructor
@@ -85,8 +83,9 @@ class GettersLibraries
      */
     public function findLibrary(GetterMetadata $getterMetadata)
     {
+        $validationBundle = $this->container->get('jsfv.generator')->getValidationBundle();
         $templating = $this->container->get('templating');
-        foreach (array($this->getBundle($getterMetadata), self::BUNDLE) as $bundle) {
+        foreach (array($this->getBundle($getterMetadata), $validationBundle) as $bundle) {
             $template = $bundle . ':Getters:' . $this->getKey($getterMetadata) . '.js.twig';
             if ($templating->exists($template)) {
                 return $template;

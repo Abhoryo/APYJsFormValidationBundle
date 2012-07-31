@@ -54,7 +54,7 @@ $loader->registerNamespaces(array(
 
 ## Step 4: Enable the bundles
 
-Finally, enable the bundles in the kernel:
+Enable the bundles in the kernel:
 
 ```php
 <?php
@@ -67,4 +67,14 @@ public function registerBundles()
         new APY\JsFormValidationBundle\APYJsFormValidationBundle(),
     );
 }
+```
+
+## Step 5:
+
+Finally, register the routing in app/config/routing.yml:
+
+```yml
+# app/config/routing.yml
+_apy_jsformvalidation:
+    resource: "@APYJsFormValidationBundle/Resources/config/routing/routing.yml"
 ```
