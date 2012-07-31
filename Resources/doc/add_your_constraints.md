@@ -7,6 +7,7 @@ implementation of you php method, you need to follow the naming conventions.
 Assume, you have an Entity `FooUserBundle:User` with constraint which is based on `isPasswordLegal` method
 
 ```php
+<?php
 //src/Foo/UserBundle/Entity/User.php
 namespace Foo/UserBundle/Entity
 class User
@@ -44,7 +45,7 @@ function {{ name|raw }} () {
 };
 ```
 
-In your case file name is `User.isPasswordLegal.js.twig`. Withing the template you can access two basic variable
+In your case file name is `User.isPasswordLegal.js.twig`. Within the template you can access two basic variable
 * `name` - the name of the function that represents you getter method.
 * `form` - FormView. You can use field id to access the form field value on client side.
 
@@ -54,6 +55,7 @@ symfony 2.1. See [Form Goodness in Symfony 2.1] (http://symfony.com/blog/form-go
 You need to just add `error_mapping` option into your entity type class.
 
 ```php
+<?php
 // src/Foo/UserBundle/Form/Type/UserType.php
 namespace Foo\UserBundle\Form\Type;
 
@@ -75,3 +77,5 @@ class UserType extends AbstractType
     }
 }
 ```
+
+In this case error message will appear after field `password`.

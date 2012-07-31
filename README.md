@@ -51,7 +51,7 @@ Template of a simple form:
 
 * [Installation](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/installation.md)
 * [Simple Example](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md)
-* [Custom Constraints](./Resources/doc/add_your_constraints.md)
+* [Custom Constraints](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/add_your_constraints.md)
 * [Twig Function](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/twig_function.md)
 * [Configuration](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/configuration.md)
 * [Assets warmer](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/assets_warmer.md)
