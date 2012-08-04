@@ -17,7 +17,8 @@ Not implemented yet
 Not implemented yet
 
 # UniqueEntity
-Not implemented yet
+It has not been implemented for multiple-column yet.
+Implemented only for the case when single field is associated with UniqueEntity constraint.
 
 # All
 Not implemented yet

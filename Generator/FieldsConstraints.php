@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the JsFormValidationBundle.
  *
  * (c) Abhoryo <abhoryo@free.fr>
@@ -11,45 +11,111 @@
 
 namespace APY\JsFormValidationBundle\Generator;
 
-class FieldsConstraints {
+class FieldsConstraints
+{
+    /**
+     * Constraints
+     * @var array
+     */
     public $constraints;
+
+    /**
+     * Constraint libararies
+     * @var array
+     */
     public $libraries;
 
-    public function getFieldsConstraints() {
+    /**
+     * Gets all constraints
+     *
+     * @return array Returns all constraints
+     */
+    public function getFieldsConstraints()
+    {
         return $this->constraints;
     }
 
-    public function hasFieldConstraints($fieldName) {
-        return isset($this->constraints[$fieldName]) && !empty($this->constraints[$fieldName]);
+    /**
+     * Checks, whether current field has constraints.
+     *
+     * @param    string     $fieldName
+     * @return   boolean    Returns true if field has constraints or false otherwise
+     */
+    public function hasFieldConstraints($fieldName)
+    {
+        return !empty($this->constraints[$fieldName]);
     }
 
-    public function getFieldConstraints($fieldName) {
+    /**
+     * Gets cosntraints of specific field
+     *
+     * @param    array    $fieldName  Returns cosntraints of specific field
+     */
+    public function getFieldConstraints($fieldName)
+    {
         return $this->constraints[$fieldName];
     }
 
-    public function setFieldConstraints($fieldName, $constraints) {
+    /**
+     * Sets field constraints
+     *
+     * @param     string     $fieldName     Field name
+     * @param     array      $constraints   Array of constraints
+     * @return    FieldsConstraints
+     */
+    public function setFieldConstraints($fieldName, $constraints)
+    {
         $this->constraints[$fieldName] = $constraints;
 
         return $this;
     }
 
-    public function addFieldConstraint($fieldName, $constraint) {
+    /**
+     * Adds field cosntraint
+     *
+     * @param     string    $fieldName    Field name
+     * @param     string    $constraint   Constraint name
+     * @return    FieldsConstraints
+     */
+    public function addFieldConstraint($fieldName, $constraint)
+    {
         $this->constraints[$fieldName][] = $constraint;
 
         return $this;
     }
 
-    public function getLibraries() {
+    /**
+     * Gets the libraries
+     *
+     * @return array Returns array of the libraries
+     */
+    public function getLibraries()
+    {
         return $this->libraries;
     }
 
-    public function addLibrary($contraintName, $libraryScript) {
+    /**
+     * Adds a library of the specific constraint
+     *
+     * @param     string    $contraintName    Constraint name
+     * @param     string    $libraryScript    Library script
+     * @return    FieldsConstraints
+     */
+    public function addLibrary($contraintName, $libraryScript)
+    {
         $this->libraries[$contraintName] = $libraryScript;
 
         return $this;
     }
 
-    public function hasLibrary($contraintName) {
-        return isset($this->libraries[$contraintName]) && !empty($this->libraries[$contraintName]);
+    /**
+     * Checks, whether constraint library has been added or not.
+     *
+     * @param     string    $contraintName
+     * @return    boolean   Returns true if library has been added or false otherwise
+     */
+    public function hasLibrary($contraintName)
+    {
+        return !empty($this->libraries[$contraintName]);
     }
 }

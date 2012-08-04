@@ -1,0 +1,5 @@
+apy_js_form_validation_unique_entity:
+    pattern:  /jsfv/unique-entity.{_locale}.{_format}
+    defaults: { _controller: "jsfv.controller:uniqueEntityAction", _format: "json" }
+    requirements:
+        _format: json

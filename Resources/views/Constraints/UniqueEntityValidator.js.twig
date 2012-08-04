@@ -1,4 +1,41 @@
-function UniqueEntity(value, params)
+/**
+ * @author   Vitaliy Demidov   <zend@i.ua>
+ */
+function UniqueEntity(field, params)
 {
+    var value = field.val(), cache, url, cacheindex = 'm' + value + '';
+    if (params && params.fields) {
+        cache = field.data('_uniqueEntityCache');
+        if (!cache) cache = {};
+        if (cache[cacheindex] != undefined) {
+            if (cache[cacheindex] === false) {
+                return getComputeMessage(params.message);
+            } else return true;
+        }
+{% block check_uniquity_async_request %}
+        $.ajax({
+            type: 'POST',
+            url: '{{ path('apy_js_form_validation_unique_entity', {'_format': 'json', '_locale': app.request.locale}) }}',
+            data: {
+                'entity': params.entity,
+                'target': params.fields,
+                'value': value,
+                'ignore': params.ignore ? params.ignore : ''
+            },
+            success: function(data, textStatus) {
+{% block check_uniquity_handler %}
+                if (data.status && data.status == 'ok') {
+                    cache[cacheindex] = data.isUnique;
+                    field.data('_uniqueEntityCache', cache);
+                    if (!cache[cacheindex]) {
+                        checkError(field.attr('id'), UniqueEntity, params);
+                    }
+                }
+{% endblock %}
+            },
+            dataType: 'json'
+       });
+{% endblock %}
+    }
     return true;
 }
