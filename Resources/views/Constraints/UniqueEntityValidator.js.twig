@@ -25,7 +25,7 @@ function UniqueEntity(field, params)
             success: function(data, textStatus) {
 {% block check_uniquity_handler %}
                 if (data.status && data.status == 'ok') {
-                    cache[cacheindex] = data.engaged ? false : true;
+                    cache[cacheindex] = data.isUnique;
                     field.data('_uniqueEntityCache', cache);
                     if (!cache[cacheindex]) {
                         checkError(field.attr('id'), UniqueEntity, params);

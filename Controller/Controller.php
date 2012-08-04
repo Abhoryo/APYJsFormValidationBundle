@@ -75,8 +75,7 @@ class Controller
         $a = new \stdClass();
         try {
             if (!empty($target) && !empty($entity) && $this->hasUniqueEntityConstraint($entity, $target)) {
-                $result = $this->isUnique($entity, $target, $value, $ignore);
-                $a->engaged = $result ? false : true;
+                $a->isUnique = $this->isUnique($entity, $target, $value, $ignore);
             } else {
                 return $this->getAjaxResponse($a, 'Invalid arguments.');
             }
