@@ -7,7 +7,8 @@ It use the same constraints defined with annotations in your entity or your docu
 
 This bundle is `g11n` compatible.(i18n + L10n) 
 
-**Compatibility**: Symfony 2.0+
+**Version**: 2.1
+**Compatibility**: Symfony 2.1+
 
 ## Prerequisite
 
