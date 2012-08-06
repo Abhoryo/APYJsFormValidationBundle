@@ -12,6 +12,7 @@ apy_js_form_validation:
     validation_bundle: APYJsFormValidationBundle
     script_directory: bundles/jsformvalidation/js/
     warmer_routes: [route1,route2]
+    identifier_field: jsfv_identifier
 ```
 
 * `enabled` is optional (Default: `true`). Set to `false` disable all javascript form validations if you use the Twig function.
@@ -38,3 +39,7 @@ Here is a framework template of a the common script for validation.
 * `script_directory` is optional (Default: `bundles/jsformvalidation/js/`). Define where scripts will be generated.
 
 * `warmer_routes` is optional (Default: `~`). See [Assets warmer](assets_warmer.md)
+
+* `identifier_field` is optional (Default: `jsfv_identifier`).
+Defines the name of the hidden field which serves to convey the primary identifier value for UniqueEntity constraint request.
+This value will be ignored when entity is updated.

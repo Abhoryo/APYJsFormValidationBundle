@@ -20,7 +20,7 @@ function UniqueEntity(field, params)
                 'entity': params.entity,
                 'target': params.fields,
                 'value': value,
-                'ignore': params.ignore ? params.ignore : ''
+                'ignore': params.identifier_field_id ? jsfv.id(params.identifier_field_id).value : ''
             },
             success: function(data, textStatus) {
 {% block check_uniquity_handler %}

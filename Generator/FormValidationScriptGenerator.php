@@ -22,12 +22,7 @@ use Symfony\Component\Form\FormView;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader;
-use Assetic\AssetWriter;
-use Assetic\AssetManager;
-use Assetic\Factory\AssetFactory;
-use Assetic\Factory\LazyAssetManager;
 use Assetic\Filter\Yui\JsCompressorFilter;
-use Assetic\FilterManager;
 use Assetic\Asset\AssetCollection;
 
 class FormValidationScriptGenerator
@@ -60,6 +55,16 @@ class FormValidationScriptGenerator
     }
 
     /**
+     * Gets Entity Manager
+     *
+     * @return \Doctrine\ORM\EntityManager  Returns Entity Manager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
+    /**
      * Retrieves validation bundle name.
      *
      * Validation Bundle can be overridden in app/config/config.yml
@@ -72,7 +77,19 @@ class FormValidationScriptGenerator
      */
     public function getValidationBundle()
     {
-        return $this->container->getParameter('apy_js_form_validation.validation_bundle');
+        return $this->getParameter('validation_bundle');
+    }
+
+    /**
+     * Gets parameter value from apy_js_form_validation namespace
+     *
+     * @param    string      $parameter    Parameter name
+     * @return   mixed|null  Returns parameter value, or NULL if it does not exist
+     */
+    public function getParameter($parameter)
+    {
+        return $this->container->hasParameter('apy_js_form_validation.' . $parameter) ?
+               $this->container->getParameter('apy_js_form_validation.' . $parameter) : null;
     }
 
     /**
@@ -102,10 +119,68 @@ class FormValidationScriptGenerator
     }
 
     /**
-     * Generates
-     * @param FormView $formView
-     * @param unknown_type $overwrite
-     * @throws \RuntimeException
+     * Checks, whether the entity has UiqueEntity Constraint
+     *
+     * @param    string   $entityName   Entity Name
+     * @return   boolean  Returns TRUE if desired entity has UniqueEntity constraint
+     */
+    public function hasUniqueEntityConstraint ($entityName)
+    {
+        $ret = false;
+        $metadata = $this->getClassMetadata($entityName);
+        if (!empty($metadata->constraints)) {
+            foreach ($metadata->constraints as $constraint) {
+                if (preg_match("/\\\\UniqueEntity$/", get_class($constraint))) {
+                    $ret = true;
+                    break;
+                }
+            }
+        }
+        return $ret;
+    }
+
+    /**
+     * Gets entity identifier value.
+     *
+     * When entity is updated UniqueEntity constraint should ignore
+     * entity with the same primary key id
+     *
+     * @param     object       $entity    Entity object which is applied to the form
+     * @return    array|null   Returns array that contains values of the fields that form
+     *                         primary key of entity
+     * @throws    \RuntimeException
+     */
+    public function getEntityIdentifierValue ($entity)
+    {
+        if (empty($entity) || !is_object($entity)) {
+            throw new \RuntimeException("Invalid parameter. Entity should be provided.");
+        }
+        $entityMetadata = $this->getEntityManager()->getClassMetadata(get_class($entity));
+        $identifier = $entityMetadata->getIdentifier();
+        $ignore = array();
+        if (!empty($identifier)) {
+            foreach ($identifier as $prop) {
+                $propGetter = 'get' . ucfirst($prop);
+                if (method_exists($entity, $propGetter)) {
+                    $ignore[] = $entity->$propGetter();
+                } elseif (isset($entity->$prop)) {
+                    $ignore[] = $entity->$prop;
+                } else {
+                    throw new \RuntimeException('Could not access value for the field: ' . $prop);
+                }
+            }
+        }
+        if (empty($ignore)) $ignore = null;
+
+        return $ignore;
+    }
+
+    /**
+     * Generates client-side javascript that validates form
+     *
+     * @param   FormView   $formView
+     * @param   boolean    $overwrite
+     * @throws  \RuntimeException
      */
     public function generate(FormView $formView, $overwrite = false)
     {
@@ -233,27 +308,10 @@ class FormValidationScriptGenerator
                         //We need to know entity class for the field which is applied by UniqueEntity constraint
                         if ($constraintName == 'UniqueEntity' && !empty($formField->parent)) {
                             $entity = $formField->parent->get('value');
-                            $entityMetadata = $this->em->getClassMetadata(get_class($entity));
-                            $identifier = $entityMetadata->getIdentifier();
-                            //When entity is updated UniqueEntity constraint should ignore
-                            //entity with the same primary key id
-                            $ignore = array();
-                            if (!empty($identifier)) {
-                                foreach ($identifier as $prop) {
-                                    $propGetter = 'get' . ucfirst($prop);
-                                    if (method_exists($entity, $propGetter)) {
-                                        $ignore[] = $entity->$propGetter();
-                                    } elseif (isset($entity->$prop)) {
-                                        $ignore[] = $entity->$prop;
-                                    } else {
-                                        throw new \RuntimeException('Could not access value for the field: ' . $prop);
-                                    }
-                                }
-                            }
-                            if (empty($ignore)) $ignore = null;
                             $constraintParameters += array(
                                 'entity:' . json_encode(get_class($entity)),
-                                'ignore:' . json_encode($ignore),
+                                'identifier_field_id:'.
+                                    json_encode($formView->children[$this->getParameter('identifier_field')]->get('id')),
                             );
                         }
                         foreach ($constraintProperties as $variable => $value) {

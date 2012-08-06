@@ -32,6 +32,9 @@
 
         <service id="form.type_extension.validation_groups" class="%form.type_extension.validation_groups.class%">
             <tag name="form.type_extension" alias="form" />
+            <call method="setJsfv">
+	             <argument type="service" id="jsfv.generator" />
+	        </call>
         </service>
 
         <service id="form.type_extension.repeated_field_parameters" class="%form.type_extension.repeated_field_parameters.class%">

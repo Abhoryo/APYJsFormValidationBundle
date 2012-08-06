@@ -72,6 +72,7 @@ class Controller
         $value = $request->request->get('value');
         $target = $request->request->get('target');
         $ignore = $request->request->get('ignore');
+        $ignore = empty($ignore) ? null : json_decode($ignore, true);
         $a = new \stdClass();
         try {
             if (!empty($target) && !empty($entity) && $this->hasUniqueEntityConstraint($entity, $target)) {
