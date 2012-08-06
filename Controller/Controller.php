@@ -163,8 +163,13 @@ class Controller
         if ($ignore !== null && is_array($ignore) && !empty($identifier)) {
             $criterias = array();
             foreach ($identifier as $i => $field) {
-                $criterias[] = $qb->expr()->eq('u.' . $field, ':key' . $i);
-                $qb->setParameter('key' . $i, isset($ignore[$i]) ? $ignore[$i] : null);
+                $v = isset($ignore[$i]) ? $ignore[$i] : null;
+                if ($v === null) {
+                    $criterias[] = $qb->expr()->isNull('u.' . $field);
+                } else {
+                    $criterias[] = $qb->expr()->eq('u.' . $field, ':key' . $i);
+                    $qb->setParameter('key' . $i, $v);
+                }
             }
         }
 
