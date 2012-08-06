@@ -11,7 +11,7 @@ Please follow the steps given [here](https://github.com/willdurand/BazingaExpose
 
 To install APYJsFormValidationBundle with Composer just add the following to your composer.json file:
 
-```json
+```
 // composer.json
 {
     // ...
@@ -33,17 +33,8 @@ php composer.phar update
 ```
 
 Now, Composer will automatically download all required files, and install them for you.
-All that is left to do is to update your AppKernel.php file, and register the new bundle:
+Let's go to step 3.
 
-```php
-<?php
-
-// in AppKernel::registerBundles()
-$bundles = array(
-    // ...
-    new APY\JsFormValidationBundle\APYJsFormValidationBundle(),
-);
-```
 
 ### b) Using deps (Symfony 2.0.x)
 
@@ -79,7 +70,7 @@ $ git submodule add git://github.com/Abhoryo/APYJsFormValidationBundle.git vendo
 $ git submodule update --init
 ```
 
-## Step 3: Configure the Autoloader
+**Configure the Autoloader**
 
 Add the `APY` namespace to your autoloader:
 
@@ -93,7 +84,7 @@ $loader->registerNamespaces(array(
 ));
 ```
 
-## Step 4: Enable the bundles
+## Step 3: Enable the bundles
 
 Enable the bundles in the kernel:
 
@@ -110,7 +101,7 @@ public function registerBundles()
 }
 ```
 
-## Step 5: Import the routes
+## Step 4: Import the routes
 
 Finally, register the routing in app/config/routing.yml:
 
