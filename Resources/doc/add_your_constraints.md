@@ -1,6 +1,27 @@
 Custom constraints
 ==================
 
+## Method 1. Implement Constraint class
+
+You can create a custom constraint by extending the base constraint class, Constraint.
+In the official symfony documentation described the way how to create a simple validator
+that checks if a string contains only alphanumeric characters.
+
+Read more [How to create a Custom Validation Constraint](http://symfony.com/doc/master/cookbook/validation/custom_constraint.html)
+
+* You need to create a ContainsAlphanumeric class that extends `Symfony\Component\Validator\Constraint`
+and implement validatedBy() method
+
+* You need to create a ContainsAlphanumericValidator class that extends `Symfony\Component\Validator\ConstraintValidator`
+and implement validate() method
+
+* You should apply you constraint to entity field using any: yaml, annotation, xml or php method.
+
+> **Note**: One additional step, that you need to do, is to create javascript representation of the constraint and place it
+> into `app/Resources/APYJsFormValidationBundle/views/Constraints/ContainsAlphanumericValidator.js.twig`.
+
+## Method 2. Constraint which is based on getter method of Entity class
+
 If you want to use constraints which are based on method of the entity class and represents javascript 
 implementation of you php method, you need to follow the naming conventions. 
 
