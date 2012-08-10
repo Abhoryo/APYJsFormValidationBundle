@@ -1,5 +1,7 @@
-function Ip(value, params)
+function Ip(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }
@@ -7,7 +9,7 @@ function Ip(value, params)
     /*
      * Private functions
      * Inspired by php_filter_validate_ip function
-     * Copyright (c) 1997-2011 The PHP Group 
+     * Copyright (c) 1997-2011 The PHP Group
      */
     var isIPv4 = function (value) {
         var ip = value.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);

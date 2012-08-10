@@ -1,5 +1,7 @@
-function NotNull(value, params)
+function NotNull(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (typeof(value) == 'undefined' || value === null) {
         return getComputeMessage(params.message);
     }

@@ -1,4 +1,5 @@
-function Collection(value, params)
+function Collection(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
     return true;
 }

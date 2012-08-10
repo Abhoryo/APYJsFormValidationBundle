@@ -17,9 +17,6 @@ if (field.getSiblings('.error_list').length == 0)  {
 field.getPrevious('ul').adopt(new Element('li', { html : errorMessage }));
 {% endblock %}
 
-
-{% block getVal %}(field.nodeName.toLowerCase() == 'select') ? $(field).getSelected()[0].value : $(field).get('value'){% endblock %}
-
 {% block onEvent %}
 $(field).addEvent(eventType, handler);
 {% endblock %}

@@ -1,11 +1,13 @@
-function Min(value, params)
+function Min(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }
 
     if (!((typeof(value) === 'number' || typeof(value) === 'string') && !isNaN(value))) {
-        return getComputeMessage(params.invalidMessage, { 'limit' : params.limit } );  
+        return getComputeMessage(params.invalidMessage, { 'limit' : params.limit } );
     }
 
     if (parseInt(value) < parseInt(params.limit)) {

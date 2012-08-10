@@ -1,5 +1,7 @@
-function Regex(value, params)
+function Regex(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }

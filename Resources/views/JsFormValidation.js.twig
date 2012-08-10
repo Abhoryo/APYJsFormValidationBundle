@@ -26,13 +26,15 @@ var jsfv = new function () {
     }
 
     function checkError(field, checkFunction, parameters, value) {
-        var match = checkFunction.toString().substr(9).indexOf('UniqueEntity') === 0;
         field = jsfv.id(field);
         // Remove old errors of the field
         {% block removeErrors %}{% spaceless %}jsfv.removeErrors(field);{% endspaceless %}{% endblock %}
-
         // Check the value
-        errorMessage = checkFunction({% block getVal %}(match ? $(field) : (value === undefined ? $(field).val() : value) ){% endblock %}, parameters);
+        errorMessage = checkFunction((value === undefined ? field : value), parameters);
+        {# Notice! Block getVal was refused since 2.1 version.
+           Use twig extention function getJsFormElementValue('field') instead. -#}
+        /*// {% block getVal %}{% endblock %} */
+
         if (errorMessage != true) {
 {% block addError %}
         {% spaceless %}jsfv.addError(field, errorMessage);{% endspaceless %}

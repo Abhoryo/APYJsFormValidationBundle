@@ -1,7 +1,8 @@
-function Blank(value, params)
+function Blank(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
     if (isNotDefined(value)) {
-        return true; 
+        return true;
     }
 
     return getComputeMessage(params.message);

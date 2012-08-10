@@ -1,4 +1,6 @@
-function Type(value, params)
+function Type(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     return true;
 }

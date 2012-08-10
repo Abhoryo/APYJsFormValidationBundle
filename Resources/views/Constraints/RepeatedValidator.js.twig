@@ -1,5 +1,7 @@
-function Repeated(value, params)
+function Repeated(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     first = document.getElementById(params.first_name).value;
     second = document.getElementById(params.second_name).value;
 

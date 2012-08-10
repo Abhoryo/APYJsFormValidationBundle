@@ -3,9 +3,11 @@
  */
 function UniqueEntity(field, params)
 {
-    var value = field.val(), cache, url, cacheindex = 'm' + value + '';
-    if (params && params.fields) {
-        cache = field.data('_uniqueEntityCache');
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+    var cache, url, cacheindex = 'm' + value + '';
+    if (params && params.fields && field.nodeName) {
+        //TODO This part is compartible only with jquery
+        cache = $(field).data('_uniqueEntityCache');
         if (!cache) cache = {};
         if (cache[cacheindex] != undefined) {
             if (cache[cacheindex] === false) {
@@ -26,9 +28,9 @@ function UniqueEntity(field, params)
 {% block check_uniquity_handler %}
                 if (data.status && data.status == 'ok') {
                     cache[cacheindex] = data.isUnique;
-                    field.data('_uniqueEntityCache', cache);
+                    $(field).data('_uniqueEntityCache', cache);
                     if (!cache[cacheindex]) {
-                        checkError(field.attr('id'), UniqueEntity, params);
+                        checkError($(field).attr('id'), UniqueEntity, params);
                     }
                 }
 {% endblock %}

@@ -19,9 +19,6 @@ if (field.ancestor().all('.error_list').size() == 0) {
 field.previous('ul').append('<li>'+errorMessage+'</li>');
 {% endblock %}
 
-
-{% block getVal %}Y.one(field).get('value'){% endblock %}
-
 {% block onEvent %}
 Y.one(field).on(eventType, handler);
 {% endblock %}

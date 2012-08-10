@@ -1,9 +1,6 @@
 # Repeated field
 On blur mode, validation isn't perfomed when you change the first repeated field after the second.
 
-# Email
-checkMX is not perfomed
-
 # Url
 JsFormValidation constraint checks for real IPv4
 
@@ -18,7 +15,6 @@ Not implemented yet
 
 # UniqueEntity
 It has not been implemented for multiple-column yet.
-Implemented only for the case when single field is associated with UniqueEntity constraint.
 
 # All
 Not implemented yet

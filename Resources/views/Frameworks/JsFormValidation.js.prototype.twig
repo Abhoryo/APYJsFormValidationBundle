@@ -15,9 +15,6 @@ if (field.adjacent('ul.error_list').length == 0) {
 field.previous('ul').insert('<li>'+errorMessage+'</li>');
 {% endblock %}
 
-
-{% block getVal %}$(field).getValue(){% endblock %}
-
 {% block onEvent %}
 $(field).observe(eventType, handler);
 {% endblock %}

@@ -88,6 +88,31 @@ class Controller
     }
 
     /**
+     * Check DNS records corresponding to a given Internet host name or IP address
+     *
+     * @return    Response  Returns json response
+     * @author    Vitaliy Demidov   <zend@i.ua>
+     * @since     10 Aug 2012
+     */
+    public function checkMxAction()
+    {
+        $a = new \stdClass();
+        $request = $this->container->get('request');
+        $address = $request->get('address');
+        $type = $request->get('type') ?: "MX";
+        if (empty($address)) {
+            return $this->getAjaxResponse($a, 'Invalid arguments.');
+        }
+        try {
+            $a->type = $type;
+            $a->result = \checkdnsrr($address, $type);
+        } catch (\Exception $e) {
+            return $this->getAjaxResponse($a, 'Failure');
+        }
+        return $this->getAjaxResponse($a);
+    }
+
+    /**
      * Verifies if requested field has UniqueEntity constraint for desired entity.
      *
      * @param      string     $entityClass    Entity class name

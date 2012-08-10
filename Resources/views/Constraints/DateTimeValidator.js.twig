@@ -1,5 +1,7 @@
-function DateTime(value, params)
+function DateTime(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }

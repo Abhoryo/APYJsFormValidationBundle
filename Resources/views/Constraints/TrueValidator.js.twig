@@ -1,5 +1,7 @@
-function True(value, params)
+function True(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }

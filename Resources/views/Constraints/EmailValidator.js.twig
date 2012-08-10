@@ -1,14 +1,45 @@
-function Email(value, params)
+function Email(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }
 
     value = String(value);
-
     var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})$/;
 
     if ( pattern.test(value) ) {
+        if (params && params.checkMX && field.nodeName) {
+            //TODO This part is compartible only with jquery
+            var cache, cacheindex = 'm' + value + '';
+            cache = $(field).data('_checkMXCache');
+            if (!cache) cache = {};
+            if (cache[cacheindex] != undefined) {
+                if (cache[cacheindex] === false) {
+                    return getComputeMessage(params.message);
+                } else return true;
+            }
+            {% block checkmx_async_request -%}
+            $.ajax({
+                type: 'POST',
+                url: '{{ path('apy_js_form_validation_checkmx', {'_format': 'json'}) }}',
+                data: {address: value.replace(new RegExp("^.*@"), "")},
+                success: function(data, textStatus) {
+                    {% block checkmx_handler -%}
+                    if (data.status && data.status == 'ok') {
+                        cache[cacheindex] = data.result;
+                        $(field).data('_checkMXCache', cache);
+                        if (!cache[cacheindex]) {
+                            checkError($(field).attr('id'), Email, params);
+                        }
+                    }
+                    {% endblock -%}
+                },
+                dataType: 'json'
+            });
+            {% endblock -%}
+        }
         return true;
     }
 

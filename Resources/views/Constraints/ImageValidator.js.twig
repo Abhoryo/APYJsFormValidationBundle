@@ -1,4 +1,6 @@
-function Image(value, params)
+function Image(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     return true;
 }

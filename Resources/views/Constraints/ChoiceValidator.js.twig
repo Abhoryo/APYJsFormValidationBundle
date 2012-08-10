@@ -1,4 +1,5 @@
-function Choice(value, params)
+function Choice(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
     return true;
 }

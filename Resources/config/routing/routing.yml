@@ -3,3 +3,9 @@ apy_js_form_validation_unique_entity:
     defaults: { _controller: "jsfv.controller:uniqueEntityAction", _format: "json" }
     requirements:
         _format: json
+
+apy_js_form_validation_checkmx:
+    pattern:  /jsfv/checkmx.{_format}
+    defaults: { _controller: "jsfv.controller:checkMxAction", _format: "json" }
+    requirements:
+        _format: json

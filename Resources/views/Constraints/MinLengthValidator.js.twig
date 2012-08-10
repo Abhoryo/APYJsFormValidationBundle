@@ -1,5 +1,7 @@
-function MinLength(value, params)
+function MinLength(field, params)
 {
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
     if (isNotDefined(value)) {
         return true;
     }

@@ -15,9 +15,6 @@ if (field.parent().query('.error_list').length == 0) {
 Ext.DomHelper.append(field.prev('ul'), '<li>'+errorMessage+'</li>');
 {% endblock %}
 
-
-{% block getVal %}Ext.get(field).getValue(){% endblock %}
-
 {% block onEvent %}
 Ext.get(field).on(eventType, handler);
 {% endblock %}
