@@ -77,6 +77,10 @@ class FormTypeExtension extends AbstractTypeExtension
         if ($form->getConfig()->hasAttribute('validation_groups')) {
             $view->set('validation_groups', $form->getConfig()->getAttribute('validation_groups'));
         }
+        // Adds constraints to the view. It comes from simple forms
+        if ($form->getConfig()->hasOption('constraints')) {
+            $view->set('constraints', $form->getConfig()->getOption('constraints'));
+        }
         $view->set('error_mapping', $form->getConfig()->getOption('error_mapping'));
     }
 }
