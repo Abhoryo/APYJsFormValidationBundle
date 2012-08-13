@@ -1,3 +1,6 @@
+#2012-08-12
+- Implemented client-side validation of simple forms which are built manually.
+
 #2012-08-10
 - Added CheckMX support for Email Constraint
 - Added getJsFormElementValue(field) Twig Extention

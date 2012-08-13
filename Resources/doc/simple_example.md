@@ -26,6 +26,9 @@ myformsuccess:
 
 ## Step 3: Create an product entity with constraints
 
+> **Note!** You may create form which is not relate on Entity.
+> Look at [Validation of the forms which are built manually.](simpleform_example.md)
+
 ```php
 <?php
 // src/MyProject/MyBundle/Entity/Product.php
@@ -147,3 +150,6 @@ Go to your form page. ( ie : http://localhost/app_dev.php/myform )
 * Put some text in the name field and the number 10 in the price field.
 * Submit the form.
 * A validation message for the price field appears. The submit action is prevented by the bundle when all fields are not correctly filled.
+
+Read also:
+[Validation of the forms which are built manually.](simpleform_example.md)

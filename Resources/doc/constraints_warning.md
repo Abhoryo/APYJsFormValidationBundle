@@ -8,7 +8,7 @@ JsFormValidation constraint checks for real IPv4
 Javascript can't manipulate remote file directly in all browsers
 
 # Callback
-Not implemented yet
+It will not be implemented, because CallbackValidator has been deprecated since 2.1 version of Symfony.
 
 # Valid
 Not implemented yet
