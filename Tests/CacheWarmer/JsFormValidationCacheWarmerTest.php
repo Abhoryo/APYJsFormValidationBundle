@@ -11,6 +11,10 @@
 
 namespace APY\JsFormValidationBundle\Tests\CacheWarmer;
 
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\Container;
@@ -39,7 +43,9 @@ class JsFormValidationCacheWarmerTest extends \PHPUnit_Framework_TestCase
         $path = 'jsformvalidation';
         $this->dir = sys_get_temp_dir() . '/' . $path;
         $this->scripts = array('route1.js', 'route2.js', 'route3.js');
-        $this->routes = array();
+        $this->routes = array(
+            'local_host' => array("/", array(), array()),
+        );
         if (!is_dir($this->dir)) {
             mkdir($this->dir, 0777);
         }
@@ -48,19 +54,12 @@ class JsFormValidationCacheWarmerTest extends \PHPUnit_Framework_TestCase
                 touch($this->dir . '/' . $script);
             }
         }
-        $stubRouter = $this->getMockBuilder('Symfony\\Component\\Routing\\Router')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
 
-        $dir = $this->dir;
-        $stubRouter
-            ->expects($this->any())
-            ->method('generate')
-            ->will($this->returnCallback(function($route, $pars, $absolute) use ($dir) {
-                return $dir . "/" . $route;
-            }))
-        ;
+        if (@file_get_contents("http://localhost") === false) {
+            //skips warmer_routes routine if route action is unavailable on local server
+            $this->routes = array();
+        }
+        $routes = $this->getRoutes('local_host', new Route("/"));
 
         $stubContainer = $this->getMockBuilder('Symfony\\Component\\DependencyInjection\\Container')
             ->disableOriginalConstructor()
@@ -74,7 +73,7 @@ class JsFormValidationCacheWarmerTest extends \PHPUnit_Framework_TestCase
                 array('apy_js_form_validation.script_directory', $path),
                 array('assetic.write_to', sys_get_temp_dir()),
                 array('apy_js_form_validation.enabled', true),
-                array('apy_js_form_validation.warmer_routes', $this->routes),
+                array('apy_js_form_validation.warmer_routes', array_keys($this->routes)),
             )))
         ;
 
@@ -83,7 +82,7 @@ class JsFormValidationCacheWarmerTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValueMap(array(
                 array('filesystem', Container::EXCEPTION_ON_INVALID_REFERENCE, new Filesystem()),
-                array('router', Container::EXCEPTION_ON_INVALID_REFERENCE, $stubRouter)
+                array('router', Container::EXCEPTION_ON_INVALID_REFERENCE, $this->getGenerator($routes))
             )))
         ;
         $this->cacheWarmer = new JsFormValidationCacheWarmer($stubContainer);
@@ -115,5 +114,25 @@ class JsFormValidationCacheWarmerTest extends \PHPUnit_Framework_TestCase
     public function testIsOptional()
     {
         $this->assertTrue($this->cacheWarmer->isOptional());
+    }
+
+    protected function getGenerator(RouteCollection $routes, array $parameters = array(), $logger = null)
+    {
+        $context = new RequestContext('/');
+        foreach ($parameters as $key => $value) {
+            $method = 'set'.$key;
+            $context->$method($value);
+        }
+        $generator = new UrlGenerator($routes, $context, $logger);
+
+        return $generator;
+    }
+
+    protected function getRoutes($name, Route $route)
+    {
+        $routes = new RouteCollection();
+        $routes->add($name, $route);
+
+        return $routes;
     }
 }
