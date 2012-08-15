@@ -29,7 +29,7 @@ to check that you have not broken anything.
 `phpunit -c vendor/apy/jsfv-bundle/APY/JsFormValidationBundle`
 
 ###PHPUnit
-To run the Symfony2 test suite, install1 PHPUnit 3.5.11 or later first:
+To run the Symfony2 test suite, install PHPUnit 3.5.11 or later:
 
 ```bash
 $ pear channel-discover pear.phpunit.de

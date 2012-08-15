@@ -59,6 +59,7 @@ Template of a simple form:
 * [Events](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/events.md)
 * [Overriding the bundle](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/overriding_the_bundle.md)
 * [Constraints warning](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/constraints_warning.md)
+* [Reporting a Bug](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/reporting_issue.md)
 
 
 
