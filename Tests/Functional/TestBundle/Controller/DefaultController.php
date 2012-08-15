@@ -11,14 +11,13 @@
 
 namespace APY\JsFormValidationBundle\Tests\Functional\TestBundle\Controller;
 
+use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Entity\Product;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\MinLength;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +57,34 @@ class DefaultController extends Controller
             ->add('username', 'text')
             ->add('password', 'password')
             ->add('email', 'email')
+        ;
+        $form = $formBuilder->getForm();
+
+        return array(
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/entity-annotation-form", name = "entity_annotation_form")
+     * @Template
+     */
+    public function entityAnnotationFormAction(Request $request)
+    {
+        $product = new Product();
+        $formBuilder = $this->createFormBuilder($product, array(
+                'error_mapping' => array(
+                    'isPasswordLegal' => 'password',
+                )
+            ))
+            ->add('name', 'text')
+            ->add('price', 'money')
+            ->add('purchased', 'date')
+            ->add('email', 'email')
+            ->add('password', 'repeated', array(
+                'type' => 'password',
+                'invalid_message' => "Passwords must match.",
+            ))
         ;
         $form = $formBuilder->getForm();
 
