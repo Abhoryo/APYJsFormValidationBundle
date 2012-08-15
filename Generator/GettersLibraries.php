@@ -67,8 +67,15 @@ class GettersLibraries
      */
     public function getBundle(GetterMetadata $getterMetadata)
     {
-        $chunks = explode(chr(92), $getterMetadata->getClassName());
-        return $chunks[0] . $chunks[1];
+        $all = $this->container->getParameter('kernel.bundles');
+        preg_match("/^(.+)\\\\([^\\\\]+Bundle)(\\\\.+?)$/", $getterMetadata->getClassName(), $m);
+        if (!empty($m[2]) && array_key_exists($m[2], $all)) {
+            $bundle = $m[2];
+        } else {
+            $chunks = explode(chr(92), $getterMetadata->getClassName());
+            $bundle = $chunks[0] . $chunks[1];
+        }
+        return $bundle;
     }
 
     /**
@@ -135,4 +142,3 @@ class GettersLibraries
         return !empty($this->libraries[$this->getKey($getterMetadata)]);
     }
 }
-

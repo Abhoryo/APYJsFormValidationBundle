@@ -1,0 +1,57 @@
+framework:
+    default_locale: en
+    templating:
+        engines: [twig, php]
+    secret: test
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+    form:            true
+    csrf_protection: true
+    validation:       
+        enabled: true
+        enable_annotations: true
+    translator:
+        enabled: true
+    router:
+        resource: %kernel.root_dir%/TestBundle/Resources/config/routing.yml
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:        [ ]
+    filters:
+        cssrewrite: ~
+    write_to:       %kernel.cache_dir%/../web
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     localhost
+        port:     ""
+        dbname:   ""
+        user:     root
+        password: ""
+        charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
+# Swiftmailer Configuration
+#swiftmailer:
+#    transport: mail
+#    host:      localhost
+#    username:  ""
+#    password:  ""
+#    spool:     { type: memory }
+
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+
+apy_js_form_validation:
+    check_mode: both
+    javascript_framework: jquery

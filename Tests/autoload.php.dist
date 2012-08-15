@@ -1,6 +1,23 @@
 <?php
+
+use \Doctrine\Common\Annotations\AnnotationRegistry;
+
 if (!file_exists($file = __DIR__.'/../vendor/autoload.php')) {
-    die("Please install dependencies using Composer to run the test suite. \n");
+    // It searches for the autoload file of your project, and includes it
+    $dir = __DIR__;
+    $lastDir = null;
+    while (($dir = dirname($dir)) && $dir !== $lastDir) {
+        $lastDir = $dir;
+        if (file_exists($file = $dir . '/app/bootstrap.php.cache')) {
+            $loader = require $file;
+            AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+            return;
+        }
+    }
+    throw new \RuntimeException(
+        'Did you run "composer install --dev"? Please install dependencies using Composer to run the test suite.'
+    );
 } else {
-    require_once $file;
+    $loader = require $file;
+    AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 }
