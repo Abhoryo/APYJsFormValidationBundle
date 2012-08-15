@@ -66,4 +66,3 @@ Template of a simple form:
 
 * Script all possible constraints
 * Manage php, yml and xml defined constraints
-* Minify script with other compressor ?

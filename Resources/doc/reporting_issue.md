@@ -1,0 +1,41 @@
+Reporting a Bug
+---------------
+
+Whenever you find a bug in this bundle, we kindly ask you to report it. It helps us make a it better.
+
+Before submitting a bug:
+
+* Double-check the documentation1 to see if you're not misusing the functionality;
+
+If your problem definitely looks like a bug, report it using the official
+[bug tracker](https://github.com/Abhoryo/APYJsFormValidationBundle/issues)
+and follow some basic rules:
+
+* Use the title field to clearly describe the issue;
+
+* Describe the steps needed to reproduce the bug with short code examples (providing a unit
+test that illustrates the bug is best);
+
+* Give as much details as possible about your environment (OS, PHP version, Symfony version,
+enabled extensions, ...);
+
+* (optional) Attach a patch. Before submitting a patch for inclusion, you need to run
+the test suite `phpunit -c vendor/apy/jsfv-bundle/APY/JsFormValidationBundle`
+to check that you have not broken anything.
+
+
+## Running Tests
+
+`phpunit -c vendor/apy/jsfv-bundle/APY/JsFormValidationBundle`
+
+###PHPUnit
+To run the Symfony2 test suite, install1 PHPUnit 3.5.11 or later first:
+
+```bash
+$ pear channel-discover pear.phpunit.de
+$ pear channel-discover components.ez.no
+$ pear channel-discover pear.symfony-project.com
+$ pear install phpunit/PHPUnit
+```
+
+Thank You.
