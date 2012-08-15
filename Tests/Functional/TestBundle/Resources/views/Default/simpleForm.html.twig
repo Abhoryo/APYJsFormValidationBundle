@@ -1,0 +1,21 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {% if form is defined -%}
+    <form id="{{ form.vars.id }}" action="{{ path("simple_form") }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+    <fieldset>
+        {{ form_errors(form) }}
+
+        {{ form_row(form.username) }}
+        {{ form_row(form.password) }}
+        {{ form_row(form.email) }}
+
+        {{ form_rest(form) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </fieldset>
+    </form>
+    {{ JSFV(form) }}
+    {% endif -%}
+{% endblock %}
