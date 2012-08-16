@@ -187,7 +187,8 @@ class FormValidationScriptGenerator
         // Prepare output file
         $scriptPath = $this->container->getParameter('apy_js_form_validation.script_directory');
         $scriptRealPath = $this->container->getParameter('assetic.write_to').'/'.$scriptPath;
-        $scriptFile = strtolower($this->container->get('request')->get('_route')).".js";
+        $formName = $formView->getName() ?: 'form';
+        $scriptFile = strtolower($this->container->get('request')->get('_route')) . "_" . strtolower($formName) . ".js";
 
         if ($overwrite || false === file_exists($scriptRealPath . $scriptFile)) {
             // Initializes variables
@@ -201,6 +202,8 @@ class FormValidationScriptGenerator
             $formViewValue = $formView->get('value');
             if (is_object($formViewValue)) {
                 $entityName = get_class($formViewValue);
+            } elseif ($formView->get('data_class') && class_exists($formView->get('data_class'))) {
+                $entityName = $formView->get('data_class');
             }
 
             if (isset($entityName)) {
@@ -300,6 +303,8 @@ class FormValidationScriptGenerator
             if (!empty($constraintsTarget)) {
                 // we look through each field of the form
                 foreach ($formView->children as $formField) {
+                    // Fields with property_path=false must be excluded from validation
+                    if ($formField->get('property_path') === false) continue;
                     // we look for constraints for the field
                     if (isset($constraintsTarget[$formField->get('name')])) {
                         $constraintList = isset($entityName) ?

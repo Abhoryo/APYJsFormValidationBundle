@@ -1,3 +1,13 @@
+#2012-08-16
+- Implemented phpunit tests. Fixed composer for travis integration.
+- Fixed issue #13. Fields with property_path = false must be excluded from validation.
+- Fixed issue #16. No need to supply second parameter to createForm controller function.
+- [cache warmer] Changed the naming of the output javascript file.
+	After:
+		{{ JSFV(form, true) }} returns  /bundle/jsformvalidation/js/myRoute_myForm.js
+	Before:
+		{{ JSFV(form, true) }} has returned  /bundle/jsformvalidation/js/myRoute.js
+
 #2012-08-12
 - Implemented client-side validation of simple forms which are built manually.
 

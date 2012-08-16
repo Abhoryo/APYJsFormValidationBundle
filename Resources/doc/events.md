@@ -11,7 +11,7 @@ Identifier : `jsfv.pre_process`
 - FormView : The Form view object of the form
 - ClassMetadata : Metadata of the entity/document used by the form
 
-Exemple : [Validation groups] (https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/EventListener/ValidationGroupsListener.php)
+Example : [Validation groups] (https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/EventListener/ValidationGroupsListener.php)
 
 ## Post processing event
 
@@ -21,4 +21,4 @@ Identifier : `jsfv.post_process`
 - FormView : The Form view object of the form
 - FieldsConstraints : Compiled Object used to generate the validation script
 
-Exemple : [Repeated field] (https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/EventListener/RepeatedFieldListener.php)
+Example : [Repeated field] (https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/EventListener/RepeatedFieldListener.php)

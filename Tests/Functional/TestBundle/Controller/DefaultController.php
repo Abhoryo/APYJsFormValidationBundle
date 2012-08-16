@@ -11,6 +11,7 @@
 
 namespace APY\JsFormValidationBundle\Tests\Functional\TestBundle\Controller;
 
+use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\ProductType;
 use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Entity\Product;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
@@ -85,11 +86,18 @@ class DefaultController extends Controller
                 'type' => 'password',
                 'invalid_message' => "Passwords must match.",
             ))
+            ->add('excluded', 'datetime', array(
+                'property_path' => false,
+            ))
         ;
         $form = $formBuilder->getForm();
 
+        //Creates Form without second argument!
+        $form2 = $this->createForm(new ProductType());
+
         return array(
             'form' => $form->createView(),
+            'form2' => $form2->createView(),
         );
     }
 }

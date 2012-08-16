@@ -62,8 +62,15 @@ class FormTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $dataClass = $builder->getDataClass();
         $subscriber = new AddIdentifierSubscriber($builder->getFormFactory(), $this->getJsfv());
         $builder->addEventSubscriber($subscriber);
+        if (!empty($options['validation_groups'])) {
+            $builder->setAttribute('validation_groups', $options['validation_groups']);
+        }
+        if ($dataClass !== null) {
+            $builder->setAttribute('data_class', $dataClass);
+        }
     }
 
     /**
@@ -73,14 +80,25 @@ class FormTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        $config = $form->getConfig();
         // Add validation groups to the view
-        if ($form->getConfig()->hasAttribute('validation_groups')) {
-            $view->set('validation_groups', $form->getConfig()->getAttribute('validation_groups'));
+        if ($config->hasAttribute('validation_groups')) {
+            $view->set('validation_groups', $config->getAttribute('validation_groups'));
+        }
+        if ($config->hasAttribute('data_class')) {
+            $view->set('data_class', $config->getAttribute('data_class'));
         }
         // Adds constraints to the view. It comes from simple forms
-        if ($form->getConfig()->hasOption('constraints')) {
-            $view->set('constraints', $form->getConfig()->getOption('constraints'));
+        if ($config->hasOption('constraints')) {
+            $view->set('constraints', $config->getOption('constraints'));
         }
-        $view->set('error_mapping', $form->getConfig()->getOption('error_mapping'));
+        if ($config->hasOption('property_path')) {
+            // Fields with property_path = false must be excluded from validation
+            $property_path = $config->getOption('property_path');
+            if ($property_path === false) {
+                $view->set('property_path', false);
+            }
+        }
+        $view->set('error_mapping', $config->getOption('error_mapping'));
     }
 }

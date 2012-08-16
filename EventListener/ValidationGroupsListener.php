@@ -20,7 +20,7 @@ class ValidationGroupsListener
         $formView = $event->getFormView();
         $formValidationGroups = $formView->get('validation_groups', array('Default'));
 
-        $formFields = array_keys($formView->getChildren());
+        $formFields = array_keys($formView->children);
         $metadata = $event->getMetaData();
 
         foreach ($formFields as $fieldName) {

@@ -47,8 +47,8 @@ Configuration read from root-folder-of-your-app\vendor\apy\jsfv-bundle\APY\JsFor
 
 Time: 9 seconds, Memory: 30.75Mb
 
-←[30;42m←[2KOK (4 tests, 50 assertions)
-←[0m←[2K
+OK (4 tests, 50 assertions)
+
 ```
 
 
