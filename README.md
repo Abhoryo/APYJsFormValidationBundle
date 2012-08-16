@@ -1,4 +1,4 @@
-Getting Started With JsFormValidationBundle
+Getting Started With JsFormValidationBundle [![Build Status](https://secure.travis-ci.org/Abhoryo/APYJsFormValidationBundle.png?branch=master)](http://travis-ci.org/Abhoryo/APYJsFormValidationBundle)
 ===========================================
 
 This bundle generate automatically a script to perform validations of a form in javascript.
