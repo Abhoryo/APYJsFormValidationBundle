@@ -16,7 +16,25 @@
         "willdurand/expose-translation-bundle": "dev-master"
     },
     "require-dev": {
-        "monolog/monolog": "dev-master"
+        "symfony/assetic-bundle": "2.*",
+        "doctrine/orm": "*",
+        "doctrine/doctrine-bundle": "*",
+        "symfony/filesystem": "2.*",
+        "sensio/framework-extra-bundle": "*",
+        "symfony/css-selector": "2.*",
+        "symfony/http-kernel": "2.*",
+        "symfony/validator": "2.*",
+        "symfony/browser-kit": "2.*",
+        "symfony/finder": "2.*",
+        "symfony/form": "2.*",
+        "symfony/yaml": "2.*",
+        "symfony/process": "2.*",
+        "symfony/class-loader": "2.*",
+        "symfony/twig-bundle": "2.*",
+        "sensio/framework-extra-bundle": "*",
+        "jms/di-extra-bundle": "*",
+        "jms/aop-bundle": "*",
+        "willdurand/expose-translation-bundle": "master-dev"
     },
     "autoload": {
         "psr-0": { "APY\\JsFormValidationBundle": "" }

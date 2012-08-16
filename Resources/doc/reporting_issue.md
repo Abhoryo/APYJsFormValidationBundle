@@ -26,7 +26,31 @@ to check that you have not broken anything.
 
 ## Running Tests
 
-`phpunit -c vendor/apy/jsfv-bundle/APY/JsFormValidationBundle`
+First of all you need to install dev dependencies.
+
+```bash
+# it assumes that you in the root folder of your app
+$ ls composer.phar
+composer.phar
+
+$ cd vendor/apy/jsfv-bundle/APY/JsFormValidationBundle
+
+$ ../../../../../composer.phar install --dev
+
+# then you can run tests of apy/jsfv-bundle
+$ phpunit -c .
+PHPUnit 3.6.10 by Sebastian Bergmann.
+
+Configuration read from root-folder-of-your-app\vendor\apy\jsfv-bundle\APY\JsFormValidationBundle\phpunit.xml.dist
+
+....
+
+Time: 9 seconds, Memory: 30.75Mb
+
+←[30;42m←[2KOK (4 tests, 50 assertions)
+←[0m←[2K
+```
+
 
 ###PHPUnit
 To run the Symfony2 test suite, install PHPUnit 3.5.11 or later:
