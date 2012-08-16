@@ -15,6 +15,9 @@
         "symfony/symfony": "2.1.*",
         "willdurand/expose-translation-bundle": "dev-master"
     },
+    "require-dev": {
+        "monolog/monolog": "dev-master"
+    },
     "autoload": {
         "psr-0": { "APY\\JsFormValidationBundle": "" }
     },
