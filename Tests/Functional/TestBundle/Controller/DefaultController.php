@@ -11,8 +11,10 @@
 
 namespace APY\JsFormValidationBundle\Tests\Functional\TestBundle\Controller;
 
-use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\ProductType;
 use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Entity\Product;
+use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Entity\User;
+use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\ProductType;
+use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\UserType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\MinLength;
@@ -95,9 +97,13 @@ class DefaultController extends Controller
         //Creates Form without second argument!
         $form2 = $this->createForm(new ProductType());
 
+        //UniqueEntity
+        $form3 = $this->createForm(new UserType(), new User());
+
         return array(
             'form' => $form->createView(),
             'form2' => $form2->createView(),
+            'form3' => $form3->createView(),
         );
     }
 }

@@ -8,6 +8,10 @@
         {
             "name": "Yoann Petit",
             "email": "abhoryo@free.fr"
+        },
+        {
+            "name": "Community contributions",
+            "homepage": "https://github.com/Abhoryo/APYJsFormValidationBundle/graphs/contributors"
         }
     ],
     "require": {
@@ -19,6 +23,7 @@
         "symfony/assetic-bundle": "2.*",
         "doctrine/orm": "*",
         "doctrine/doctrine-bundle": "*",
+        "doctrine/doctrine-fixtures-bundle": "*",
         "symfony/filesystem": "2.*",
         "sensio/framework-extra-bundle": "*",
         "symfony/css-selector": "2.*",
@@ -34,7 +39,8 @@
         "sensio/framework-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
         "jms/aop-bundle": "*",
-        "willdurand/expose-translation-bundle": "master-dev"
+        "willdurand/expose-translation-bundle": "master-dev",
+        "liip/functional-test-bundle": "*"
     },
     "autoload": {
         "psr-0": { "APY\\JsFormValidationBundle": "" }

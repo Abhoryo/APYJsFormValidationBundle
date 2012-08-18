@@ -29,4 +29,18 @@
     {{ JSFV(form2) }}
     {% endif -%}
 
+    {% if form3 is defined -%}
+    <form id="{{ form3.vars.id }}" action="{{ path("entity_annotation_form") }}"
+        method="post" class="form-horizontal" {{ form_enctype(form3) }}>
+    <fieldset>
+        {{ form_errors(form3) }}
+        {{ form_rest(form3) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </fieldset>
+    </form>
+    {{ JSFV(form3) }}
+    {% endif -%}
+
 {% endblock %}

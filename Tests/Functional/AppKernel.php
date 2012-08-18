@@ -29,7 +29,6 @@ class AppKernel extends Kernel
 
     public function __construct($config)
     {
-
         $this->rootDir = __DIR__ . DIRECTORY_SEPARATOR ;
 
         parent::__construct('test', true);
@@ -53,12 +52,14 @@ class AppKernel extends Kernel
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \JMS\AopBundle\JMSAopBundle(),
             new \JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new \Bazinga\ExposeTranslationBundle\BazingaExposeTranslationBundle(),
             new TestBundle\TestBundle(),
             new \APY\JsFormValidationBundle\APYJsFormValidationBundle(),
+            new \Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
         );
     }
 

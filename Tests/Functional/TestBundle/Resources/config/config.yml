@@ -16,6 +16,9 @@ framework:
     router:
         resource: %kernel.root_dir%/TestBundle/Resources/config/routing.yml
 
+liip_functional_test:
+    cache_sqlite_db: true
+
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -28,13 +31,11 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     localhost
-        port:     ""
-        dbname:   ""
-        user:     root
-        password: ""
-        charset:  UTF8
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%

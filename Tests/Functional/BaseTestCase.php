@@ -12,7 +12,7 @@
 namespace APY\JsFormValidationBundle\Tests\Functional;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
  * @author  Vitaliy Demidov   <zend@i.ua>
@@ -58,7 +58,7 @@ class BaseTestCase extends WebTestCase
 
         $fs = new Filesystem();
 
-        $tmpdir = $this->getTemporaryPath();
+        $tmpdir = $this->getTemporaryPath() . DIRECTORY_SEPARATOR . "web";
         if (is_dir($tmpdir)) {
             $fs->remove($tmpdir);
         }

@@ -62,20 +62,28 @@ class FormValidationTest extends BaseTestCase
 
     public function testEntityAnnotationFormAction()
     {
+        $this->loadFixtures(array('APY\JsFormValidationBundle\Tests\Fixtures\LoadUserData'));
+
         $client = $this->createClient(array('config' => 'config.yml'));
         $client->insulate();
 
         $crawler = $client->request('GET', '/entity-annotation-form');
 
-        $this->assertEquals(12, $crawler->filter('form input')->count(), "Number of input fields does not match.");
+        $this->assertEquals(15, $crawler->filter('form input')->count(), "Number of input fields does not match.");
         $this->assertEquals(16, $crawler->filter('form select')->count(), "Number of select fields does not match.");
-        $this->assertEquals(2, $crawler->filter('script')->count(), "Validation scripts have not been generated.");
+        $this->assertEquals(3, $crawler->filter('script')->count(), "Validation scripts have not been generated.");
+        $hiddenIdentifier = $crawler->filter('input#user_jsfv_identifier');
+        $this->assertEquals(1, $hiddenIdentifier->count(),
+            "Cannot find hidden input for identifier value of user form.");
+        $this->assertEquals("[null]", $crawler->filter('input#user_jsfv_identifier')->attr('value'));
 
         $scriptSrc = $crawler->filter('script')->eq(0)->attr('src');
         $scriptSrc2 = $crawler->filter('script')->eq(1)->attr('src');
+        $scriptSrc3 = $crawler->filter('script')->eq(2)->attr('src');
 
         $this->assertEquals('/bundles/jsformvalidation/js/entity_annotation_form_form.js', $scriptSrc);
         $this->assertEquals('/bundles/jsformvalidation/js/entity_annotation_form_product.js', $scriptSrc2);
+        $this->assertEquals('/bundles/jsformvalidation/js/entity_annotation_form_user.js', $scriptSrc3);
 
         $asseticWriteTo = $this->getKernel()->getCacheDir() . "/../web";
 
@@ -152,7 +160,79 @@ class FormValidationTest extends BaseTestCase
             }
         }
 
-        file_put_contents('D:\\Downloads\\error.html', $client->getResponse()->getContent());
+        //Form with UniqueEntity constraint
+        $src = $scriptSrc3;
+        $form = 'user';
+        if (file_exists($asseticWriteTo . $src)) {
+            $script = file_get_contents($asseticWriteTo . $src);
+
+            $this->assertNotEmpty(preg_match('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script),
+                "Cannot find jsfv initialization in $src.");
+            $this->assertNotEmpty(preg_match('/function[\s]+NotBlank\(/', $script),
+                "Cannot find NotBlank validator in $src.");
+            $this->assertNotEmpty(preg_match('/function[\s]+UniqueEntity\(/', $script),
+                "Cannot find UniqueEntity validator in $src.");
+
+            $this->assertNotEmpty(preg_match('/check_' . $form . '_username\:[\s]*function\(/', $script),
+                "Cannot find username validation in $src.");
+            $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_username\',[\s]*NotBlank,/', $script),
+                "Cannot find checkError username NotBlank in $src.");
+            $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_username\',[\s]*UniqueEntity,/', $script),
+                "Cannot find checkError username UniqueEntity in $src.");
+            $this->assertNotEmpty(preg_match('/UniqueEntity,[\s]*'
+                . '\{entity\:"APY[\\\\]+JsFormValidationBundle[\\\\]+Tests[\\\\]+Functional[\\\\]+TestBundle[\\\\]+Entity[\\\\]+User"/', $script),
+                "[UniqueEntity] Invalid value for 'entity' parameter in $src.");
+            $this->assertNotEmpty(preg_match('/identifier_field_id\:"user_jsfv_identifier"/', $script),
+                "[UniqueEntity] Invalid value for 'identifier_field_id' parameter in $src.");
+            $this->assertNotEmpty(preg_match('/message\:"Username you want is already taken."/', $script),
+                "[UniqueEntity] Invalid value for 'message' parameter in $src.");
+            $this->assertNotEmpty(preg_match('/fields\:"username",/', $script),
+                "[UniqueEntity] Invalid value for 'fields' parameter in $src.");
+
+            unset($script);
+        } else {
+            $this->assertFalse(true, "Generated javascript does not exist.");
+        }
+    }
+
+    public function providerUniqueEntityAction()
+    {
+        $entityName = 'APY\\JsFormValidationBundle\\Tests\\Functional\\TestBundle\\Entity\\User';
+        return array(
+            array(array(
+                'entity' => $entityName,
+                'value'  => 'free',
+                'target' => 'username',
+                'ignore' => '[null]'
+            ), 'true'),
+            array(array(
+                'entity' => $entityName,
+                'value'  => 'taken',
+                'target' => 'username',
+                'ignore' => '[null]'
+            ), 'false'),
+            array(array(
+                'entity' => $entityName,
+                'value'  => 'taken',
+                'target' => 'username',
+                'ignore' => '[1]'
+            ), 'true'),
+        );
+    }
+
+    /**
+     * @dataProvider providerUniqueEntityAction
+     */
+    public function testUniqueEntityAction($value, $result)
+    {
+        $this->loadFixtures(array('APY\JsFormValidationBundle\Tests\Fixtures\LoadUserData'));
+
+        $client = $this->createClient(array('config' => 'config.yml'));
+        $client->insulate();
+
+        $client->request('POST', '/jsfv/unique-entity.en.json', $value);
+        $this->assertRegExp('/"isUnique"\:' . $result . '/', $client->getResponse()->getContent(),
+            "Wrong response from apy_js_form_validation_unique_entity.");
 
     }
 }

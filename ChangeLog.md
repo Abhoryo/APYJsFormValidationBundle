@@ -1,4 +1,7 @@
 #2012-08-16
+- [Tests] Covered uniqueEntity
+
+#2012-08-16
 - Implemented phpunit tests. Fixed composer for travis integration.
 - Fixed issue #13. Fields with property_path = false must be excluded from validation.
 - Fixed issue #16. No need to supply second parameter to createForm controller function.
