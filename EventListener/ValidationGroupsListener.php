@@ -18,7 +18,8 @@ class ValidationGroupsListener
     public function onJsfvPreProcess(PreProcessEvent $event)
     {
         $formView = $event->getFormView();
-        $formValidationGroups = $formView->get('validation_groups', array('Default'));
+        $formValidationGroups = !empty($formView->vars['validation_groups']) ?
+            $formView->vars['validation_groups'] : array('Default');
 
         $formFields = array_keys($formView->children);
         $metadata = $event->getMetaData();
