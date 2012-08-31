@@ -1,5 +1,9 @@
-Getting Started With JsFormValidationBundle [![Build Status](https://secure.travis-ci.org/Abhoryo/APYJsFormValidationBundle.png?branch=master)](http://travis-ci.org/Abhoryo/APYJsFormValidationBundle)
+Getting Started With JsFormValidationBundle
 ===========================================
+**Version**: 2.1
+[![Build Status](https://secure.travis-ci.org/Abhoryo/APYJsFormValidationBundle.png?branch=master)](http://travis-ci.org/Abhoryo/APYJsFormValidationBundle)
+
+**Compatibility**: Symfony 2.1+
 
 This bundle generate automatically a script to perform validations of a form in javascript.
 
@@ -7,8 +11,6 @@ It use the same constraints defined with annotations in your entity or your docu
 
 This bundle is `g11n` compatible.(i18n + L10n) 
 
-**Version**: 2.1
-**Compatibility**: Symfony 2.1+
 
 ## Prerequisite
 
