@@ -24,7 +24,8 @@ use Doctrine\Common\Persistence\ObjectManager;
  * @author Vitaliy Demidov  <zend@i.ua>
  * @since  18 Aug 2012
  */
-class LoadUserData implements FixtureInterface {
+class LoadUserData implements FixtureInterface
+{
 
     public function load(ObjectManager $manager)
     {
