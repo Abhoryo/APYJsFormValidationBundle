@@ -20,7 +20,7 @@ class ValidationGroupsListener
         $formView = $event->getFormView();
         $formValidationGroups = !empty($formView->vars['validation_groups']) ?
             $formView->vars['validation_groups'] : array('Default');
-        if (is_object($formValidationGroups) && is_a($formValidationGroups, 'Closure')) {
+        if ($formValidationGroups instanceof \Closure) {
             // !TODO It couldn't be processed in current implementation.
             // No one constraint will be excluded in this case.
             return;
