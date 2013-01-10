@@ -364,9 +364,14 @@ class FormValidationScriptGenerator
             $dispatcher->dispatch(JsfvEvents::postProcess, $postProcessEvent);
 
             // Retrieve validation mode from configuration
-            $check_modes = array('submit' => false, 'blur' => false);
+            $check_modes = array('submit' => false, 'blur' => false, 'change' => false);
             switch ($this->container->getParameter('apy_js_form_validation.check_mode')) {
                 default:
+                    // check_mode not set, look into check_modes:
+                    foreach ($this->container->getParameter('apy_js_form_validation.check_modes') as $check_mode) {
+                        $check_modes[$check_mode] = true;
+                    }
+                    break;
                 case 'submit':
                     $check_modes['submit'] = true;
                     break;

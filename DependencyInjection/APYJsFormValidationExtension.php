@@ -27,7 +27,8 @@ class APYJsFormValidationExtension extends Extension
 
         $container->setParameter('apy_js_form_validation.enabled', $config['enabled']);
         $container->setParameter('apy_js_form_validation.yui_js', $config['yui_js']);
-        $container->setParameter('apy_js_form_validation.check_mode', $config['check_mode']);
+        $container->setParameter('apy_js_form_validation.check_mode', isset($config['check_mode'])) ? $config['check_mode'] : null;
+        $container->setParameter('apy_js_form_validation.check_modes', $config['check_modes']);
         $container->setParameter('apy_js_form_validation.script_directory', $config['script_directory']);
         $container->setParameter('apy_js_form_validation.validation_bundle', $config['validation_bundle']);
         $container->setParameter('apy_js_form_validation.javascript_framework', $config['javascript_framework']);
@@ -48,10 +49,18 @@ class APYJsFormValidationExtension extends Extension
                     ->booleanNode('enabled')->defaultValue(true)->end()
                     ->booleanNode('yui_js')->defaultValue(false)->end()
                     ->scalarNode('check_mode')
-                        ->defaultValue('both')
                         ->validate()
                             ->ifNotInArray(array('submit', 'blur', 'both'))
                             ->thenInvalid('The %s mode is not supported')
+                        ->end()
+                    ->end()
+                    ->arrayNode('check_modes')
+                        ->defaultValue(array('submit', 'blur'))
+                        ->prototype('scalar')
+                            ->validate()
+                                ->ifNotInArray(array('submit', 'blur', 'change'))
+                                ->thenInvalid('%s is not a valid bundle.')
+                            ->end()
                         ->end()
                     ->end()
                     ->scalarNode('validation_bundle')->defaultValue('APYJsFormValidationBundle')->end()

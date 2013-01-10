@@ -141,6 +141,13 @@ var jsfv = new function () {
             jsfv.onEvent('{{ fieldName }}', 'blur', jsfv.check_{{ fieldName }});
 {% endfor %}
 {% endif %}
+
+{% if check_modes.change %}
+            // On change checks
+{% for fieldName, constraints in fieldConstraints %}
+            jsfv.onEvent('{{ fieldName }}', 'change', jsfv.check_{{ fieldName }});
+{% endfor %}
+{% endif %}
         }
     };
 }
