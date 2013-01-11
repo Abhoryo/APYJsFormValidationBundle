@@ -7,7 +7,7 @@ Reference
 apy_js_form_validation:
     enabled: true
     yui_js: false
-    check_mode: both
+    check_modes: [submit, blur]
     javascript_framework: jquery
     validation_bundle: APYJsFormValidationBundle
     script_directory: bundles/jsformvalidation/js/
@@ -19,10 +19,12 @@ apy_js_form_validation:
 
 * `yui_js` is optional (Default: `false`). Set to `true` enable yui compressor. `yui_js` assetic filter have to be defined.
 
-* `check_mode` is optional (Default: `both`). Mode of the validation.
-Set to `submit` enable a validation of a form on the submit action.
-Set to `blur` enable a validation of a field of a form when the field lost the focus.
-Set to `both` enable both validations of a form.
+* `check_mode` **DEPRECATED** use `check_modes` instead.
+
+* `check_modes` is optional (Default: ["submit", "blur"]). Modes of the validation.
+Add `submit` to enable a validation of a form on the submit action.
+Add `blur` to enable a validation of a field of a form when the field lost the focus.
+Add `change` to enable a validation of a field of a form when the field is changed. This will behave mostly the same as `blur`, but will avoid race condition and false validation errors to appear with widgets like jQueryUI datepicker.
 
 * `javascript_framework` is recommended (Default: `jquery`). Javascript framework used by the validation script.
 Choices: `jquery`, `mootools`, `prototype`, `yui3`, `dojo`, `zepto` or `extjs`
