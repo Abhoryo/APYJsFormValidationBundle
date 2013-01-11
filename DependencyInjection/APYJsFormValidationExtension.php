@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class APYJsFormValidationExtension extends Extension
 {
@@ -28,7 +29,7 @@ class APYJsFormValidationExtension extends Extension
         if (isset($config['check_mode'])) {
             // throw an informative message about option removal
             // TODO: remove this in some future
-            throw new \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException("Option 'check_mode' is removed, use a new 'check_modes' (note trailing 's') option instead. Refer to bundle documentation for details.");
+            throw new InvalidConfigurationException("Option 'check_mode' is removed, use a new 'check_modes' (note trailing 's') option instead. Refer to bundle documentation for details.");
         }
 
         $container->setParameter('apy_js_form_validation.enabled', $config['enabled']);
