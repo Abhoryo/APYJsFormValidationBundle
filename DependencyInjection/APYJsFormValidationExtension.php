@@ -25,6 +25,12 @@ class APYJsFormValidationExtension extends Extension
         $processor = new Processor();
         $config = $processor->process($this->getConfigTree(), $configs);
 
+        if (isset($config['check_mode'])) {
+            // throw an informative message about option removal
+            // TODO: remove this in some future
+            throw new \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException("Option 'check_mode' is removed, use a new 'check_modes' (note trailing 's') option instead. Refer to bundle documentation for details.");
+        }
+
         $container->setParameter('apy_js_form_validation.enabled', $config['enabled']);
         $container->setParameter('apy_js_form_validation.yui_js', $config['yui_js']);
         $container->setParameter('apy_js_form_validation.check_modes', $config['check_modes']);
@@ -47,6 +53,10 @@ class APYJsFormValidationExtension extends Extension
                 ->children()
                     ->booleanNode('enabled')->defaultValue(true)->end()
                     ->booleanNode('yui_js')->defaultValue(false)->end()
+                    // Symfony will throw non-informative exception on 'check_mode' option is not present
+                    // in a tree before our explanatory exception can be thrown.
+                    // TODO: remove this in some future
+                    ->scalarNode('check_mode')->end()
                     ->arrayNode('check_modes')
                         ->defaultValue(array('submit', 'blur'))
                         ->prototype('scalar')

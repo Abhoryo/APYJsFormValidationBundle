@@ -7,7 +7,6 @@ Reference
 apy_js_form_validation:
     enabled: true
     yui_js: false
-    check_mode: false
     check_modes: [submit, blur]
     javascript_framework: jquery
     validation_bundle: APYJsFormValidationBundle
@@ -20,7 +19,7 @@ apy_js_form_validation:
 
 * `yui_js` is optional (Default: `false`). Set to `true` enable yui compressor. `yui_js` assetic filter have to be defined.
 
-* `check_mode` *DEPRECATED* use `check_modes` instead.
+* `check_mode` **DEPRECATED** use `check_modes` instead.
 
 * `check_modes` is optional (Default: ["submit", "blur"]). Modes of the validation.
 Add `submit` to enable a validation of a form on the submit action.
