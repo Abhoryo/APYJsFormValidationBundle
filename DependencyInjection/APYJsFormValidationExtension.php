@@ -53,8 +53,8 @@ class APYJsFormValidationExtension extends Extension
                 ->children()
                     ->booleanNode('enabled')->defaultValue(true)->end()
                     ->booleanNode('yui_js')->defaultValue(false)->end()
-                    // Symfony will throw non-informative exception on 'check_mode' option is not present
-                    // in a tree before our explanatory exception can be thrown.
+                    // Without this line Symfony will throw non-informative exception on 'check_mode'
+                    // option is not present in a tree before our explanatory exception can be thrown.
                     // TODO: remove this in some future
                     ->scalarNode('check_mode')->end()
                     ->arrayNode('check_modes')
