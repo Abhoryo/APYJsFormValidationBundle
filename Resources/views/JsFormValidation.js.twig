@@ -120,7 +120,7 @@ var jsfv = new function () {
             if (form) {
                 // Get the form
                 if ( form.nodeName.toLowerCase() != 'form') {
-                    form = jsfv.id('ma_form__token').form;
+                    form = jsfv.id('{{ formName }}__token').form;
                 }
 
                 jsfv.onEvent(form, 'submit', function() {
