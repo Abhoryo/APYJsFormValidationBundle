@@ -11,13 +11,13 @@
 
 namespace APY\JsFormValidationBundle\Tests\Functional\TestBundle\Controller;
 
+use Symfony\Component\Validator\Constraints\Length;
 use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Entity\Product;
 use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Entity\User;
 use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\ProductType;
 use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\UserType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\MinLength;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,7 +44,7 @@ class DefaultController extends Controller
                 new Regex(array('pattern' => "/^[a-z_0-9]{3,}$/", 'message' => 'Username should contain valid characters')),
             ),
             'password' => array(
-                new MinLength(array('limit' => 8, 'message' => 'This value should contain at least 8 characters.')),
+                new Length(array('min' => 8, 'minMessage' => 'This value should contain at least 8 characters.')),
             ),
             'email'    => array(
                 new NotBlank(array('message' => 'This value should not be blank.')),

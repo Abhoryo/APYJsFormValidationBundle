@@ -23,7 +23,8 @@ class FormValidationTest extends BaseTestCase
         $client->insulate();
 
         $crawler = $client->request('GET', '/simple-form');
-
+        //FIXME remove debug
+        file_put_contents('D:\\Downloads\\apy.content.html', $client->getResponse()->getContent());
         $this->assertEquals(4, $crawler->filter('form input')->count(), "Number of input fields does not match.");
         $this->assertNotEmpty($crawler->filter('script')->count(), "Validation script has not generated.");
 
@@ -39,7 +40,7 @@ class FormValidationTest extends BaseTestCase
                 $this->assertRegExp('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script, "Cannot find jsfv initialization.");
                 $this->assertRegExp('/function[\s]+NotBlank\(/', $script, "Cannot find NotBlank validator.");
                 $this->assertRegExp('/function[\s]+Regex\(/', $script, "Cannot find Regex validator.");
-                $this->assertRegExp('/function[\s]+MinLength\(/', $script, "Cannot find MinLength validator.");
+                $this->assertRegExp('/function[\s]+Length\(/', $script, "Cannot find Length validator.");
                 $this->assertRegExp('/function[\s]+Email\(/', $script, "Cannot find Email validator.");
 
                 $this->assertRegExp('/check_form_username\:[\s]*function\(/', $script, "Cannot find username validation.");
@@ -51,7 +52,7 @@ class FormValidationTest extends BaseTestCase
                 $this->assertRegExp('/checkError\(\'form_email\',[\s]*Email,/', $script, "Cannot find checkError email Email.");
 
                 $this->assertRegExp('/check_form_password\:[\s]*function\(/', $script, "Cannot find password validation.");
-                $this->assertRegExp('/checkError\(\'form_password\',[\s]*MinLength,/', $script, "Cannot find checkError password MinLength.");
+                $this->assertRegExp('/checkError\(\'form_password\',[\s]*Length,/', $script, "Cannot find checkError password Length.");
 
                 unset($script);
             } else {

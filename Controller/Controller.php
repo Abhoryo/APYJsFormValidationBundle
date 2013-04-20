@@ -46,7 +46,7 @@ class Controller
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->em = $this->container->get('doctrine')->getEntityManager();
+        $this->em = $this->container->get('doctrine')->getManager();
     }
 
     /**

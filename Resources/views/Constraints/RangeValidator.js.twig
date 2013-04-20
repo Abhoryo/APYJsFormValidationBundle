@@ -1,0 +1,19 @@
+function Range(field, params)
+{
+    var value = field && field.nodeName ? {{ getJsFormElementValue('field') }} : field;
+
+    if (isNotDefined(value)) {
+        return true;
+    }
+
+    value = String(value);
+	
+	if (value.length < parseInt(params.min)) {
+        return getComputeMessage(params.minMessage, { 'min' : params.min, 'max' : params.max } );
+    }
+    if (value.length > parseInt(params.max)) {
+        return getComputeMessage(params.maxMessage, { 'max' : params.max, 'max' : params.max } );
+    }
+
+    return true;
+}

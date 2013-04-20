@@ -51,7 +51,7 @@ class FormValidationScriptGenerator
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->em = $container->get('doctrine')->getEntityManager();
+        $this->em = $container->get('doctrine')->getManager();
     }
 
     /**
