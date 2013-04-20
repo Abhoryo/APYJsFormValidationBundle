@@ -21,11 +21,11 @@ class RepeatedFieldListener
         $fieldsConstraints = $event->getFieldsConstraints();
 
         foreach ($formFields as $formField) {
-            if ($formField->get('type') == 'repeated') {
-                $formFieldId = $formField->get('id');
+            if (isset($formField->vars['type']) && $formField->vars['type'] == 'repeated') {
+                $formFieldId = $formField->vars['id'];
 
                 // Get the real fields name of the repeated type form
-                $repeatedNames = array_keys($formField->get('value'));
+                $repeatedNames = array_keys($formField->vars['value']);
                 $formFieldId_first = $formFieldId.'_'.$repeatedNames[0];
                 $formFieldId_second = $formFieldId.'_'.$repeatedNames[1];
 
@@ -41,8 +41,9 @@ class RepeatedFieldListener
                 }
 
                 // Get invalid message from the form
-                $invalid_message = $formField->get('invalid_message');
-                $invalid_message_parameters = $formField->get('invalid_message_parameters');
+                $invalid_message = isset($formField->vars['invalid_message']) ? $formField->vars['invalid_message'] : null;
+                $invalid_message_parameters = isset($formField->vars['invalid_message_parameters']) ?
+                    $formField->vars['invalid_message_parameters'] : null;
                 if (!empty($invalid_message_parameters)) {
                     foreach ($invalid_message_parameters as $invalid_message_parameter => $value){
                         $invalid_message = str_replace($invalid_message_parameter,'{{ '.$invalid_message_parameter.' }}',$invalid_message);
@@ -51,7 +52,7 @@ class RepeatedFieldListener
                 $invalid_message_parameters = json_encode($invalid_message_parameters);
 
                 $fieldsConstraints->addFieldConstraint($formFieldId_second, array(
-                    'name' => 'Repeated',
+                    'name'       => 'Repeated',
                     'parameters' => "{first_name: '$formFieldId_first', second_name: '$formFieldId_second', invalid_message: '$invalid_message', invalid_message_parameters: $invalid_message_parameters}"
                 ));
             }

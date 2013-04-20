@@ -89,7 +89,7 @@ class DefaultController extends Controller
                 'invalid_message' => "Passwords must match.",
             ))
             ->add('excluded', 'datetime', array(
-                'property_path' => false,
+                'mapped' => false,
             ))
         ;
         $form = $formBuilder->getForm();

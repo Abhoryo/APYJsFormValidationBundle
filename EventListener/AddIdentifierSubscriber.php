@@ -82,7 +82,7 @@ class AddIdentifierSubscriber implements EventSubscriberInterface
                 'hidden',
                 json_encode($this->jsfv->getEntityIdentifierValue($data)),
                 array(
-                    'property_path' => false,
+                    'mapped' => false,
                 )
             ));
         }

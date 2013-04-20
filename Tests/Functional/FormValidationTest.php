@@ -152,7 +152,7 @@ class FormValidationTest extends BaseTestCase
                     "Cannot find checkError password second Repeated in $src.");
 
                 $this->assertEmpty(preg_match('/check_' . $form . '_excluded\:[\s]*function\(/', $script),
-                    "Field with property_path = FALSE must be excluded from validation in $src.");
+                    "Field with mapped = FALSE must be excluded from validation in $src.");
 
                 unset($script);
             } else {

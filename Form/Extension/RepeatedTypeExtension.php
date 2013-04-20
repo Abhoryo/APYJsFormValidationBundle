@@ -40,8 +40,8 @@ class RepeatedTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->set('type', 'repeated');
-        $view->set('invalid_message', $form->getConfig()->getAttribute('invalid_message'));
-        $view->set('invalid_message_parameters', $form->getConfig()->getAttribute('invalid_message_parameters'));
+        $view->vars['type'] = 'repeated';
+        $view->vars['invalid_message'] = $form->getConfig()->getAttribute('invalid_message');
+        $view->vars['invalid_message_parameters'] = $form->getConfig()->getAttribute('invalid_message_parameters');
     }
 }

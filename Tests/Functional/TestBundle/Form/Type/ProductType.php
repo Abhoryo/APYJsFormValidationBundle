@@ -38,7 +38,7 @@ class ProductType extends AbstractType
                 'invalid_message' => "Passwords must match.",
             ))
             ->add('excluded', 'datetime', array(
-                'property_path' => false,
+                'mapped' => false,
             ))
         ;
     }

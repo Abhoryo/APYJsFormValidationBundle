@@ -83,22 +83,31 @@ class FormTypeExtension extends AbstractTypeExtension
         $config = $form->getConfig();
         // Add validation groups to the view
         if ($config->hasAttribute('validation_groups')) {
-            $view->set('validation_groups', $config->getAttribute('validation_groups'));
+            $view->vars['validation_groups'] = $config->getAttribute('validation_groups');
         }
         if ($config->hasAttribute('data_class')) {
-            $view->set('data_class', $config->getAttribute('data_class'));
+            $view->vars['data_class'] = $config->getAttribute('data_class');
         }
         // Adds constraints to the view. It comes from simple forms
         if ($config->hasOption('constraints')) {
-            $view->set('constraints', $config->getOption('constraints'));
+            $view->vars['constraints'] = $config->getOption('constraints');
         }
+        // Setting "property_path" to "false" is deprecated since version 2.1 and will be removed in 2.3.
+        // Set "mapped" to "false" instead.
         if ($config->hasOption('property_path')) {
             // Fields with property_path = false must be excluded from validation
             $property_path = $config->getOption('property_path');
             if ($property_path === false) {
-                $view->set('property_path', false);
+                $view->vars['property_path'] = false;
             }
         }
-        $view->set('error_mapping', $config->getOption('error_mapping'));
+        if ($config->hasOption('mapped')) {
+            // Fields with mapped = false must be excluded from validation
+            $property_path = $config->getOption('mapped');
+            if ($property_path === false) {
+                $view->vars['mapped'] = false;
+            }
+        }
+        $view->vars['error_mapping'] = $config->getOption('error_mapping');
     }
 }
