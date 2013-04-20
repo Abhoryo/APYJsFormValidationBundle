@@ -23,8 +23,7 @@ class FormValidationTest extends BaseTestCase
         $client->insulate();
 
         $crawler = $client->request('GET', '/simple-form');
-        //FIXME remove debug
-        file_put_contents('D:\\Downloads\\apy.content.html', $client->getResponse()->getContent());
+
         $this->assertEquals(4, $crawler->filter('form input')->count(), "Number of input fields does not match.");
         $this->assertNotEmpty($crawler->filter('script')->count(), "Validation script has not generated.");
 
