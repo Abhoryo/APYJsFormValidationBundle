@@ -26,7 +26,7 @@ When scripts are generated, you can use them is your templates.
 
 <!-- Include prerequisite librairies and bundles -->
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translator.min.js') }}"></script>
 <script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/jsformvalidation/js/my_route1.js') }}"></script>
 

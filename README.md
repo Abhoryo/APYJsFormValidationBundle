@@ -35,7 +35,7 @@ Template of a simple form:
 
 	<!-- Include prerequisite librairies and bundles -->
 	<script type="text/javascript" src="__YOUR_FRAMEWORK_URL__"></script>
-	<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translation.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translator.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
 
 	<!-- Call JsFormValidationBundle -->
