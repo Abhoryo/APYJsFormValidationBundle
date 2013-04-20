@@ -45,7 +45,7 @@ class Product
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Min(limit=20)
+     * @Assert\Length(min=20)
      */
     protected $price;
 
