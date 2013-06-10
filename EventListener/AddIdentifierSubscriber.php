@@ -83,6 +83,7 @@ class AddIdentifierSubscriber implements EventSubscriberInterface
                 json_encode($this->jsfv->getEntityIdentifierValue($data)),
                 array(
                     'mapped' => false,
+                    'auto_initialize' => false,
                 )
             ));
         }

@@ -29,7 +29,7 @@ class Product
 
     /**
      * @Assert\NotBlank(message = "Price should be provided.")
-     * @Assert\Min(limit = 20, message = "")
+     * @Assert\Length(min = 20)
      */
     protected $price;
 

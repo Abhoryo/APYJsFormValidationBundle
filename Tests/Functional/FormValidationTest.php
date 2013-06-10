@@ -99,8 +99,8 @@ class FormValidationTest extends BaseTestCase
                     "Cannot find NotBlank validator in $src.");
                 $this->assertNotEmpty(preg_match('/function[\s]+Regex\(/', $script),
                     "Cannot find Regex validator in $src.");
-                $this->assertNotEmpty(preg_match('/function[\s]+Min\(/', $script),
-                    "Cannot find Min validator in $src.");
+                $this->assertNotEmpty(preg_match('/function[\s]+Length\(/', $script),
+                    "Cannot find Length validator in $src.");
                 $this->assertNotEmpty(preg_match('/function[\s]+Email\(/', $script),
                     "Cannot find Email validator in $src.");
                 $this->assertNotEmpty(preg_match('/function[\s]+Date\(/', $script),
@@ -121,8 +121,8 @@ class FormValidationTest extends BaseTestCase
                     "Cannot find price validation.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_price\',[\s]*NotBlank,/', $script),
                     "Cannot find checkError price NotBlank in $src.");
-                $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_price\',[\s]*Min,/', $script),
-                    "Cannot find checkError price Min in $src.");
+                $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_price\',[\s]*Length,/', $script),
+                    "Cannot find checkError price Length in $src.");
 
                 $this->assertNotEmpty(preg_match('/check_' . $form . '_purchased\:[\s]*function\(/', $script),
                     "Cannot find purchased validation in $src.");
