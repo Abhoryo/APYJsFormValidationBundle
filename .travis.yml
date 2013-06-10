@@ -6,6 +6,9 @@ php:
 
 env:
   - SYMFONY_VERSION=origin/2.1
+  - SYMFONY_VERSION=origin/2.2
+  - SYMFONY_VERSION=origin/2.3
+  - SYMFONY_VERSION=dev-master
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
@@ -16,3 +19,4 @@ script: phpunit
 notifications:
     email:
         - abhoryo@free.fr
+        - zend@i.ua
