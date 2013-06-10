@@ -16,8 +16,8 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/symfony": ">=2.1",
-        "willdurand/expose-translation-bundle": "dev-master"
+        "symfony/symfony": ">=2.1,<2.4-dev",
+        "willdurand/expose-translation-bundle": ">=0.2.1,<0.3"
     },
     "require-dev": {
         "symfony/assetic-bundle": "2.*",
@@ -39,14 +39,13 @@
         "sensio/framework-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
         "jms/aop-bundle": "*",
-        "willdurand/expose-translation-bundle": "master-dev",
+        "willdurand/expose-translation-bundle": "dev-master",
         "liip/functional-test-bundle": "*"
     },
     "autoload": {
         "psr-0": { "APY\\JsFormValidationBundle": "" }
     },
     "target-dir": "APY/JsFormValidationBundle",
-    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.1-dev"
