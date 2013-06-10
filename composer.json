@@ -46,6 +46,7 @@
         "psr-0": { "APY\\JsFormValidationBundle": "" }
     },
     "target-dir": "APY/JsFormValidationBundle",
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.1-dev"
