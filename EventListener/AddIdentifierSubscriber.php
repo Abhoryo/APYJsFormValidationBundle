@@ -13,7 +13,7 @@ namespace APY\JsFormValidationBundle\EventListener;
 
 use APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator;
 use APY\JsFormValidationBundle\Generator\PostProcessEvent;
-use Symfony\Component\Form\Event\DataEvent;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
@@ -61,9 +61,9 @@ class AddIdentifierSubscriber implements EventSubscriberInterface
      * This field is required in order to UniqueEntity constraint worked
      * properly on client side with update operation.
      *
-     * @param    DataEvent    $event
+     * @param    FormEvent    $event
      */
-    public function preSetData(DataEvent $event)
+    public function preSetData(FormEvent $event)
     {
         $data = $event->getData();
         $form = $event->getForm();
