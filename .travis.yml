@@ -13,7 +13,7 @@ env:
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar require symfony/framework-bundle:${SYMFONY_VERSION} --no-update --dev
-  - php composer.phar update --dev
+  - php composer.phar install --dev
 
 script: phpunit
 
