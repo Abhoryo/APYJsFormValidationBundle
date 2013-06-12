@@ -67,13 +67,22 @@ class AddIdentifierSubscriber implements EventSubscriberInterface
     {
         $data = $event->getData();
         $form = $event->getForm();
+        $config = $form->getConfig();
 
         // This if statement let's us skip right over the null condition.
         if (null === $data || !is_object($data)) {
             return;
         }
 
-        if ($form->getConfig()->getOption('compound') && $this->jsfv->hasUniqueEntityConstraint(get_class($data))) {
+        if ($config->getOption('compound') && $this->jsfv->hasUniqueEntityConstraint(get_class($data))) {
+            //Backward compability
+            $options = array();
+            if ($config->hasOption('mapped')) {
+                $options['mapped'] = false;
+            }
+            if ($config->hasOption('auto_initialize')) {
+                $options['auto_initialize'] = false;
+            }
             //When entity is updated UniqueEntity constraint should ignore
             //entity with the same primary key id
             $identifierField = $this->jsfv->getParameter('identifier_field');
@@ -81,10 +90,7 @@ class AddIdentifierSubscriber implements EventSubscriberInterface
                 $identifierField,
                 'hidden',
                 json_encode($this->jsfv->getEntityIdentifierValue($data)),
-                array(
-                    'mapped' => false,
-                    'auto_initialize' => false,
-                )
+                $options
             ));
         }
     }
