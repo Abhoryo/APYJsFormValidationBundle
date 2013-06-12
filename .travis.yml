@@ -3,15 +3,17 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
 
 env:
-  - SYMFONY_VERSION=origin/2.1
-  - SYMFONY_VERSION=origin/2.2
-  - SYMFONY_VERSION=origin/2.3
+  - SYMFONY_VERSION=2.1.*
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev
+  - php composer.phar require symfony/framework-bundle:${SYMFONY_VERSION} --no-update --dev
+  - php composer.phar update --dev
 
 script: phpunit
 

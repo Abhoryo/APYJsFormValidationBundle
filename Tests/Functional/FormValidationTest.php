@@ -24,6 +24,8 @@ class FormValidationTest extends BaseTestCase
 
         $crawler = $client->request('GET', '/simple-form');
 
+        $this->checkException($crawler);
+
         $this->assertEquals(4, $crawler->filter('form input')->count(), "Number of input fields does not match.");
         $this->assertNotEmpty($crawler->filter('script')->count(), "Validation script has not generated.");
 
@@ -68,6 +70,8 @@ class FormValidationTest extends BaseTestCase
         $client->insulate();
 
         $crawler = $client->request('GET', '/entity-annotation-form');
+
+        $this->checkException($crawler);
 
         $this->assertEquals(15, $crawler->filter('form input')->count(), "Number of input fields does not match.");
         $this->assertEquals(16, $crawler->filter('form select')->count(), "Number of select fields does not match.");

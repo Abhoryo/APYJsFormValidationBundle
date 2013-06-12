@@ -17,29 +17,17 @@
     "require": {
         "php": ">=5.3.2",
         "symfony/symfony": ">=2.1,<2.4-dev",
-        "willdurand/expose-translation-bundle": ">=0.2.1,<0.3"
+        "willdurand/expose-translation-bundle": ">=0.2.1"
     },
     "require-dev": {
+        "symfony/framework-bundle": ">=2.1,<2.4-dev",
         "symfony/assetic-bundle": "2.*",
         "doctrine/orm": "*",
         "doctrine/doctrine-bundle": "*",
         "doctrine/doctrine-fixtures-bundle": "*",
-        "symfony/filesystem": "2.*",
-        "sensio/framework-extra-bundle": "*",
-        "symfony/css-selector": "2.*",
-        "symfony/http-kernel": "2.*",
-        "symfony/validator": "2.*",
-        "symfony/browser-kit": "2.*",
-        "symfony/finder": "2.*",
-        "symfony/form": "2.*",
-        "symfony/yaml": "2.*",
-        "symfony/process": "2.*",
-        "symfony/class-loader": "2.*",
-        "symfony/twig-bundle": "2.*",
         "sensio/framework-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
         "jms/aop-bundle": "*",
-        "willdurand/expose-translation-bundle": "dev-master",
         "liip/functional-test-bundle": "*"
     },
     "autoload": {

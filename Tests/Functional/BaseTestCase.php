@@ -68,4 +68,18 @@ class BaseTestCase extends WebTestCase
     {
         parent::tearDown();
     }
+
+    /**
+     * Checks exception
+     *
+     * @param \Symfony\Component\DomCrawler\Crawler $crawler
+     */
+    public function checkException($crawler)
+    {
+        $ex = $crawler->filter('div.text-exception');
+        if ($ex->count()) {
+            $text = preg_replace(array('/[\t ]+/', '/[\r\n]+/'), array(" ", "\n"), strip_tags($ex->first()->text()));
+            $this->assertTrue(false, $text);
+        }
+    }
 }
