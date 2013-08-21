@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormView;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
-use APY\JsFormValidationBundle\Generator\AnnotationLoaderApy as AnnotationLoader;
+use APY\JsFormValidationBundle\Generator\AnnotationLoader;
 use Assetic\Filter\Yui\JsCompressorFilter;
 use Assetic\Asset\AssetCollection;
 

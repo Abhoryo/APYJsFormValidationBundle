@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\GroupSequenceProvider;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader as Loader;
 
-class AnnotationLoaderApy extends Loader
+class AnnotationLoader extends Loader
 {
     /**
      * {@inheritDoc}
