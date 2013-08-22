@@ -239,4 +239,38 @@ class FormValidationTest extends BaseTestCase
             "Wrong response from apy_js_form_validation_unique_entity.");
 
     }
+
+    public function testEmbeddedFormAction()
+    {
+        $client = $this->createClient(array('config' => 'config.yml'));
+        $client->insulate();
+
+        $crawler = $client->request('GET', '/embedded-form');
+
+        $this->checkException($crawler);
+
+        $this->assertEquals(3, $crawler->filter('form input')->count(), "Number of input fields does not match.");
+        $this->assertNotEmpty($crawler->filter('script')->count(), "Validation script has not generated.");
+
+        $scriptSrc = $crawler->filter('script')->first()->attr('src');
+
+        $this->assertEquals('/bundles/jsformvalidation/js/embedded_form_user_profile.js', $scriptSrc, "Script url does not match.");
+
+        $asseticWriteTo = $this->getKernel()->getCacheDir() . "/../web";
+
+        foreach (array($scriptSrc) as $src) {
+            if (file_exists($asseticWriteTo . $src)) {
+                $script = file_get_contents($asseticWriteTo . $src);
+                $this->assertRegExp('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script, "Cannot find jsfv initialization.");
+                $this->assertRegExp('/function[\s]+NotBlank\(/', $script, "Cannot find NotBlank validator.");
+                $this->assertRegExp('/function[\s]+Regex\(/', $script, "Cannot find Regex validator.");
+
+                $this->assertRegExp('/check_user_profile_user_username\:[\s]*function\(/', $script, "Cannot find username validation.");
+                $this->assertRegExp('/check_user_profile_profile_name\:[\s]*function\(/', $script, "Cannot find email validation.");
+                unset($script);
+            } else {
+                $this->assertFalse(true, sprintf("Generated javascript for %s does not exist.", $src));
+            }
+        }
+    }
 }

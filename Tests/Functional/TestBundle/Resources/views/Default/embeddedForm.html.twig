@@ -1,0 +1,15 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <form id="{{ form.vars.id }}" action="{{ path("entity_annotation_form") }}"
+        method="post" class="form-horizontal" {{ form_enctype(form) }}>
+        <fieldset>
+            {{ form_errors(form) }}
+            {{ form_rest(form) }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </fieldset>
+    </form>
+    {{ JSFV(form) }}
+{% endblock %}

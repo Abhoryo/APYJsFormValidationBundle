@@ -25,6 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use APY\JsFormValidationBundle\Tests\Functional\TestBundle\Form\Type\UserProfileType;
 
 /**
  * @author    Vitaliy Demidov   <zend@i.ua>
@@ -104,6 +105,19 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'form2' => $form2->createView(),
             'form3' => $form3->createView(),
+        );
+    }
+
+    /**
+     * @Route("/embedded-form", name = "embedded_form")
+     * @Template
+     */
+    public function embeddedFormAction()
+    {
+        $form = $this->createForm(new UserProfileType());
+
+        return array(
+            'form' => $form->createView(),
         );
     }
 }
