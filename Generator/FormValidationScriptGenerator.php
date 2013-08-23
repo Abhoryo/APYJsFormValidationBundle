@@ -372,11 +372,15 @@ class FormValidationScriptGenerator
                             //We need to know entity class for the field which is applied by UniqueEntity constraint
                             if ($constraintName == 'UniqueEntity' && !empty($formFieldN->parent)) {
                                 $entity = isset($formFieldN->parent->vars['value']) ?
-                                    $formField->parent->vars['value'] : null;
+                                    $formFieldN->parent->vars['value'] : null;
+                                if(isset($formView->children[$this->getParameter('identifier_field')])) {
+                                    $id = json_encode($formView->children[$this->getParameter('identifier_field')]->vars['id']);
+                                } else {
+                                    $id = json_encode($formFieldN->vars['id']);
+                                }
                                 $constraintParameters += array(
                                     'entity:' . json_encode(get_class($entity)),
-                                    'identifier_field_id:'.
-                                        json_encode($formView->children[$this->getParameter('identifier_field')]->vars['id']),
+                                    'identifier_field_id:'. $id,
                                 );
                             }
                             foreach ($constraintProperties as $variable => $value) {
