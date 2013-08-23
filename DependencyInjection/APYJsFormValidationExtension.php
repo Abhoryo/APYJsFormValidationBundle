@@ -40,6 +40,7 @@ class APYJsFormValidationExtension extends Extension
         $container->setParameter('apy_js_form_validation.javascript_framework', $config['javascript_framework']);
         $container->setParameter('apy_js_form_validation.warmer_routes', $config['warmer_routes']);
         $container->setParameter('apy_js_form_validation.identifier_field', $config['identifier_field']);
+        $container->setParameter('apy_js_form_validation.translation_group', $config['translation_group']);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
@@ -70,6 +71,7 @@ class APYJsFormValidationExtension extends Extension
                     ->scalarNode('validation_bundle')->defaultValue('APYJsFormValidationBundle')->end()
                     ->scalarNode('javascript_framework')->defaultValue('jquery')->end()
                     ->scalarNode('script_directory')->defaultValue('bundles/jsformvalidation/js/')->end()
+                    ->scalarNode('translation_group')->defaultValue('validators')->end()
                     ->arrayNode('warmer_routes')
                         ->canBeUnset()
                         ->prototype('scalar')->end()

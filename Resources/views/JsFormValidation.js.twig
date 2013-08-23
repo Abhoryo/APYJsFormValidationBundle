@@ -14,11 +14,11 @@ var jsfv = new function () {
         Translator.placeHolderPrefix = '{{ '{{' }} ';
         Translator.placeHolderSuffix = ' {{ '}}' }}';
         // Default translations
-        if (!Translator.has('validators:'+key)) {
-            Translator.add('validators:'+key, key);
+        if (!Translator.has('{{ translation_group }}:'+key)) {
+            Translator.add('{{ translation_group }}:'+key, key);
         }
 
-        return Translator.get('validators:'+key, placeholders, number);
+        return Translator.get('{{ translation_group }}:'+key, placeholders, number);
     }
 
     function isNotDefined(value) {
