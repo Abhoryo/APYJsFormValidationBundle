@@ -48,4 +48,5 @@ Defines the name of the hidden field which serves to convey the primary identifi
 This value will be ignored when entity is updated.
 
 * `translation_group` is optional (Default: `validators`)
-It's parameter used for translate function in js look like: Translator.get('{{ 'translation_group' }}':'+key, placeholders, number);
+This option determines which validation group will be used by the translator: Translator.get('{{ 'translation_group' }}':'+key, placeholders, number);
+For more information look at [Validation Groups](http://symfony.com/doc/current/book/validation.html#validation-groups) of Symfony user's manual. 
