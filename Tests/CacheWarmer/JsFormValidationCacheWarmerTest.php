@@ -107,7 +107,7 @@ class JsFormValidationCacheWarmerTest extends \PHPUnit_Framework_TestCase
     {
         $this->cacheWarmer->warmUp('no use');
         foreach ($this->routes as $route) {
-            $this->assertFileNotExists($this->dir . $route);
+            $this->assertFileNotExists($this->dir . $route[0]);
         }
     }
 

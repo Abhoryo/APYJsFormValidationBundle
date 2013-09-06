@@ -9,7 +9,12 @@
 
 {% block before %}{% endblock %}
 
-var jsfv = new function () {
+if (jsfv == undefined) {
+    var jsfv = [];
+}
+
+jsfv['{{ formName }}'] = new function () {
+    var self = this;
     function getComputeMessage(key, placeholders, number) {
         Translator.placeHolderPrefix = '{{ '{{' }} ';
         Translator.placeHolderSuffix = ' {{ '}}' }}';
@@ -26,9 +31,9 @@ var jsfv = new function () {
     }
 
     function checkError(field, checkFunction, parameters, value) {
-        field = jsfv.id(field);
+        field = self.id(field);
         // Remove old errors of the field
-        {% block removeErrors %}{% spaceless %}jsfv.removeErrors(field);{% endspaceless %}{% endblock %}
+        {% block removeErrors %}{% spaceless %}self.removeErrors(field);{% endspaceless %}{% endblock %}
         // Check the value
         errorMessage = checkFunction((value === undefined ? field : value), parameters);
         {# Notice! Block getVal was refused since 2.1 version.
@@ -37,7 +42,7 @@ var jsfv = new function () {
 
         if (errorMessage != true) {
 {% block addError %}
-        {% spaceless %}jsfv.addError(field, errorMessage);{% endspaceless %}
+        {% spaceless %}self.addError(field, errorMessage);{% endspaceless %}
 {% endblock %}
 
             return false;
@@ -59,41 +64,40 @@ var jsfv = new function () {
 
 {% endfor %}
 
-    return {
-        id: function (id) {
-            return document.getElementById(id);
-        },
+    this.id = function (id) {
+        return document.getElementById(id);
+    };
 {% block removeErrors_method %}
-        removeErrors: function (field) {
-            $(field).siblings('ul.error_list').remove();
-        },
+    this.removeErrors = function (field) {
+        $(field).siblings('ul.error_list').remove();
+    };
 {% endblock %}
 {% block addError_method %}
-        addError: function (field, errorMessage) {
-            // Add errors block
-            field = $(field);
-            if (field.siblings('ul.error_list').length == 0)  {
-                field.before('<ul class="error_list"></ul>');
-            }
+    this.addError = function (field, errorMessage) {
+        // Add errors block
+        field = $(field);
+        if (field.siblings('ul.error_list').length == 0)  {
+            field.before('<ul class="error_list"></ul>');
+        }
 
-            // Add error
-            field.prev().filter('ul').append('<li>'+errorMessage+'</li>');
-        },
+        // Add error
+        field.prev().filter('ul').append('<li>'+errorMessage+'</li>');
+    };
 {% endblock %}
-        onEvent: function (field, eventType, handler) {
-            if (typeof(field) == 'string') {
-                field = jsfv.id(field);
-            }
+    this.onEvent = function (field, eventType, handler) {
+        if (typeof(field) == 'string') {
+            field = self.id(field);
+        }
 {% block onEvent %}
-            $(field).bind(eventType, handler);
+        $(field).bind(eventType, handler);
 {% endblock %}
-        },
+    };
 {% for fieldName, constraints in fieldConstraints %}
-        check_{{ fieldName }}: function() {
-            var gv;
-            result = true;
+    this.check_{{ fieldName }} = function() {
+        var gv;
+        result = true;
 {% for constraint in constraints %}
-            result = result && checkError('{{ fieldName }}', {{ constraint.name }}, {{ constraint.parameters|raw }} );
+        result = result && checkError('{{ fieldName }}', {{ constraint.name }}, {{ constraint.parameters|raw }} );
 {% endfor %}
 {% set resultvar = 'result' %}
 {% block getters_constraints_field %}
@@ -108,52 +112,53 @@ var jsfv = new function () {
 {% endfor %}
 {% endif %}
 {% endblock %}
-            return result;
-        },
+        return result;
+    };
 {% endfor %}
-        onReady: function() {
-{% if check_modes.submit %}
-            // On submit checks
-            var form = jsfv.id('{{ formName }}');
-
-            // Form exists ?
-            if (form) {
-                // Get the form
-                if ( form.nodeName.toLowerCase() != 'form') {
-                    form = jsfv.id('{{ formName }}__token').form;
-                }
-
-                jsfv.onEvent(form, 'submit', function() {
-                    var gv, submitForm = true;
+    this.submit = function() {
+        var gv, submitForm = true;
 {% for fieldName, constraints in fieldConstraints %}
-                    submitForm = jsfv.check_{{ fieldName }}() && submitForm;
+        submitForm = self.check_{{ fieldName }}() && submitForm;
 {% endfor %}
-{% set resultvar = 'submitForm' %}{% set fieldName = '.' %}
-{% block getters_constraints_submit %}{{ block('getters_constraints_field') }}{% endblock %}
-                    return submitForm;
-                });
+        {% set resultvar = 'submitForm' %}{% set fieldName = '.' %}
+        {% block getters_constraints_submit %}{{ block('getters_constraints_field') }}{% endblock %}
+
+        return submitForm;
+    };
+    this.onReady = function() {
+{% if check_modes.submit %}
+        // On submit checks
+        var form = self.id('{{ formName }}');
+
+        // Form exists ?
+        if (form) {
+            // Get the form
+            if ( form.nodeName.toLowerCase() != 'form') {
+                form = self.id('{{ formName }}__token').form;
             }
+
+            self.onEvent(form, 'submit', self.submit);
+        }
 {% endif %}
 
 {% if check_modes.blur %}
-            // On blur checks
+        // On blur checks
 {% for fieldName, constraints in fieldConstraints %}
-            jsfv.onEvent('{{ fieldName }}', 'blur', jsfv.check_{{ fieldName }});
+        self.onEvent('{{ fieldName }}', 'blur', self.check_{{ fieldName }});
 {% endfor %}
 {% endif %}
 
 {% if check_modes.change %}
-            // On change checks
+        // On change checks
 {% for fieldName, constraints in fieldConstraints %}
-            jsfv.onEvent('{{ fieldName }}', 'change', jsfv.check_{{ fieldName }});
+        self.onEvent('{{ fieldName }}', 'change', self.check_{{ fieldName }});
 {% endfor %}
 {% endif %}
-        }
     };
 }
 
 {% block onReady %}
-$(jsfv.onReady);
+$(jsfv['{{ formName }}'].onReady);
 {% endblock %}
 
 {% block after %}{% endblock %}
