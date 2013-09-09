@@ -38,7 +38,7 @@ class FormValidationTest extends BaseTestCase
         foreach (array($scriptSrc) as $src) {
             if (file_exists($asseticWriteTo . $src)) {
                 $script = file_get_contents($asseticWriteTo . $src);
-                $this->assertRegExp('/jsfv\[\\\'.+\\\'] git p= new[\s]+function/', $script, "Cannot find jsfv initialization.");
+                $this->assertRegExp('/jsfv\[\\\'.+\\\'] = new[\s]+function/', $script, "Cannot find jsfv initialization.");
                 $this->assertRegExp('/function[\s]+NotBlank\(/', $script, "Cannot find NotBlank validator.");
                 $this->assertRegExp('/function[\s]+Regex\(/', $script, "Cannot find Regex validator.");
                 $this->assertRegExp('/function[\s]+Length\(/', $script, "Cannot find Length validator.");
