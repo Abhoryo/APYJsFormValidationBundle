@@ -22,5 +22,5 @@ $(field).addEvent(eventType, handler);
 {% endblock %}
 
 {% block onReady %}
-window.addEvent('domready', jsfv.onReady);
+window.addEvent('domready', jsfv['{{ formName }}'].onReady);
 {% endblock %}

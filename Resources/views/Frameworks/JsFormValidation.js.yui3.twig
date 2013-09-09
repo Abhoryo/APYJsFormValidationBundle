@@ -24,7 +24,7 @@ Y.one(field).on(eventType, handler);
 {% endblock %}
 
 {% block onReady %}
-Y.on('domready',jsfv.onReady);
+Y.on('domready',jsfv['{{ formName }}'].onReady);
 {% endblock %}
 
 {% block after %}

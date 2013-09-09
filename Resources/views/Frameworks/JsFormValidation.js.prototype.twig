@@ -20,5 +20,5 @@ $(field).observe(eventType, handler);
 {% endblock %}
 
 {% block onReady %}
-document.observe("dom:loaded", jsfv.onReady);
+document.observe("dom:loaded", jsfv['{{ formName }}'].onReady);
 {% endblock %}
