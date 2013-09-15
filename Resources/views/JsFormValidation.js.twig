@@ -23,7 +23,8 @@ jsfv['{{ formName }}'] = new function () {
             Translator.add('{{ translation_group }}:'+key, key);
         }
 
-        return Translator.get('{{ translation_group }}:'+key, placeholders, number);
+        return Translator.get('{{ translation_group }}:'+key, placeholders, number) ||
+               Translator.get('{{ translation_group }}:'+key, placeholders);
     }
 
     function isNotDefined(value) {
