@@ -20,5 +20,5 @@ Ext.get(field).on(eventType, handler);
 {% endblock %}
 
 {% block onReady %}
-Ext.onReady(jsfv.onReady);
+Ext.onReady(jsfv['{{ formName }}'].onReady);
 {% endblock %}

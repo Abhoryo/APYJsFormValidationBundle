@@ -38,21 +38,21 @@ class FormValidationTest extends BaseTestCase
         foreach (array($scriptSrc) as $src) {
             if (file_exists($asseticWriteTo . $src)) {
                 $script = file_get_contents($asseticWriteTo . $src);
-                $this->assertRegExp('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script, "Cannot find jsfv initialization.");
+                $this->assertRegExp('/jsfv\[\\\'.+\\\'] = new[\s]+function/', $script, "Cannot find jsfv initialization.");
                 $this->assertRegExp('/function[\s]+NotBlank\(/', $script, "Cannot find NotBlank validator.");
                 $this->assertRegExp('/function[\s]+Regex\(/', $script, "Cannot find Regex validator.");
                 $this->assertRegExp('/function[\s]+Length\(/', $script, "Cannot find Length validator.");
                 $this->assertRegExp('/function[\s]+Email\(/', $script, "Cannot find Email validator.");
 
-                $this->assertRegExp('/check_form_username\:[\s]*function\(/', $script, "Cannot find username validation.");
+                $this->assertRegExp('/check_form_username = function\(/', $script, "Cannot find username validation.");
                 $this->assertRegExp('/checkError\(\'form_username\',[\s]*NotBlank,/', $script, "Cannot find checkError username NotBlank.");
                 $this->assertRegExp('/checkError\(\'form_username\',[\s]*Regex,/', $script, "Cannot find checkError username Regex.");
 
-                $this->assertRegExp('/check_form_email\:[\s]*function\(/', $script, "Cannot find email validation.");
+                $this->assertRegExp('/check_form_email = function\(/', $script, "Cannot find email validation.");
                 $this->assertRegExp('/checkError\(\'form_email\',[\s]*NotBlank,/', $script, "Cannot find checkError email NotBlank.");
                 $this->assertRegExp('/checkError\(\'form_email\',[\s]*Email,/', $script, "Cannot find checkError email Email.");
 
-                $this->assertRegExp('/check_form_password\:[\s]*function\(/', $script, "Cannot find password validation.");
+                $this->assertRegExp('/check_form_password = function\(/', $script, "Cannot find password validation.");
                 $this->assertRegExp('/checkError\(\'form_password\',[\s]*Length,/', $script, "Cannot find checkError password Length.");
 
                 unset($script);
@@ -95,7 +95,7 @@ class FormValidationTest extends BaseTestCase
             if (file_exists($asseticWriteTo . $src)) {
                 $script = file_get_contents($asseticWriteTo . $src);
 
-                $this->assertNotEmpty(preg_match('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script),
+                $this->assertNotEmpty(preg_match('/jsfv\[\\\'.+\\\'\][\s]*=[\s]*new[\s]+function/', $script),
                     "Cannot find jsfv initialization in $src.");
                 $this->assertNotEmpty(preg_match('/function[\s]+True\(/', $script),
                     "Cannot find True validator in $src.");
@@ -114,37 +114,37 @@ class FormValidationTest extends BaseTestCase
                 $this->assertNotEmpty(preg_match('/function[\s]+Product_isPasswordLegal[\s]*\(/', $script),
                     "Cannot find Product_isPasswordLegal getter in $src.");
 
-                $this->assertNotEmpty(preg_match('/check_' . $form . '_name\:[\s]*function\(/', $script),
+                $this->assertNotEmpty(preg_match('/this.check_' . $form . '_name = function\(/', $script),
                     "Cannot find name validation in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_name\',[\s]*NotBlank,/', $script),
                     "Cannot find checkError name NotBlank in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_name\',[\s]*Regex,/', $script),
                     "Cannot find checkError name Regex in $src.");
 
-                $this->assertNotEmpty(preg_match('/check_' . $form . '_price\:[\s]*function\(/', $script),
+                $this->assertNotEmpty(preg_match('/this.check_' . $form . '_price = function\(/', $script),
                     "Cannot find price validation.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_price\',[\s]*NotBlank,/', $script),
                     "Cannot find checkError price NotBlank in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_price\',[\s]*Length,/', $script),
                     "Cannot find checkError price Length in $src.");
 
-                $this->assertNotEmpty(preg_match('/check_' . $form . '_purchased\:[\s]*function\(/', $script),
+                $this->assertNotEmpty(preg_match('/this.check_' . $form . '_purchased = function\(/', $script),
                     "Cannot find purchased validation in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_purchased\',[\s]*NotBlank,/', $script),
                     "Cannot find checkError purchased NotBlank in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_purchased\',[\s]*Date,/', $script),
                     "Cannot find checkError purchased Date in $src.");
 
-                $this->assertNotEmpty(preg_match('/check_' . $form . '_email\:[\s]*function\(/', $script),
+                $this->assertNotEmpty(preg_match('/this.check_' . $form . '_email = function\(/', $script),
                     "Cannot find email validation in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_email\',[\s]*NotBlank,/', $script),
                     "Cannot find checkError email NotBlank in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_email\',[\s]*Email,/', $script),
                     "Cannot find checkError email Email in $src.");
 
-                $this->assertNotEmpty(preg_match('/check_' . $form . '_password_first\:[\s]*function\(/', $script),
+                $this->assertNotEmpty(preg_match('/this.check_' . $form . '_password_first = function\(/', $script),
                     "Cannot find password first validation in $src.");
-                $this->assertNotEmpty(preg_match('/check_' . $form . '_password_second\:[\s]*function\(/', $script),
+                $this->assertNotEmpty(preg_match('/this.check_' . $form . '_password_second = function\(/', $script),
                     "Cannot find password second validation in $src.");
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_password_first\',[\s]*NotBlank,/', $script),
                     "Cannot find checkError password NotBlank in $src.");
@@ -155,7 +155,7 @@ class FormValidationTest extends BaseTestCase
                 $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_password_second\',[\s]*Repeated,/', $script),
                     "Cannot find checkError password second Repeated in $src.");
 
-                $this->assertEmpty(preg_match('/check_' . $form . '_excluded\:[\s]*function\(/', $script),
+                $this->assertEmpty(preg_match('/check_' . $form . '_excluded = function\(/', $script),
                     "Field with mapped = FALSE must be excluded from validation in $src.");
 
                 unset($script);
@@ -170,14 +170,14 @@ class FormValidationTest extends BaseTestCase
         if (file_exists($asseticWriteTo . $src)) {
             $script = file_get_contents($asseticWriteTo . $src);
 
-            $this->assertNotEmpty(preg_match('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script),
+            $this->assertNotEmpty(preg_match('/jsfv\[\\\'.+\\\'] = new[\s]+function/', $script),
                 "Cannot find jsfv initialization in $src.");
             $this->assertNotEmpty(preg_match('/function[\s]+NotBlank\(/', $script),
                 "Cannot find NotBlank validator in $src.");
             $this->assertNotEmpty(preg_match('/function[\s]+UniqueEntity\(/', $script),
                 "Cannot find UniqueEntity validator in $src.");
 
-            $this->assertNotEmpty(preg_match('/check_' . $form . '_username\:[\s]*function\(/', $script),
+            $this->assertNotEmpty(preg_match('/check_' . $form . '_username = function\(/', $script),
                 "Cannot find username validation in $src.");
             $this->assertNotEmpty(preg_match('/checkError\(\'' . $form . '_username\',[\s]*NotBlank,/', $script),
                 "Cannot find checkError username NotBlank in $src.");
@@ -261,12 +261,12 @@ class FormValidationTest extends BaseTestCase
         foreach (array($scriptSrc) as $src) {
             if (file_exists($asseticWriteTo . $src)) {
                 $script = file_get_contents($asseticWriteTo . $src);
-                $this->assertRegExp('/var[\s]+jsfv[\s]*=[\s]*new[\s]+function/', $script, "Cannot find jsfv initialization.");
+                $this->assertRegExp('/jsfv\[\\\'.+\\\'][\s]*=[\s]*new[\s]+function/', $script, "Cannot find jsfv initialization.");
                 $this->assertRegExp('/function[\s]+NotBlank\(/', $script, "Cannot find NotBlank validator.");
                 $this->assertRegExp('/function[\s]+Regex\(/', $script, "Cannot find Regex validator.");
 
-                $this->assertRegExp('/check_user_profile_user_username\:[\s]*function\(/', $script, "Cannot find username validation.");
-                $this->assertRegExp('/check_user_profile_profile_name\:[\s]*function\(/', $script, "Cannot find email validation.");
+                $this->assertRegExp('/this\.check_user_profile_user_username = function\(/', $script, "Cannot find username validation.");
+                $this->assertRegExp('/this\.check_user_profile_profile_name = function\(/', $script, "Cannot find email validation.");
                 unset($script);
             } else {
                 $this->assertFalse(true, sprintf("Generated javascript for %s does not exist.", $src));

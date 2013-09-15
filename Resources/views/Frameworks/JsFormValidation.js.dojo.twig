@@ -25,5 +25,5 @@ dojo.connect(field, "on"+eventType, handler);
 {% endblock %}
 
 {% block onReady %}
-dojo.ready(jsfv.onReady);
+dojo.ready(jsfv['{{ formName }}'].onReady);
 {% endblock %}
