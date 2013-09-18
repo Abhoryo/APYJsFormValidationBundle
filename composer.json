@@ -22,7 +22,7 @@
         "willdurand/expose-translation-bundle": ">=0.2.1"
     },
     "require-dev": {
-        "symfony/symfony": "2.1.*",
+        "symfony/symfony": "~2.1",
         "symfony/assetic-bundle": "~2.1",
         "doctrine/orm": "*",
         "doctrine/doctrine-bundle": "*",
