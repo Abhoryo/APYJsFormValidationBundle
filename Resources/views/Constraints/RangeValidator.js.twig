@@ -5,13 +5,18 @@ function Range(field, params)
     if (isNotDefined(value)) {
         return true;
     }
-
-    value = String(value);
+    
+    value = value - 0;
+    
+    if (isNaN(value)) {
+        return getComputeMessage(params.invalidMessage);	
+    }
 	
-	if (value.length < parseInt(params.min)) {
+    if (value < parseInt(params.min)) {
         return getComputeMessage(params.minMessage, { 'limit' : params.min }, params.min);
     }
-    if (value.length > parseInt(params.max)) {
+    
+    if (value > parseInt(params.max)) {
         return getComputeMessage(params.maxMessage, { 'limit' : params.max}, params.max);
     }
 
