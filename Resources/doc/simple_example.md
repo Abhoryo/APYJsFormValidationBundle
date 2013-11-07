@@ -26,7 +26,7 @@ myformsuccess:
 
 ## Step 3: Create an product entity with constraints
 
-> **Note!** You may create form which is not relate on Entity.
+> **Note!** You may create form which is not relate on Entity.  
 > Look at [Validation of the forms which are built manually.](simpleform_example.md)
 
 ```php
@@ -49,25 +49,7 @@ class Product
      */
     protected $price;
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setPrice($price)
-    {
-        $this->price = $price;
-    }
-
-    public function getPrice()
-    {
-        return $this->price;
-    }
+    ...
 }
 ```
 
@@ -87,7 +69,7 @@ class Product
 {{ JSFV(form) }}
 
 <!-- Display the form -->
-<form action="{{ path('storeform') }}" method="post" {{ form_enctype(form) }}>
+<form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <input type="submit" />
 </form>
