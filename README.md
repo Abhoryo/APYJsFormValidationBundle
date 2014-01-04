@@ -1,9 +1,25 @@
-Getting Started With JsFormValidationBundle
-===========================================
+#This Bundle is no longer maintained.  
+Over the years, the structure of Symfony forms has evolved and this bundle has tried to follow its evolution without changing its own structure. However, this old structure is not adapted to new versions of Symfony.  
+Instead of starting from scratch and generate code similar to another Bundle, I'd rather advise you to use this other Bundle.  
+
+[fp/jsformvalidator-bundle](https://github.com/formapro/JsFormValidatorBundle)  
+
+Changes to use this Bundle are really fast to apply.
+
+It was a real pleasure to offer this kind of bundle for early versions of Symfony.
+
+---
+
+---
+
+---
+
+##Getting Started With JsFormValidationBundle
+
 **Version**: 2.1
 [![Build Status](https://secure.travis-ci.org/Abhoryo/APYJsFormValidationBundle.png?branch=master)](http://travis-ci.org/Abhoryo/APYJsFormValidationBundle)
 
-**Compatibility**: Symfony 2.1+
+**Compatibility**: Symfony >=2.1, <2.4.
 
 This bundle generate automatically a script to perform validations of a form in javascript.
 
@@ -14,7 +30,7 @@ This bundle is `g11n` compatible.(i18n + L10n)
 
 ## Prerequisite
 
-* [BazingaExposeTranslationBundle](https://github.com/willdurand/BazingaExposeTranslationBundle) is mandatory. This bundle compute and translate messages in javascript.
+* [BazingaExposeTranslationBundle](https://github.com/willdurand/BazingaExposeTranslationBundle) is mandatory (<2.0). This bundle compute and translate messages in javascript.
 * A JavaScript framework is recommended. [jQuery](http://jquery.com/), [Mootools](http://mootools.net), [Prototype](http://prototypejs.org), [Yui](http://yuilibrary.com/), [Dojo](http://dojotoolkit.org), [Zepto](http://zeptojs.com) and [ExtJs](http://sencha.com/products/extjs/) are already supported.
 (Create an issue if you want other)
 
@@ -48,7 +64,7 @@ Template of a simple form:
 	</form>
 
 
--See a full simple example [here](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
+See a full simple example [here](https://github.com/Abhoryo/APYJsFormValidationBundle/blob/master/Resources/doc/simple_example.md).
 
  The following documents are available:
 
